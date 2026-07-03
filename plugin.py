@@ -61,7 +61,6 @@ class BasePlugin:
 global _plugin
 _plugin = BasePlugin()
 
-
 def onStart():
     _plugin.onStart()
 
