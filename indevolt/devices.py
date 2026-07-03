@@ -1,5 +1,6 @@
 import Domoticz
 
+
 class DeviceManager:
 
     DEVICES = {
@@ -13,9 +14,13 @@ class DeviceManager:
         8: ("Battery Current", "Current"),
     }
 
+    def __init__(self, devices_ref):
+        # IMPORTANT: Domoticz Devices object passed in
+        self.Devices = devices_ref
+
     def create_devices(self):
         for unit, (name, dtype) in self.DEVICES.items():
-            if unit not in Devices:
+            if unit not in self.Devices:
                 Domoticz.Device(
                     Name=name,
                     Unit=unit,
@@ -23,30 +28,32 @@ class DeviceManager:
                 ).Create()
 
     def update_devices(self, data):
+        D = self.Devices
+
         try:
-            if 1 in Devices and "soc" in data:
-                Devices[1].Update(nValue=0, sValue=str(data["soc"]))
+            if 1 in D and "soc" in data:
+                D[1].Update(nValue=0, sValue=str(data["soc"]))
 
-            if 2 in Devices and "battery_power" in data:
-                Devices[2].Update(nValue=0, sValue=str(data["battery_power"]))
+            if 2 in D and "battery_power" in data:
+                D[2].Update(nValue=0, sValue=str(data["battery_power"]))
 
-            if 3 in Devices and "grid_power" in data:
-                Devices[3].Update(nValue=0, sValue=str(data["grid_power"]))
+            if 3 in D and "grid_power" in data:
+                D[3].Update(nValue=0, sValue=str(data["grid_power"]))
 
-            if 4 in Devices and "pv_power" in data:
-                Devices[4].Update(nValue=0, sValue=str(data["pv_power"]))
+            if 4 in D and "pv_power" in data:
+                D[4].Update(nValue=0, sValue=str(data["pv_power"]))
 
-            if 5 in Devices and "load_power" in data:
-                Devices[5].Update(nValue=0, sValue=str(data["load_power"]))
+            if 5 in D and "load_power" in data:
+                D[5].Update(nValue=0, sValue=str(data["load_power"]))
 
-            if 6 in Devices and "temperature" in data:
-                Devices[6].Update(nValue=0, sValue=str(data["temperature"]))
+            if 6 in D and "temperature" in data:
+                D[6].Update(nValue=0, sValue=str(data["temperature"]))
 
-            if 7 in Devices and "voltage" in data:
-                Devices[7].Update(nValue=0, sValue=str(data["voltage"]))
+            if 7 in D and "voltage" in data:
+                D[7].Update(nValue=0, sValue=str(data["voltage"]))
 
-            if 8 in Devices and "current" in data:
-                Devices[8].Update(nValue=0, sValue=str(data["current"]))
+            if 8 in D and "current" in data:
+                D[8].Update(nValue=0, sValue=str(data["current"]))
 
         except Exception as e:
             Domoticz.Error(f"Device update error: {e}")
