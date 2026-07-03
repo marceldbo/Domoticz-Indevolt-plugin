@@ -1,7 +1,6 @@
 import requests
 import Domoticz
 
-
 class IndevoltAPI:
 
     def __init__(self, host, username="", password=""):
