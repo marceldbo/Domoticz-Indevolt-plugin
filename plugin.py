@@ -34,7 +34,7 @@ class BasePlugin:
         self.poll = int(Parameters.get("Mode1", 10))
 
         self.api = IndevoltAPI(self.ip, self.username, self.password)
-        self.device_manager = DeviceManager()
+        self.device_manager = DeviceManager(Devices)
 
         Domoticz.Heartbeat(self.poll)
 
