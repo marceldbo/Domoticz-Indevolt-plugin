@@ -29,11 +29,12 @@ class BasePlugin:
         Domoticz.Log("INDEVOLT plugin starting...")
 
         self.ip = Parameters["Address"]
+        self.port = Parameters["Port", 8080]
         self.username = Parameters.get("Username", "")
         self.password = Parameters.get("Password", "")
         self.poll = int(Parameters.get("Mode1", 10))
 
-        self.api = IndevoltAPI(self.ip, self.username, self.password)
+        self.api = IndevoltAPI(self.ip, self.port, self.username, self.password)
         self.device_manager = DeviceManager()
 
         Domoticz.Heartbeat(self.poll)
