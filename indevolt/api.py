@@ -4,7 +4,7 @@ import Domoticz
 class IndevoltAPI:
 
     def __init__(self, host, username="", password=""):
-        self.base_url = f"http://{host}"
+        self.base_url = f"http://{host}:8080"
         self.auth = (username, password) if username else None
         self.session = requests.Session()
 
