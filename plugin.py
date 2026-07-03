@@ -8,7 +8,6 @@ import Domoticz
 from indevolt.api import IndevoltAPI
 from indevolt.devices import DeviceManager
 
-
 class BasePlugin:
 
     def __init__(self):
