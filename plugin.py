@@ -3,6 +3,17 @@ INDEVOLT Domoticz Plugin (Local OpenData API)
 Tested for Domoticz 2026.2 (Python 3.11)
 Author: Marcel de Bont / OpenAI
 """
+"""
+<plugin key="Indevolt" name="Indevolt Home Battery" author="Marcel de Bont & ChatGPT" version="1.0.0" wikilink="" externallink="https://github.com/marceldbo/Domoticz-Indevolt-Plugin.git">
+    <description>
+        Indevolt Home Battery plugin for Domoticz.
+    </description>
+    <params>
+        <param field="Address" label="Indevolt IP" width="200px" required="true"/>
+        <param field="Mode1" label="Update Interval (sec)" width="75px" required="false" default="10"/>
+    </params>
+</plugin>
+"""
 
 import Domoticz
 from indevolt.api import IndevoltAPI
