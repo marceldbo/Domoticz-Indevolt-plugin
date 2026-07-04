@@ -54,8 +54,8 @@ class IndevoltAPI:
                 142,   # Indevolt Rated Capacity (kWh)
                 680,   # Indevolt Bypass Enable
                 667,   # Indevolt Bypass Power (W)
-                2600,  # Indevolt Grid Voltage
-                2612,  # Indevolt Grid Fequency
+                2600,  # Indevolt Grid Voltage (V)
+                2612,  # Indevolt Grid Fequency (Hz)
                 9012,  # Indevolt Battery Temp (C)  
             ]
             
