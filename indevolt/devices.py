@@ -151,7 +151,7 @@ class DeviceManager:
                     continue
 
                 # -----------------------------
-                # SWITCH (Bypass Enable)
+                # SWITCH (Bypass Enable/Disable)
                 # -----------------------------
                 if unit == 18:
                     state = 1 if int(value) else 0
