@@ -61,6 +61,14 @@ BYPASS_ENABLE = "680"
 # -----------------------------
 BATTERY_TEMPERATURE = "9012"
 
+# -----------------------------
+# Return value mapping
+# -----------------------------
+CHARGING_STATE_MAP = {
+    1000: "Static",
+    1001: "Charging",
+    1002: "Discharging",
+}
 
 # -----------------------------
 # GROUPS (for API requests)
