@@ -98,45 +98,49 @@ class DeviceManager:
 
             try:
                 
-                # -----------------------------
+               # -----------------------------
                 # WORKING MODE (7101)
                 # -----------------------------
                 if tag == "7101":
-                    raw_state1 = int(value)
-                    state_text1 = WORKING_MODE_MAP.get(
-                        raw_state1,
-                        f"Unknown ({raw_state1})"
+                    mode = self._safe_int(value)
+                    text = WORKING_MODE_MAP.get(
+                        mode,
+                        f"Unknown ({mode})"
                     )
 
                     self.Devices[unit].Update(
                         nValue=0,
-                        sValue=state_text1
+                        sValue=text
                     )
-                    continue 
+                    continue
+                    
                 # -----------------------------
                 # CHARGING STATE (6001)
                 # -----------------------------
                 if tag == "6001":
-                    raw_state2 = int(value)
-                    state_text2 = CHARGING_STATE_MAP.get(
-                        raw_state2,
-                        f"Unknown ({raw_state2})"
+                    raw_state = int(value)
+                    state_text = CHARGING_STATE_MAP.get(
+                        raw_state,
+                        f"Unknown ({raw_state})"
                     )
 
                     self.Devices[unit].Update(
                         nValue=0,
-                        sValue=state_text2
+                        sValue=state_text
                     )
                     continue
                  
                 # -----------------------------
                 # TEXT DEVICES
                 # -----------------------------
-                if unit in (1):
-                    self.Devices[unit].Update(
-                        nValue=0,
-                        sValue=str(value)
-                    )
+                if unit in (1,):
+                    self.Devices[unit].Update(0, str(value))
+                    continue
+
+                if unit == 2:
+                    mode = self._safe_int(value)
+                    text = WORKING_MODE_MAP.get(mode, str(mode))
+                    self.Devices[unit].Update(0, text)
                     continue
 
                 # -----------------------------
