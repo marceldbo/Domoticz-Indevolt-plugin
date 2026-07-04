@@ -1,5 +1,5 @@
 import Domoticz
-
+from indevolt.constants import CHARGING_STATE_MAP
 
 class DeviceManager:
 
@@ -98,19 +98,52 @@ class DeviceManager:
 
             try:
 
-                # TEXT DEVICES
-                if unit in (1, 2, 4):
-                    self.Devices[unit].Update(
-                        nValue=0,
-                        sValue=str(value)
+                # -----------------------------
+                # CHARGING STATE (6001)
+                # -----------------------------
+                if tag == "6001":
+                    raw_state = int(value)
+                    state_text = CHARGING_STATE_MAP.get(
+                        raw_state,
+                        f"Unknown ({raw_state})"
                     )
 
-                # ALL NUMERIC (power, energy, voltage, temp)
-                else:
+                    self.Devices[unit].Update(
+                        nValue=0,
+                        sValue=state_text
+                    )
+                    continue
+
+                # -----------------------------
+                # TEXT DEVICES
+                # -----------------------------
+                if unit in (1, 2):
                     self.Devices[unit].Update(
                         nValue=0,
                         sValue=str(value)
                     )
+                    continue
+
+                # -----------------------------
+                # SWITCH (Bypass Enable)
+                # -----------------------------
+                if unit == 16:
+                    state = 1 if int(value) else 0
+                    self.Devices[unit].Update(
+                        nValue=state,
+                        sValue="On" if state else "Off"
+                    )
+                    continue
+
+                # -----------------------------
+                # DEFAULT NUMERIC VALUES
+                # -----------------------------
+                self.Devices[unit].Update(
+                    nValue=0,
+                    sValue=str(value)
+                )
 
             except Exception as e:
-                Domoticz.Error(f"Update error tag {tag}: {e}")
+                Domoticz.Error(
+                    f"Update error tag {tag} unit {unit}: {e}"
+                )
