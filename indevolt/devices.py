@@ -158,7 +158,7 @@ class DeviceManager:
                 # DEFAULT NUMERIC VALUES
                 # -----------------------------
                 self.Devices[unit].Update(
-                #    nValue=0,
+                    nValue=0,
                     sValue=str(value)
                 )
 
