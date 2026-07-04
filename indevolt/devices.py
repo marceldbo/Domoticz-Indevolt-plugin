@@ -102,7 +102,7 @@ class DeviceManager:
                 # WORKING MODE (7101)
                 # -----------------------------
                 if tag == "7101":
-                    mode = self._safe_int(value)
+                    mode = int(value)
                     text = WORKING_MODE_MAP.get(
                         mode,
                         f"Unknown ({mode})"
