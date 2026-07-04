@@ -1,5 +1,5 @@
 import Domoticz
-from indevolt.constants import WORKING_MODE_MAP, CHARGING_STATE_MAP
+from indevolt.constants import WORKING_MODE_MAP, CHARGING_STATE_MAP, BYPASS_SETTING_MAP
 
 class DeviceManager:
 
