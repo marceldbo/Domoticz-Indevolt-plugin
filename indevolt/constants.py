@@ -64,16 +64,18 @@ BATTERY_TEMPERATURE = "9012"
 # -----------------------------
 # Return value mappings
 # -----------------------------
-CHARGING_STATE_MAP = {
-    1000: "Static",
-    1001: "Charging",
-    1002: "Discharging",
-}
 WORKING_MODE_MAP = {
     1: "Self-consumed Prioritized",
     4: "Real-time Control",
     5: "Charge/Discharge Schedule",   
 }
+
+CHARGING_STATE_MAP = {
+    1000: "Static",
+    1001: "Charging",
+    1002: "Discharging",
+}
+
 # -----------------------------
 # GROUPS (for API requests)
 # -----------------------------
