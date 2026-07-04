@@ -37,16 +37,28 @@ class IndevoltAPI:
         try:
             # 🔥 CORE ENERGY TAG SET (adjustable if needed)
             tags = [
-                1664,  # SOC (example)
-                1665,  # Battery Power
-                1666,  # Grid Power
-                1667,  # PV Power
-                1668,  # Load Power
-                1669,  # Voltage
-                1670,  # Current
-                1671   # Temperature
+                0,     # Indevolt SN
+                7101,  # Indevolt Working Mode
+                6000,  # Indevolt Battery Power (W) 
+                6001,  # Indevolt Battery Charging State
+                6002,  # Indevolt Battery SOC (%)
+                2101,  # Indevolt Total Input Power (W)
+                2108,  # Indevolt Total Output Power (W)
+                2107,  # Indevolt Total Input Energy (kWh)
+                2104,  # Indevolt Total Output Energy (kWh)
+                6004,  # Indevolt Battery Daily Charge (kWh)
+                6005,  # Indevolt Battery Daily Discharge (kWh)
+                6006,  # Indevolt Battery Total Charge (kWh)
+                6007,  # Indevolt Battery Total Discharge (kWh)
+                6105,  # Indevolt Backup SOC (%)
+                142,   # Indevolt Rated Capacity (kWh)
+                680,   # Indevolt Bypass Enable
+                667,   # Indevolt Bypass Power (W)
+                2600,  # Indevolt Grid Voltage
+                2612,  # Indevolt Grid Fequency
+                1671,  # Indevolt Battery Temp (C)  
             ]
-
+            
             data = self._rpc_get(tags)
 
             return self._normalize(data)
