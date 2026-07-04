@@ -13,6 +13,7 @@ SN = "0"
 # -----------------------------
 WORKING_MODE = "7101"
 CHARGING_STATE = "6001"
+BYPASS_SETTING = "7266"
 
 # -----------------------------
 # BATTERY CORE
@@ -74,6 +75,11 @@ CHARGING_STATE_MAP = {
     1000: "Static",
     1001: "Charging",
     1002: "Discharging",
+}
+
+BYPASS_SETTING_MAP = {
+    0: "Off",
+    1: "On",
 }
 
 # -----------------------------
