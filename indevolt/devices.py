@@ -66,6 +66,8 @@ class DeviceManager:
 
         "6006": 16,
         "6007": 17,
+
+        "7266": 18,
     }
     
     def __init__(self, devices):
