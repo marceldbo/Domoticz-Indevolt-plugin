@@ -153,16 +153,6 @@ class DeviceManager:
                         sValue="On" if state else "Off"
                     )
                     continue
-
-                # -----------------------------
-                # NUMERIC VALUES (safe float)
-                # -----------------------------
-                #num = self._safe_float(value)
-
-                #self.Devices[unit].Update(
-                #     nValue=0,
-                #    sValue=str(num)
-                #)
                 
                 # -----------------------------
                 # DEFAULT NUMERIC VALUES
