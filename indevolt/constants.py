@@ -62,14 +62,18 @@ BYPASS_ENABLE = "680"
 BATTERY_TEMPERATURE = "9012"
 
 # -----------------------------
-# Return value mapping
+# Return value mappings
 # -----------------------------
 CHARGING_STATE_MAP = {
     1000: "Static",
     1001: "Charging",
     1002: "Discharging",
 }
-
+WORKING_MODE_MAP = {
+    1: "Self-consumed Prioritized",
+    4: "Real-time Control",
+    5: "Charge/Discharge Schedule",   
+}
 # -----------------------------
 # GROUPS (for API requests)
 # -----------------------------
