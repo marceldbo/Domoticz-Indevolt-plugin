@@ -31,6 +31,11 @@ class DeviceManager:
 
         16: ("Total Charge", "kWh"),
         17: ("Total Discharge", "kWh"),
+
+        # SWITCHES
+
+        18: ("Bypass Setting", "Switch"),
+
     }
 
     # -----------------------------
@@ -146,7 +151,7 @@ class DeviceManager:
                 # -----------------------------
                 # SWITCH (Bypass Enable)
                 # -----------------------------
-                if unit == 16:
+                if unit == 18:
                     state = 1 if int(value) else 0
                     self.Devices[unit].Update(
                         nValue=state,
