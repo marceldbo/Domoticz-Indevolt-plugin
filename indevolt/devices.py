@@ -3,57 +3,114 @@ import Domoticz
 
 class DeviceManager:
 
+    # -----------------------------
+    # DEVICE DEFINITIONS
+    # -----------------------------
     DEVICES = {
-        1: ("Battery SOC", "Percentage"),
-        2: ("Battery Power", "Usage"),
-        3: ("Grid Power", "Usage"),
-        4: ("PV Power", "Usage"),
-        5: ("House Load", "Usage"),
-        6: ("Battery Temp", "Temperature"),
-        7: ("Battery Voltage", "Voltage"),
-        8: ("Battery Current", "Current"),
+        1: ("Indevolt SN", "Text"),
+        2: ("Working Mode", "Text"),
+        3: ("Battery Power", "Usage"),
+        4: ("Charging State", "Text"),
+        5: ("Battery SOC", "Percentage"),
+
+        6: ("Total Input Power", "Usage"),
+        7: ("Total Output Power", "Usage"),
+        8: ("Bypass Power", "Usage"),
+
+        9: ("Grid Voltage", "Voltage"),
+        10: ("Grid Frequency", "Custom"),
+
+        11: ("Battery Temperature", "Temperature"),
+
+        # ENERGY COUNTERS (kWh)
+        12: ("Energy Input", "kWh"),
+        13: ("Energy Output", "kWh"),
+
+        14: ("Daily Charge", "kWh"),
+        15: ("Daily Discharge", "kWh"),
+
+        16: ("Total Charge", "kWh"),
+        17: ("Total Discharge", "kWh"),
     }
 
-    def __init__(self, devices_ref):
-        # IMPORTANT: Domoticz Devices object passed in
-        self.Devices = devices_ref
+    # -----------------------------
+    # TAG MAPPING (cJSON)
+    # -----------------------------
+    TAG_MAP = {
+        "0": 1,
+        "7101": 2,
 
+        "6000": 3,
+        "6001": 4,
+        "6002": 5,
+
+        "2101": 6,
+        "2108": 7,
+        "667": 8,
+
+        "2600": 9,
+        "2612": 10,
+
+        "1671": 11,
+
+        "2107": 12,
+        "2104": 13,
+
+        "6004": 14,
+        "6005": 15,
+
+        "6006": 16,
+        "6007": 17,
+    }
+
+    def __init__(self, devices):
+        self.Devices = devices
+
+    # -----------------------------
+    # CREATE DEVICES
+    # -----------------------------
     def create_devices(self):
+
         for unit, (name, dtype) in self.DEVICES.items():
+
             if unit not in self.Devices:
+
                 Domoticz.Device(
                     Name=name,
                     Unit=unit,
                     TypeName=dtype
                 ).Create()
 
+    # -----------------------------
+    # UPDATE DEVICES
+    # -----------------------------
     def update_devices(self, data):
-        D = self.Devices
 
-        try:
-            if 1 in D and "soc" in data:
-                D[1].Update(nValue=0, sValue=str(data["soc"]))
+        for tag, unit in self.TAG_MAP.items():
 
-            if 2 in D and "battery_power" in data:
-                D[2].Update(nValue=0, sValue=str(data["battery_power"]))
+            if tag not in data:
+                continue
 
-            if 3 in D and "grid_power" in data:
-                D[3].Update(nValue=0, sValue=str(data["grid_power"]))
+            if unit not in self.Devices:
+                continue
 
-            if 4 in D and "pv_power" in data:
-                D[4].Update(nValue=0, sValue=str(data["pv_power"]))
+            value = data[tag]
 
-            if 5 in D and "load_power" in data:
-                D[5].Update(nValue=0, sValue=str(data["load_power"]))
+            try:
 
-            if 6 in D and "temperature" in data:
-                D[6].Update(nValue=0, sValue=str(data["temperature"]))
+                # TEXT DEVICES
+                if unit in (1, 2, 4):
+                    self.Devices[unit].Update(
+                        nValue=0,
+                        sValue=str(value)
+                    )
 
-            if 7 in D and "voltage" in data:
-                D[7].Update(nValue=0, sValue=str(data["voltage"]))
+                # ALL NUMERIC (power, energy, voltage, temp)
+                else:
+                    self.Devices[unit].Update(
+                        nValue=0,
+                        sValue=str(value)
+                    )
 
-            if 8 in D and "current" in data:
-                D[8].Update(nValue=0, sValue=str(data["current"]))
-
-        except Exception as e:
-            Domoticz.Error(f"Device update error: {e}")
+            except Exception as e:
+                Domoticz.Error(f"Update error tag {tag}: {e}")
