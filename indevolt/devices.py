@@ -63,15 +63,6 @@ class DeviceManager:
         "6007": 17,
     }
     
-    # -----------------------------
-    # Return value mapping
-    # -----------------------------
-    CHARGING_STATE_MAP = {
-        1000: "Static",
-        1001: "Charging",
-        1002: "Discharging",
-    }
-    
     def __init__(self, devices):
         self.Devices = devices
 
