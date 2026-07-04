@@ -56,7 +56,7 @@ class IndevoltAPI:
                 667,   # Indevolt Bypass Power (W)
                 2600,  # Indevolt Grid Voltage
                 2612,  # Indevolt Grid Fequency
-                1671,  # Indevolt Battery Temp (C)  
+                9012,  # Indevolt Battery Temp (C)  
             ]
             
             data = self._rpc_get(tags)
