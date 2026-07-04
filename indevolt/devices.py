@@ -1,5 +1,5 @@
 import Domoticz
-from indevolt.constants import CHARGING_STATE_MAP, WORKING_MODE_MAP
+from indevolt.constants import WORKING_MODE_MAP, CHARGING_STATE_MAP
 
 class DeviceManager:
 
@@ -97,39 +97,38 @@ class DeviceManager:
             value = data[tag]
 
             try:
-
-                # -----------------------------
-                # CHARGING STATE (6001)
-                # -----------------------------
-                if tag == "6001":
-                    raw_state = int(value)
-                    state_text = CHARGING_STATE_MAP.get(
-                        raw_state,
-                        f"Unknown ({raw_state})"
-                    )
-
-                    self.Devices[unit].Update(
-                        nValue=0,
-                        sValue=state_text
-                    )
-                    continue
-                    
+                
                 # -----------------------------
                 # WORKING MODE (7101)
                 # -----------------------------
                 if tag == "7101":
-                    raw_state = int(value)
-                    state_text = WORKING_MODE_MAP.get(
-                        raw_state,
-                        f"Unknown ({raw_state})"
+                    raw_state1 = int(value)
+                    state_text1 = WORKING_MODE_MAP.get(
+                        raw_state1,
+                        f"Unknown ({raw_state1})"
                     )
 
                     self.Devices[unit].Update(
                         nValue=0,
-                        sValue=state_text
+                        sValue=state_text1
                     )
                     continue 
-                    
+                # -----------------------------
+                # CHARGING STATE (6001)
+                # -----------------------------
+                if tag == "6001":
+                    raw_state2 = int(value)
+                    state_text2 = CHARGING_STATE_MAP.get(
+                        raw_state2,
+                        f"Unknown ({raw_state2})"
+                    )
+
+                    self.Devices[unit].Update(
+                        nValue=0,
+                        sValue=state_text2
+                    )
+                    continue
+                 
                 # -----------------------------
                 # TEXT DEVICES
                 # -----------------------------
