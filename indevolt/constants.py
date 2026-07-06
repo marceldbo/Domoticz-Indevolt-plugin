@@ -11,7 +11,8 @@ SN = "0"
 # -----------------------------
 # SYSTEM / MODE
 # -----------------------------
-WORKING_MODE = "7101"
+WORKING_MODE_STATE = "7101"
+WORKING_MODE_SETTING = "47005"
 CHARGING_STATE = "6001"
 BYPASS_MODE_SETTING = "7266"
 LIGHT_MODE_SETTING = "7265"
@@ -66,7 +67,7 @@ BATTERY_TEMPERATURE = "9012"
 # -----------------------------
 # Return value mappings
 # -----------------------------
-WORKING_MODE_MAP = {
+WORKING_MODE_STATE_MAP = {
     1: "Self-consumed Prioritized",
     4: "Real-time Control",
     5: "Charge/Discharge Schedule",   
@@ -86,6 +87,12 @@ BYPASS_MODE_SETTING_MAP = {
 LIGHT_MODE_SETTING_MAP = {
     0: "Off",
     1: "On",
+}
+
+WORKING_MODE_SETTING_MAP = {
+    1: "Self-consumed Prioritized",
+    4: "Real-time Control",
+    5: "Charge/Discharge Schedule",   
 }
 
 # -----------------------------
@@ -109,7 +116,7 @@ ENERGY_TAGS = [
 
 STATE_TAGS = [
     SN,
-    WORKING_MODE,
+    WORKING_MODE_STATE,
     CHARGING_STATE,
     BYPASS_MODE_SETTING,
     LIGHT_MODE_SETTING,
