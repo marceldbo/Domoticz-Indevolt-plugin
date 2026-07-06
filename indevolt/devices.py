@@ -33,9 +33,9 @@ class DeviceManager:
         17: ("Total Discharge", "kWh"),
 
         # SWITCHES
-
         18: ("Bypass Mode Setting", "Switch"),
         19: ("Light Mode Setting", "Switch"),
+       
         20: ("Working Mode Setting", "Switch"),
         21: ("Working Mode State Setting", "Switch"),
 
