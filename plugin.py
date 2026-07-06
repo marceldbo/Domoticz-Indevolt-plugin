@@ -54,19 +54,6 @@ class BasePlugin:
             Domoticz.Error(f"Heartbeat error: {e}")
 
     def onCommand(self, Unit, Command, Level, Color):
-        if Unit == 2:  # Working Mode selector
-
-            mapping = {
-                10: 1,
-                20: 4,
-                30: 5
-            }
-
-            mode = mapping.get(Level)
-
-            if mode:
-                self.api.set_working_mode(mode)
-              
         Domoticz.Log(f"Command received: {Unit} -> {Command}")
         self.api.set_command(Unit, Command, Level)
 
