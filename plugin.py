@@ -1,10 +1,10 @@
 """
 INDEVOLT Domoticz Plugin (Local OpenData API)
 Tested for Domoticz 2026.2 (Python 3.11)
-Author: Marcel de Bont / OpenAI
+Author: Marcel de Bont
 """
 """
-<plugin key="Indevolt" name="Indevolt Home Battery" author="Marcel de Bont & CHATGPT" version="1.0.0" wikilink="" externallink="https://github.com/marceldbo/Domoticz-Indevolt-Plugin.git">
+<plugin key="Indevolt" name="Indevolt Home Battery" author="Marcel de Bont" version="1.0.0" wikilink="" externallink="https://github.com/marceldbo/Domoticz-Indevolt-Plugin.git">
     <description>
         Indevolt Home Battery plugin for Domoticz.
     </description>
@@ -53,10 +53,28 @@ class BasePlugin:
         except Exception as e:
             Domoticz.Error(f"Heartbeat error: {e}")
 
-    def onCommand(self, Unit, Command, Level, Color):
-        Domoticz.Log(f"Command received: {Unit} -> {Command}")
-        self.api.set_command(Unit, Command, Level)
+#    def onCommand(self, Unit, Command, Level, Color):
+#        Domoticz.Log(f"Command received: {Unit} -> {Command}")
+#        self.api.set_command(Unit, Command, Level)
+    # =========================================================
+    # USER COMMANDS (Selector Switch etc.)
+    # =========================================================
 
+    def onCommand(self, Unit, Command, Level, Hue):
+
+        try:
+
+            # Working Mode selector (unit 2)
+            if Unit == 2:
+
+                mode = level_to_mode(Level)
+
+                if mode is not None:
+                    self.api.set_working_mode(mode)
+                    log_debug(f"Working mode set via Domoticz: {mode}")
+
+        except Exception as e:
+            Domoticz.Error(f"onCommand error: {e}")
 
 global _plugin
 _plugin = BasePlugin()
