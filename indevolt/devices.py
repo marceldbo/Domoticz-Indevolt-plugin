@@ -18,7 +18,7 @@ class DeviceManager:
         8: ("Bypass Power", "Usage"),
 
         9: ("Grid Voltage", "Voltage"),
-        10: ("Grid Frequency", "Custom"),
+        10: ("Grid Frequency (Hz)", "Custom"),
         
         11: ("Battery Temperature", "Temperature"),
 
@@ -91,7 +91,7 @@ class DeviceManager:
                     Unit=unit,
                     Type=243,
                     Subtype=31,
-                    Options={"Custom": "Hz"}
+                    Options={'Custom': '1;Hz'}
                 ).Create()
 
             else:
