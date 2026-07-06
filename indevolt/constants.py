@@ -82,6 +82,11 @@ BYPASS_SETTING_MAP = {
     1: "On",
 }
 
+LIGHT_SETTING_MAP = {
+    0: "Off",
+    1: "On",
+}
+
 # -----------------------------
 # GROUPS (for API requests)
 # -----------------------------
