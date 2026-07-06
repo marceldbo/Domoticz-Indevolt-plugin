@@ -84,7 +84,7 @@ class DeviceManager:
 
     #          if unit not in self.Devices:
 
-            if unit == 19:      # Grid Frequency
+            if unit == 10:      # Grid Frequency
 
                 Domoticz.Device(
                     Name=name,
