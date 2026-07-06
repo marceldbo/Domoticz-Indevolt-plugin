@@ -138,41 +138,21 @@ class DeviceManager:
 
             try:
                 
-               # -----------------------------
+                # -----------------------------
                 # WORKING MODE (7101)
                 # -----------------------------
-                #if tag == "7101":
-                #    mode = int(value)
-                #    text = WORKING_MODE_MAP.get(
-               #         mode,
-                 #   )
-#
-              #      self.Devices[unit].Update(
-               #         nValue=0,
-               #         sValue=text
-               #     )
-               #     continue
-
                 if tag == "7101":
-                
-                    mode = self._safe_int(value)
-                
-                    mapping = {
-                        1: 10,  # Domoticz level 10
-                        4: 20,
-                        5: 30
-                    }
-                
-                    level = mapping.get(mode, 0)
-                
-                    self.Devices[unit].Update(
-                        nValue=0,
-                        sValue=str(mode),
-                        Level=level
+                    mode = int(value)
+                    text = WORKING_MODE_MAP.get(
+                        mode,
                     )
-                
+
+                    self.Devices[unit].Update(
+                       nValue=0,
+                       sValue=text
+                    )
                     continue
-                
+                              
                 # -----------------------------
                 # CHARGING STATE (6001)
                 # -----------------------------
