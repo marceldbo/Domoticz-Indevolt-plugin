@@ -58,6 +58,8 @@ class IndevoltAPI:
                 2612,  # Indevolt Grid Fequency (Hz)
                 9012,  # Indevolt Battery Temp (C)
                 7265,  # Indevolt Light Mode
+                47005, # Indevolt Working Mode Setting
+                47015, # Indevolt Working Mode State Setting
             ]
             
             data = self._rpc_get(tags)
