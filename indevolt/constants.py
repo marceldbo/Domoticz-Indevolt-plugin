@@ -1,78 +1,55 @@
 """
-INDEVOLT cJSON Tag Definitions
-Semantic mapping layer for Domoticz plugin
+INDEVOLT Domoticz Plugin - Constants
+Single source of truth for all registers and mappings
 """
 
-# -----------------------------
-# IDENTITY
-# -----------------------------
-SN = "0"
+# =========================================================
+# INDEVOLT REGISTER TAGS
+# =========================================================
 
-# -----------------------------
-# SYSTEM / MODE
-# -----------------------------
-WORKING_MODE = "7101"
-WORKING_MODE_SETTING = "47005"
-WORKING_MODE_STATE_SETTING = "47015"
-CHARGING_STATE = "6001"
-BYPASS_MODE_SETTING = "7266"
-LIGHT_MODE_SETTING = "7265"
+TAG_SN = "0"
 
-# -----------------------------
-# BATTERY CORE
-# -----------------------------
-BATTERY_POWER = "6000"
-BATTERY_SOC = "6002"
+TAG_WORKING_MODE = "7101"
+TAG_CHARGING_STATE = "6001"
 
-# -----------------------------
-# POWER FLOWS (W)
-# -----------------------------
-TOTAL_INPUT_POWER = "2101"
-TOTAL_OUTPUT_POWER = "2108"
-BYPASS_POWER = "667"
+TAG_BATTERY_POWER = "6000"
+TAG_BATTERY_SOC = "6002"
 
-# -----------------------------
-# ENERGY FLOWS (kWh)
-# -----------------------------
-TOTAL_INPUT_ENERGY = "2107"
-TOTAL_OUTPUT_ENERGY = "2104"
+TAG_GRID_INPUT_POWER = "2101"
+TAG_GRID_OUTPUT_POWER = "2108"
 
-BATTERY_DAILY_CHARGE = "6004"
-BATTERY_DAILY_DISCHARGE = "6005"
+TAG_GRID_INPUT_ENERGY = "2107"
+TAG_GRID_OUTPUT_ENERGY = "2104"
 
-BATTERY_TOTAL_CHARGE = "6006"
-BATTERY_TOTAL_DISCHARGE = "6007"
+TAG_BATTERY_DAILY_CHARGE = "6004"
+TAG_BATTERY_DAILY_DISCHARGE = "6005"
+TAG_BATTERY_TOTAL_CHARGE = "6006"
+TAG_BATTERY_TOTAL_DISCHARGE = "6007"
 
-# -----------------------------
-# GRID
-# -----------------------------
-GRID_VOLTAGE = "2600"
-GRID_FREQUENCY = "2612"
+TAG_BACKUP_SOC = "6105"
+TAG_RATED_CAPACITY = "142"
 
-# -----------------------------
-# SYSTEM LIMITS
-# -----------------------------
-BACKUP_SOC = "6105"
-RATED_CAPACITY = "142"
+TAG_BYPASS_ENABLE = "680"
+TAG_BYPASS_POWER = "667"
 
-# -----------------------------
-# BYPASS
-# -----------------------------
-BYPASS_ENABLE = "680"
+TAG_GRID_VOLTAGE = "2600"
+TAG_GRID_FREQUENCY = "2612"
 
-# -----------------------------
-# SENSOR
-# -----------------------------
-BATTERY_TEMPERATURE = "9012"
+TAG_BATTERY_TEMPERATURE = "1671"
 
-# -----------------------------
-# Return value mappings
-# -----------------------------
+# =========================================================
+# WORKING MODE DECODING
+# =========================================================
+
 WORKING_MODE_MAP = {
     1: "Self-consumed Prioritized",
     4: "Real-time Control",
-    5: "Charge/Discharge Schedule",   
+    5: "Charge/Discharge Schedule",
 }
+
+# =========================================================
+# CHARGING STATE DECODING
+# =========================================================
 
 CHARGING_STATE_MAP = {
     1000: "Static",
@@ -80,73 +57,168 @@ CHARGING_STATE_MAP = {
     1002: "Discharging",
 }
 
-BYPASS_MODE_SETTING_MAP = {
-    0: "Off",
-    1: "On",
+# =========================================================
+# TAG LIST FOR POLLING (GetData)
+# =========================================================
+
+POLL_TAGS = [
+    TAG_SN,
+    TAG_WORKING_MODE,
+    TAG_CHARGING_STATE,
+
+    TAG_BATTERY_POWER,
+    TAG_BATTERY_SOC,
+
+    TAG_GRID_INPUT_POWER,
+    TAG_GRID_OUTPUT_POWER,
+
+    TAG_GRID_INPUT_ENERGY,
+    TAG_GRID_OUTPUT_ENERGY,
+
+    TAG_BATTERY_DAILY_CHARGE,
+    TAG_BATTERY_DAILY_DISCHARGE,
+    TAG_BATTERY_TOTAL_CHARGE,
+    TAG_BATTERY_TOTAL_DISCHARGE,
+
+    TAG_BACKUP_SOC,
+    TAG_RATED_CAPACITY,
+
+    TAG_BYPASS_ENABLE,
+    TAG_BYPASS_POWER,
+
+    TAG_GRID_VOLTAGE,
+    TAG_GRID_FREQUENCY,
+
+    TAG_BATTERY_TEMPERATURE,
+]
+
+# =========================================================
+# DEVICE DEFINITIONS (Domoticz mapping)
+# single source of truth for creation + updates
+# =========================================================
+
+DEVICE_DEFINITIONS = {
+    TAG_SN: {
+        "unit": 1,
+        "name": "Indevolt Serial Number",
+        "type": "Text",
+    },
+
+    TAG_WORKING_MODE: {
+        "unit": 2,
+        "name": "Working Mode",
+        "type": "Selector",
+        "decode": WORKING_MODE_MAP,
+    },
+
+    TAG_CHARGING_STATE: {
+        "unit": 3,
+        "name": "Charging State",
+        "type": "Text",
+        "decode": CHARGING_STATE_MAP,
+    },
+
+    TAG_BATTERY_POWER: {
+        "unit": 4,
+        "name": "Battery Power (W)",
+        "type": "Usage",
+    },
+
+    TAG_BATTERY_SOC: {
+        "unit": 5,
+        "name": "Battery SOC (%)",
+        "type": "Percentage",
+    },
+
+    TAG_GRID_INPUT_POWER: {
+        "unit": 6,
+        "name": "Grid Input Power (W)",
+        "type": "Usage",
+    },
+
+    TAG_GRID_OUTPUT_POWER: {
+        "unit": 7,
+        "name": "Grid Output Power (W)",
+        "type": "Usage",
+    },
+
+    TAG_GRID_INPUT_ENERGY: {
+        "unit": 8,
+        "name": "Grid Import Energy (kWh)",
+        "type": "kWh",
+    },
+
+    TAG_GRID_OUTPUT_ENERGY: {
+        "unit": 9,
+        "name": "Grid Export Energy (kWh)",
+        "type": "kWh",
+    },
+
+    TAG_BATTERY_DAILY_CHARGE: {
+        "unit": 10,
+        "name": "Battery Daily Charge (kWh)",
+        "type": "kWh",
+    },
+
+    TAG_BATTERY_DAILY_DISCHARGE: {
+        "unit": 11,
+        "name": "Battery Daily Discharge (kWh)",
+        "type": "kWh",
+    },
+
+    TAG_BATTERY_TOTAL_CHARGE: {
+        "unit": 12,
+        "name": "Battery Total Charge (kWh)",
+        "type": "kWh",
+    },
+
+    TAG_BATTERY_TOTAL_DISCHARGE: {
+        "unit": 13,
+        "name": "Battery Total Discharge (kWh)",
+        "type": "kWh",
+    },
+
+    TAG_BACKUP_SOC: {
+        "unit": 14,
+        "name": "Backup SOC (%)",
+        "type": "Percentage",
+    },
+
+    TAG_RATED_CAPACITY: {
+        "unit": 15,
+        "name": "Rated Capacity (kWh)",
+        "type": "Custom",
+        "unit_label": "kWh",
+    },
+
+    TAG_BYPASS_ENABLE: {
+        "unit": 16,
+        "name": "Bypass Enable",
+        "type": "Switch",
+    },
+
+    TAG_BYPASS_POWER: {
+        "unit": 17,
+        "name": "Bypass Power (W)",
+        "type": "Usage",
+    },
+
+    TAG_GRID_VOLTAGE: {
+        "unit": 18,
+        "name": "Grid Voltage",
+        "type": "Voltage",
+    },
+
+    TAG_GRID_FREQUENCY: {
+        "unit": 19,
+        "name": "Grid Frequency",
+        "type": "Custom",
+        "unit_label": "Hz",
+    },
+
+    TAG_BATTERY_TEMPERATURE: {
+        "unit": 20,
+        "name": "Battery Temperature (°C)",
+        "type": "Temperature",
+    },
 }
-
-LIGHT_MODE_SETTING_MAP = {
-    0: "Off",
-    1: "On",
-}
-
-WORKING_MODE_SETTING_MAP = {
-    1: "Self-consumed Prioritized",
-    4: "Real-time Control",
-    5: "Charge/Discharge Schedule",   
-}
-
-WORKING_MODE_STATE_SETTING_MAP = {
-    0: "Standby",
-    1: "Charging",
-    2: "Discharging",   
-}
-
-# -----------------------------
-# GROUPS (for API requests)
-# -----------------------------
-POWER_TAGS = [
-    BATTERY_POWER,
-    TOTAL_INPUT_POWER,
-    TOTAL_OUTPUT_POWER,
-    BYPASS_POWER,
-]
-
-ENERGY_TAGS = [
-    TOTAL_INPUT_ENERGY,
-    TOTAL_OUTPUT_ENERGY,
-    BATTERY_DAILY_CHARGE,
-    BATTERY_DAILY_DISCHARGE,
-    BATTERY_TOTAL_CHARGE,
-    BATTERY_TOTAL_DISCHARGE,
-]
-
-STATE_TAGS = [
-    SN,
-    WORKING_MODE,
-    WORKING_MODE_SETTING,
-    WORKING_MODE_STATE_SETTING,    
-    CHARGING_STATE,
-    BYPASS_MODE_SETTING,
-    LIGHT_MODE_SETTING,
-]
-
-GRID_TAGS = [
-    GRID_VOLTAGE,
-    GRID_FREQUENCY,
-]
-
-BATTERY_TAGS = [
-    BATTERY_SOC,
-    BACKUP_SOC,
-    RATED_CAPACITY,
-    BATTERY_TEMPERATURE,
-]
-
-ALL_TAGS = (
-    POWER_TAGS +
-    ENERGY_TAGS +
-    STATE_TAGS +
-    GRID_TAGS +
-    BATTERY_TAGS
-)
