@@ -37,8 +37,8 @@ class DeviceManager:
         30: ("Bypass Mode Setting", "Switch"),
         31: ("Light Mode Setting", "Switch"),
        
-        32: ("Working Mode Setting", "Switch"),
-        33: ("Working Mode State Setting", "Switch"),
+        32: ("Working Mode Setting", "Selector Switch"),
+        33: ("Working Mode State Setting", "Selector Switch"),
 
     }
 
