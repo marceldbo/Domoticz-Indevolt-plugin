@@ -184,60 +184,6 @@ class DeviceManager:
                     continue
 
                 # -----------------------------
-                # SWITCH (Bypass 1: Enable (On), 0: Disable (Off))
-                # -----------------------------
-                if unit == 30:
-                    state = 1 if int(value) else 0
-                    self.Devices[unit].Update(
-                        nValue=state,
-                        sValue="On" if state else "Off"
-                    )
-                    continue
-
-                # -----------------------------
-                # SWITCH (Light 1: Enable (On), 0: Disable (Off))
-                # -----------------------------
-                if unit == 31:
-                    state = 1 if int(value) else 0
-                    self.Devices[unit].Update(
-                        nValue=state,
-                        sValue="On" if state else "Off"
-                    )
-                    continue
-
-                # -----------------------------
-                # SWITCH Working Mode Setting
-                #  
-                #   1: Self-consumed Prioritized, 
-                #   4: Real-time control
-                #   5: Charge/Discharge Schedule (Not implemented)
-                #
-                # -----------------------------
-                if unit == 32:
-                    state = 4 if int(value) else 1
-                    self.Devices[unit].Update(
-                        nValue=state,
-                        sValue="Real-time control" if state else "Self-consumed Prioritized"
-                    )
-                    continue
-
-                # -----------------------------
-                # SWITCH Working Mode State Setting 
-                #
-                #    0: Standby, 
-                #    1: Charging,
-                #    2: Discharging
-                # 
-                # -----------------------------
-                if unit == 33:
-                    state = 1 if int(value) else 0
-                    self.Devices[unit].Update(
-                        nValue=state,
-                        sValue="Charging" if state else "Standby"
-                    )
-                    continue
-
-                # -----------------------------
                 # DEFAULT NUMERIC VALUES
                 # -----------------------------
                 self.Devices[unit].Update(
