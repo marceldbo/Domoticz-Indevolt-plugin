@@ -12,15 +12,16 @@ class DeviceManager:
         3: ("Battery Power", "Usage"),
         4: ("Charging State", "Text"),
         5: ("Battery SOC", "Percentage"),
+        6: ("Rated Capacity", "kWh"),
 
-        6: ("Total Input Power", "Usage"),
-        7: ("Total Output Power", "Usage"),
-        8: ("Bypass Power", "Usage"),
+        7: ("Total Input Power", "Usage"),
+        8: ("Total Output Power", "Usage"),
+        9: ("Bypass Power", "Usage"),
 
-        9: ("Grid Voltage", "Voltage"),
-        10: ("Grid Frequency", "Custom"),
+        10: ("Grid Voltage", "Voltage"),
+        11: ("Grid Frequency", "Custom"),
         
-        11: ("Battery Temperature", "Temperature"),
+        12: ("Battery Temperature", "Temperature"),
 
         # ENERGY COUNTERS (kWh)
         20: ("Energy Input", "kWh"),
@@ -51,15 +52,16 @@ class DeviceManager:
         "6000": 3,
         "6001": 4,
         "6002": 5,
+        "142": 6,
 
-        "2101": 6,
-        "2108": 7,
-        "667": 8,
+        "2101": 7,
+        "2108": 8,
+        "667": 9,
 
-        "2600": 9,
-        "2612": 10,
+        "2600": 10,
+        "2612": 11,
 
-        "9012": 11,
+        "9012": 12,
 
         "2107": 20,
         "2104": 21,
@@ -89,7 +91,7 @@ class DeviceManager:
 
     #          if unit not in self.Devices:
 
-            if unit == 10:      # Grid Frequency
+            if unit == 11:      # Grid Frequency
 
                 Domoticz.Device(
                     Name=name,
@@ -101,7 +103,7 @@ class DeviceManager:
 
                 continue
 
-            if unit in (20, 21, 22, 23, 24, 25):      # kWh custom sensors
+            if unit in (6, 20, 21, 22, 23, 24, 25):      # kWh custom sensors
 
                 Domoticz.Device(
                     Name=name,
