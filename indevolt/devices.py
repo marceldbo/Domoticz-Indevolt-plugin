@@ -18,7 +18,7 @@ class DeviceManager:
         8: ("Bypass Power", "Usage"),
 
         9: ("Grid Voltage", "Voltage"),
-        10: ("Grid Frequency (Hz)", "Custom"),
+        10: ("Grid Frequency", "Custom"),
         
         11: ("Battery Temperature", "Temperature"),
 
