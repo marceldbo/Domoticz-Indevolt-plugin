@@ -52,11 +52,12 @@ class IndevoltAPI:
                 6007,  # Indevolt Battery Total Discharge (kWh)
                 6105,  # Indevolt Backup SOC (%)
                 142,   # Indevolt Rated Capacity (kWh)
-                680,   # Indevolt Bypass Enable
+                680,   # Indevolt Bypass Mode
                 667,   # Indevolt Bypass Power (W)
                 2600,  # Indevolt Grid Voltage (V)
                 2612,  # Indevolt Grid Fequency (Hz)
-                9012,  # Indevolt Battery Temp (C)  
+                9012,  # Indevolt Battery Temp (C)
+                7265,  # Indevolt Light Mode
             ]
             
             data = self._rpc_get(tags)
