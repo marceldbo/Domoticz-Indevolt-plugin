@@ -18,8 +18,14 @@ class DeviceManager:
         8: ("Bypass Power", "Usage"),
 
         9: ("Grid Voltage", "Voltage"),
-        10: ("Grid Frequency", "Custom"),
-
+      #  10: ("Grid Frequency", "Custom"),
+        10: {
+                "Name": "Grid Frequency",
+                "Type": 243,
+                "Subtype": 31,
+                "Options": {"Custom": "Hz"},
+            },
+        
         11: ("Battery Temperature", "Temperature"),
 
         # ENERGY COUNTERS (kWh)
