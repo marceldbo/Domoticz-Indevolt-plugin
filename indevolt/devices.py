@@ -34,8 +34,8 @@ class DeviceManager:
 
         # SWITCHES
 
-        18: ("Bypass Setting", "Switch"),
-        19: ("Light", "Switch"),
+        18: ("Bypass Mode Setting", "Switch"),
+        19: ("Light Mode Setting", "Switch"),
 
     }
 
@@ -165,7 +165,7 @@ class DeviceManager:
                     continue
 
                 # -----------------------------
-                # SWITCH (Bypass 1: Enable, 0: Disable)
+                # SWITCH (Bypass 1: Enable (On), 0: Disable (Off))
                 # -----------------------------
                 if unit == 18:
                     state = 1 if int(value) else 0
@@ -176,7 +176,7 @@ class DeviceManager:
                     continue
 
                 # -----------------------------
-                # SWITCH (Light 1: Enable, 0: Disable)
+                # SWITCH (Light 1: Enable (On), 0: Disable (Off))
                 # -----------------------------
                 if unit == 19:
                     state = 1 if int(value) else 0
