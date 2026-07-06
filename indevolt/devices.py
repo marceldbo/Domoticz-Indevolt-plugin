@@ -173,14 +173,8 @@ class DeviceManager:
                 # -----------------------------
                 # TEXT DEVICES
                 # -----------------------------
-                if unit in (1,):
+                if unit == 1:
                     self.Devices[unit].Update(0, str(value))
-                    continue
-
-                if unit == 2:
-                    mode = self._safe_int(value)
-                    text = WORKING_MODE_MAP.get(mode, str(mode))
-                    self.Devices[unit].Update(0, text)
                     continue
 
                 # -----------------------------
