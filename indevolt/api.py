@@ -95,25 +95,33 @@ class IndevoltAPI:
             Domoticz.Error(f"Normalization error: {e}")
 
         return result
-
-    def set_command(self, unit, command, level):
+        
+    def set_working_mode(self, mode):
         """
-        Optional write support (if Indevolt firmware allows)
+        mode:
+            1 = Self-consumed Prioritized
+            4 = Real-time Control
+            5 = Charge/Discharge Schedule
         """
-
+    
+        payload = {
+            "f": 16,
+            "t": 47005,
+            "v": [int(mode)]
+        }
+    
+        url = (
+            f"{self.base_url}/rpc/Indevolt.SetData"
+            f"?config={urllib.parse.quote(json.dumps(payload))}"
+        )
+    
         try:
-            payload = {
-                "unit": unit,
-                "command": command,
-                "level": level
-            }
-
-            self.session.post(
-                f"{self.base_url}/rpc/Indevolt.SetControl",
-                json=payload,
-                auth=self.auth,
-                timeout=10
-            )
-
+            r = self.session.post(url, timeout=10)
+            r.raise_for_status()
+    
+            Domoticz.Log(f"Working mode set: {mode} -> {r.text}")
+            return True
+    
         except Exception as e:
-            Domoticz.Error(f"Control error: {e}")
+            Domoticz.Error(f"SetWorkingMode failed: {e}")
+            return False
