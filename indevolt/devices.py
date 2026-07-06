@@ -36,6 +36,8 @@ class DeviceManager:
 
         18: ("Bypass Mode Setting", "Switch"),
         19: ("Light Mode Setting", "Switch"),
+        20: ("Working Mode Setting", "Switch"),
+        21: ("Working Mode State Setting", "Switch"),
 
     }
 
@@ -70,6 +72,9 @@ class DeviceManager:
 
         "7266": 18,
         "7265": 19,
+
+        "47005": 20,
+        "47015": 21,
     }
     
     def __init__(self, devices):
