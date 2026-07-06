@@ -99,6 +99,18 @@ class DeviceManager:
                     Options={'Custom': '1;Hz'}
                 ).Create()
 
+                continue
+
+            if unit in (12, 13, 14, 15, 16, 17):      # kWh custom sensors
+
+                Domoticz.Device(
+                    Name=name,
+                    Unit=unit,
+                    Type=243,
+                    Subtype=31,
+                    Options={'Custom': '1;kWh'}
+                ).Create()
+                        
             else:
                 
                 Domoticz.Device(
@@ -190,7 +202,39 @@ class DeviceManager:
                         sValue="On" if state else "Off"
                     )
                     continue
-               
+
+                # -----------------------------
+                # SWITCH Working Mode Setting
+                #  
+                #   1: Self-consumed Prioritized, 
+                #   4: Real-time control
+                #   5: Charge/Discharge Schedule (Not implemented)
+                #
+                # -----------------------------
+                if unit == 20:
+                    state = 4 if int(value) else 1
+                    self.Devices[unit].Update(
+                        nValue=state,
+                        sValue="Real-time control" if state else "Self-consumed Prioritized"
+                    )
+                    continue
+
+                # -----------------------------
+                # SWITCH Working Mode State Setting 
+                #
+                #    0: Standby, 
+                #    1: Charging,
+                #    2: Discharging
+                # 
+                # -----------------------------
+                if unit == 21:
+                    state = 1 if int(value) else 0
+                    self.Devices[unit].Update(
+                        nValue=state,
+                        sValue="Charging" if state else "Standby"
+                    )
+                    continue
+
                 # -----------------------------
                 # DEFAULT NUMERIC VALUES
                 # -----------------------------
