@@ -7,7 +7,7 @@ class DeviceManager:
     # DEVICE DEFINITIONS
     # -----------------------------
     DEVICES = {
-        1: ("Indevolt SN", "Text"),
+        1: ("Serial Number", "Text"),
         2: ("Working Mode", "Text"),
         3: ("Battery Power", "Usage"),
         4: ("Charging State", "Text"),
