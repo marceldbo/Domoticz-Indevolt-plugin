@@ -13,8 +13,8 @@ SN = "0"
 # -----------------------------
 WORKING_MODE = "7101"
 CHARGING_STATE = "6001"
-BYPASS_SETTING = "7266"
-LIGHT_SETTING = "7265"
+BYPASS_MODE_SETTING = "7266"
+LIGHT_MODE_SETTING = "7265"
 
 # -----------------------------
 # BATTERY CORE
@@ -78,12 +78,12 @@ CHARGING_STATE_MAP = {
     1002: "Discharging",
 }
 
-BYPASS_SETTING_MAP = {
+BYPASS_MODE_SETTING_MAP = {
     0: "Off",
     1: "On",
 }
 
-LIGHT_SETTING_MAP = {
+LIGHT_MODE_SETTING_MAP = {
     0: "Off",
     1: "On",
 }
@@ -111,8 +111,8 @@ STATE_TAGS = [
     SN,
     WORKING_MODE,
     CHARGING_STATE,
-    BYPASS_SETTING,
-    LIGHT_SETTING,
+    BYPASS_MODE_SETTING,
+    LIGHT_MODE_SETTING,
 ]
 
 GRID_TAGS = [
