@@ -66,9 +66,7 @@ class BasePlugin:
 
             if mode:
                 self.api.set_working_mode(mode)
-
-        continue
-        
+              
         Domoticz.Log(f"Command received: {Unit} -> {Command}")
         self.api.set_command(Unit, Command, Level)
 
