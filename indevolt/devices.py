@@ -18,13 +18,7 @@ class DeviceManager:
         8: ("Bypass Power", "Usage"),
 
         9: ("Grid Voltage", "Voltage"),
-      #  10: ("Grid Frequency", "Custom"),
-        10: {
-                "Name": "Grid Frequency",
-                "Type": 243,
-                "Subtype": 31,
-                "Options": {"Custom": "Hz"},
-            },
+        10: ("Grid Frequency", "Custom"),
         
         11: ("Battery Temperature", "Temperature"),
 
@@ -88,13 +82,25 @@ class DeviceManager:
 
         for unit, (name, dtype) in self.DEVICES.items():
 
-            if unit not in self.Devices:
+    #          if unit not in self.Devices:
 
-                Domoticz.Device(
-                    Name=name,
-                    Unit=unit,
-                    TypeName=dtype
-                ).Create()
+        if unit == 19:      # Grid Frequency
+
+            Domoticz.Device(
+                Name=name,
+                Unit=unit,
+                Type=243,
+                Subtype=31,
+                Options={"Custom": "Hz"}
+            ).Create()
+
+        else:
+            
+            Domoticz.Device(
+                Name=name,
+                Unit=unit,
+                TypeName=dtype
+            ).Create()
 
     # -----------------------------
     # UPDATE DEVICES
