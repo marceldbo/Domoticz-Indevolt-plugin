@@ -1,132 +1,105 @@
+"""
+INDEVOLT Domoticz Plugin - Device Layer
+Creates and updates Domoticz devices from API data
+"""
+
 import Domoticz
-from indevolt.constants import WORKING_MODE_MAP, CHARGING_STATE_MAP
+
+from .constants import DEVICE_DEFINITIONS
+from .helpers import (
+    safe_int,
+    safe_float,
+    safe_str,
+    format_value,
+    mode_to_level,
+    log_debug,
+    log_error,
+)
+
 
 class DeviceManager:
 
-    # -----------------------------
-    # DEVICE DEFINITIONS
-    # -----------------------------
-    DEVICES = {
-        1: ("Serial Number", "Text"),
-        2: ("Working Mode", "Text"),
-        3: ("Battery Power", "Usage"),
-        4: ("Charging State", "Text"),
-        5: ("Battery SOC", "Percentage"),
-        6: ("Rated Capacity", "kWh"),
-
-        7: ("Total Input Power", "Usage"),
-        8: ("Total Output Power", "Usage"),
-        9: ("Bypass Power", "Usage"),
-
-        10: ("Grid Voltage", "Voltage"),
-        11: ("Grid Frequency", "Custom"),
-        
-        12: ("Battery Temperature", "Temperature"),
-
-        # ENERGY COUNTERS (kWh)
-        20: ("Energy Input", "kWh"),
-        21: ("Energy Output", "kWh"),
-
-        22: ("Daily Charge", "kWh"),
-        23: ("Daily Discharge", "kWh"),
-
-        24: ("Total Charge", "kWh"),
-        25: ("Total Discharge", "kWh"),
-
-        # SWITCHES
-        30: ("Bypass Mode Setting", "Switch"),
-        31: ("Light Mode Setting", "Switch"),
-       
-        32: ("Working Mode Setting", "Selector Switch"),
-        33: ("Working Mode State Setting", "Selector Switch"),
-
-    }
-
-    # -----------------------------
-    # TAG MAPPING (cJSON)
-    # -----------------------------
-    TAG_MAP = {
-        "0": 1,
-        "7101": 2,
-
-        "6000": 3,
-        "6001": 4,
-        "6002": 5,
-        "142": 6,
-
-        "2101": 7,
-        "2108": 8,
-        "667": 9,
-
-        "2600": 10,
-        "2612": 11,
-
-        "9012": 12,
-
-        "2107": 20,
-        "2104": 21,
-
-        "6004": 22,
-        "6005": 23,
-
-        "6006": 24,
-        "6007": 25,
-
-        "7266": 30,
-        "7265": 31,
-
-        "47005": 32,
-        "47015": 33,
-    }
-    
-    def __init__(self, devices):
+    def __init__(self, devices, api):
         self.Devices = devices
+        self.api = api
 
-    # -----------------------------
-    # CREATE DEVICES
-    # -----------------------------
+    # =========================================================
+    # DEVICE CREATION
+    # =========================================================
+
     def create_devices(self):
 
-        for unit, (name, dtype) in self.DEVICES.items():
+        for tag, meta in DEVICE_DEFINITIONS.items():
 
-    #          if unit not in self.Devices:
+            unit = meta["unit"]
+            name = meta["name"]
+            dtype = meta["type"]
 
-            if unit == 11:      # Grid Frequency
-
-                Domoticz.Device(
-                    Name=name,
-                    Unit=unit,
-                    Type=243,
-                    Subtype=31,
-                    Options={'Custom': '1;Hz'}
-                ).Create()
-
+            if unit in self.Devices:
                 continue
 
-            if unit in (6, 20, 21, 22, 23, 24, 25):      # kWh custom sensors
+            try:
 
-                Domoticz.Device(
-                    Name=name,
-                    Unit=unit,
-                    Type=243,
-                    Subtype=31,
-                    Options={'Custom': '1;kWh'}
-                ).Create()
-                        
-            else:
-                
-                Domoticz.Device(
-                    Name=name,
-                    Unit=unit,
-                    TypeName=dtype
-                ).Create()
+                # -----------------------------
+                # SWITCH
+                # -----------------------------
+                if dtype == "Switch":
+                    Domoticz.Device(
+                        Name=name,
+                        Unit=unit,
+                        TypeName="Switch"
+                    ).Create()
 
-    # -----------------------------
-    # UPDATE DEVICES
-    # -----------------------------
+                # -----------------------------
+                # SELECTOR SWITCH (Working Mode)
+                # -----------------------------
+                elif dtype == "Selector":
+                    Domoticz.Device(
+                        Name=name,
+                        Unit=unit,
+                        TypeName="Selector Switch"
+                    ).Create()
+
+                # -----------------------------
+                # CUSTOM kWh / Hz / kWh-like
+                # -----------------------------
+                elif dtype == "Custom":
+                    Domoticz.Device(
+                        Name=name,
+                        Unit=unit,
+                        Type=243,
+                        Subtype=31,
+                        Options={"Custom": meta.get("unit_label", "")}
+                    ).Create()
+
+                # -----------------------------
+                # DEFAULT TYPE NAME DEVICES
+                # -----------------------------
+                else:
+                    Domoticz.Device(
+                        Name=name,
+                        Unit=unit,
+                        TypeName=dtype
+                    ).Create()
+
+                log_debug(f"Created device: {name} ({unit})")
+
+            except Exception as e:
+                log_error(f"Device creation failed {name}: {e}")
+
+    # =========================================================
+    # DEVICE UPDATE
+    # =========================================================
+
     def update_devices(self, data):
 
-        for tag, unit in self.TAG_MAP.items():
+        if not isinstance(data, dict):
+            log_error("Invalid update data")
+            return
+
+        for tag, meta in DEVICE_DEFINITIONS.items():
+
+            unit = meta["unit"]
 
             if tag not in data:
                 continue
@@ -137,54 +110,75 @@ class DeviceManager:
             value = data[tag]
 
             try:
-                
-                # -----------------------------
-                # WORKING MODE (7101)
-                # -----------------------------
-                if tag == "7101":
-                    mode = int(value)
-                    text = WORKING_MODE_MAP.get(
-                        mode,
-                    )
 
-                    self.Devices[unit].Update(
-                       nValue=0,
-                       sValue=text
-                    )
-                    continue
-                              
+                dtype = meta["type"]
+                decode = meta.get("decode")
+
                 # -----------------------------
-                # CHARGING STATE (6001)
+                # SELECTOR (Working Mode)
                 # -----------------------------
-                if tag == "6001":
-                    raw_state = int(value)
-                    state_text = CHARGING_STATE_MAP.get(
-                        raw_state,
-                        f"Unknown ({raw_state})"
-                    )
+                if dtype == "Selector":
+
+                    mode = safe_int(value)
+                    level = mode_to_level(mode)
 
                     self.Devices[unit].Update(
                         nValue=0,
-                        sValue=state_text
+                        sValue=str(mode),
+                        Level=level
                     )
-                    continue
-                 
-                # -----------------------------
-                # TEXT DEVICES
-                # -----------------------------
-                if unit == 1:
-                    self.Devices[unit].Update(0, str(value))
                     continue
 
                 # -----------------------------
-                # DEFAULT NUMERIC VALUES
+                # SWITCH (Bypass)
                 # -----------------------------
+                if dtype == "Switch":
+
+                    state = 1 if safe_int(value) else 0
+
+                    self.Devices[unit].Update(
+                        nValue=state,
+                        sValue="On" if state else "Off"
+                    )
+                    continue
+
+                # -----------------------------
+                # TEXT / DECODED VALUES
+                # -----------------------------
+                if decode:
+
+                    raw = safe_int(value)
+                    text = decode.get(raw, f"Unknown ({raw})")
+
+                    self.Devices[unit].Update(
+                        nValue=0,
+                        sValue=text
+                    )
+                    continue
+
+                # -----------------------------
+                # CUSTOM (Hz, kWh labels)
+                # -----------------------------
+                if dtype == "Custom":
+
+                    val = format_value(value)
+
+                    self.Devices[unit].Update(
+                        nValue=0,
+                        sValue=val
+                    )
+                    continue
+
+                # -----------------------------
+                # DEFAULT NUMERIC
+                # -----------------------------
+                num = safe_float(value)
+
                 self.Devices[unit].Update(
                     nValue=0,
-                    sValue=str(value)
+                    sValue=str(num)
                 )
 
             except Exception as e:
-                Domoticz.Error(
-                    f"Update error tag {tag} unit {unit}: {e}"
+                log_error(f"Update error tag {tag}: {e}")
                 )
