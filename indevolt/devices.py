@@ -23,21 +23,21 @@ class DeviceManager:
         11: ("Battery Temperature", "Temperature"),
 
         # ENERGY COUNTERS (kWh)
-        12: ("Energy Input", "kWh"),
-        13: ("Energy Output", "kWh"),
+        20: ("Energy Input", "kWh"),
+        21: ("Energy Output", "kWh"),
 
-        14: ("Daily Charge", "kWh"),
-        15: ("Daily Discharge", "kWh"),
+        22: ("Daily Charge", "kWh"),
+        23: ("Daily Discharge", "kWh"),
 
-        16: ("Total Charge", "kWh"),
-        17: ("Total Discharge", "kWh"),
+        24: ("Total Charge", "kWh"),
+        25: ("Total Discharge", "kWh"),
 
         # SWITCHES
-        18: ("Bypass Mode Setting", "Switch"),
-        19: ("Light Mode Setting", "Switch"),
+        30: ("Bypass Mode Setting", "Switch"),
+        31: ("Light Mode Setting", "Switch"),
        
-        20: ("Working Mode Setting", "Switch"),
-        21: ("Working Mode State Setting", "Switch"),
+        32: ("Working Mode Setting", "Switch"),
+        33: ("Working Mode State Setting", "Switch"),
 
     }
 
@@ -61,20 +61,20 @@ class DeviceManager:
 
         "9012": 11,
 
-        "2107": 12,
-        "2104": 13,
+        "2107": 20,
+        "2104": 21,
 
-        "6004": 14,
-        "6005": 15,
+        "6004": 22,
+        "6005": 23,
 
-        "6006": 16,
-        "6007": 17,
+        "6006": 24,
+        "6007": 25,
 
-        "7266": 18,
-        "7265": 19,
+        "7266": 30,
+        "7265": 31,
 
-        "47005": 20,
-        "47015": 21,
+        "47005": 32,
+        "47015": 33,
     }
     
     def __init__(self, devices):
@@ -101,7 +101,7 @@ class DeviceManager:
 
                 continue
 
-            if unit in (12, 13, 14, 15, 16, 17):      # kWh custom sensors
+            if unit in (20, 21, 22, 23, 24, 25):      # kWh custom sensors
 
                 Domoticz.Device(
                     Name=name,
@@ -184,7 +184,7 @@ class DeviceManager:
                 # -----------------------------
                 # SWITCH (Bypass 1: Enable (On), 0: Disable (Off))
                 # -----------------------------
-                if unit == 18:
+                if unit == 30:
                     state = 1 if int(value) else 0
                     self.Devices[unit].Update(
                         nValue=state,
@@ -195,7 +195,7 @@ class DeviceManager:
                 # -----------------------------
                 # SWITCH (Light 1: Enable (On), 0: Disable (Off))
                 # -----------------------------
-                if unit == 19:
+                if unit == 31:
                     state = 1 if int(value) else 0
                     self.Devices[unit].Update(
                         nValue=state,
@@ -211,7 +211,7 @@ class DeviceManager:
                 #   5: Charge/Discharge Schedule (Not implemented)
                 #
                 # -----------------------------
-                if unit == 20:
+                if unit == 32:
                     state = 4 if int(value) else 1
                     self.Devices[unit].Update(
                         nValue=state,
@@ -227,7 +227,7 @@ class DeviceManager:
                 #    2: Discharging
                 # 
                 # -----------------------------
-                if unit == 21:
+                if unit == 33:
                     state = 1 if int(value) else 0
                     self.Devices[unit].Update(
                         nValue=state,
