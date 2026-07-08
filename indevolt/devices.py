@@ -1,184 +1,401 @@
 """
-INDEVOLT Domoticz Plugin - Device Layer
-Creates and updates Domoticz devices from API data
+INDEVOLT Domoticz Plugin
+Device management
+
+Version 2.0.0
 """
 
 import Domoticz
 
-from .constants import DEVICE_DEFINITIONS
+from .constants import (
+    DEVICE_DEFINITIONS,
+    CHARGING_STATE_MAP,
+    WORKING_MODE_MAP,
+)
+
 from .helpers import (
     safe_int,
     safe_float,
-    safe_str,
-    format_value,
-    mode_to_level,
+    safe_string,
+    format_number,
+    working_mode_to_level,
+    level_to_working_mode,
     log_debug,
     log_error,
 )
 
 
+
 class DeviceManager:
 
-    def __init__(self, devices, api):
+
+    def __init__(
+        self,
+        devices,
+        api
+    ):
+
         self.Devices = devices
         self.api = api
 
-    # =========================================================
-    # DEVICE CREATION
-    # =========================================================
+
+
+    # ======================================================
+    # CREATE DEVICES
+    # ======================================================
 
     def create_devices(self):
 
-        for tag, meta in DEVICE_DEFINITIONS.items():
 
-            unit = meta["unit"]
-            name = meta["name"]
-            dtype = meta["type"]
+        for tag, definition in DEVICE_DEFINITIONS.items():
+
+
+            unit = definition["unit"]
+
 
             if unit in self.Devices:
+
                 continue
+
 
             try:
 
-                # -----------------------------
-                # SWITCH
-                # -----------------------------
-                if dtype == "Switch":
+
+                dtype = definition["type"]
+
+
+                if dtype == "text":
+
                     Domoticz.Device(
-                        Name=name,
+
+                        Name=definition["name"],
+                        Unit=unit,
+                        TypeName="Text"
+
+                    ).Create()
+
+
+
+                elif dtype == "selector":
+
+
+                    Domoticz.Device(
+
+                        Name=definition["name"],
+                        Unit=unit,
+                        TypeName="Selector Switch",
+                        Options={
+                            "LevelActions":
+                            "||||"
+                        }
+
+                    ).Create()
+
+
+
+                elif dtype == "switch":
+
+
+                    Domoticz.Device(
+
+                        Name=definition["name"],
                         Unit=unit,
                         TypeName="Switch"
+
                     ).Create()
 
-                # -----------------------------
-                # SELECTOR SWITCH (Working Mode)
-                # -----------------------------
-                elif dtype == "Selector":
+
+
+                elif dtype == "percentage":
+
+
                     Domoticz.Device(
-                        Name=name,
+
+                        Name=definition["name"],
                         Unit=unit,
-                        TypeName="Selector Switch"
+                        TypeName="Percentage"
+
                     ).Create()
 
-                # -----------------------------
-                # CUSTOM kWh / Hz / kWh-like
-                # -----------------------------
-                elif dtype == "Custom":
+
+
+                elif dtype == "usage":
+
+
                     Domoticz.Device(
-                        Name=name,
+
+                        Name=definition["name"],
+                        Unit=unit,
+                        TypeName="Usage"
+
+                    ).Create()
+
+
+
+                elif dtype == "voltage":
+
+
+                    Domoticz.Device(
+
+                        Name=definition["name"],
+                        Unit=unit,
+                        TypeName="Voltage"
+
+                    ).Create()
+
+
+
+                elif dtype == "temperature":
+
+
+                    Domoticz.Device(
+
+                        Name=definition["name"],
+                        Unit=unit,
+                        TypeName="Temperature"
+
+                    ).Create()
+
+
+
+                elif dtype == "energy":
+
+
+                    Domoticz.Device(
+
+                        Name=definition["name"],
+                        Unit=unit,
+                        TypeName="Energy"
+
+                    ).Create()
+
+
+
+                elif dtype == "custom":
+
+
+                    Domoticz.Device(
+
+                        Name=definition["name"],
                         Unit=unit,
                         Type=243,
                         Subtype=31,
-                        Options={"Custom": meta.get("unit_label", "")}
+                        Options={
+                            "Custom":
+                            definition.get(
+                                "unit",
+                                ""
+                            )
+                        }
+
                     ).Create()
 
-                # -----------------------------
-                # DEFAULT TYPE NAME DEVICES
-                # -----------------------------
-                else:
-                    Domoticz.Device(
-                        Name=name,
-                        Unit=unit,
-                        TypeName=dtype
-                    ).Create()
 
-                log_debug(f"Created device: {name} ({unit})")
+
+                log_debug(
+                    f"Created device {definition['name']}"
+                )
+
+
 
             except Exception as e:
-                log_error(f"Device creation failed {name}: {e}")
 
-    # =========================================================
-    # DEVICE UPDATE
-    # =========================================================
 
-    def update_devices(self, data):
+                log_error(
+                    f"Create device {tag}: {e}"
+                )
+
+
+
+    # ======================================================
+    # UPDATE DEVICES
+    # ======================================================
+
+    def update_devices(
+        self,
+        data
+    ):
+
 
         if not isinstance(data, dict):
-            log_error("Invalid update data")
+
             return
 
-        for tag, meta in DEVICE_DEFINITIONS.items():
 
-            unit = meta["unit"]
+
+        for tag, definition in DEVICE_DEFINITIONS.items():
+
 
             if tag not in data:
+
                 continue
 
+
+
+            unit = definition["unit"]
+
+
             if unit not in self.Devices:
+
                 continue
+
+
 
             value = data[tag]
 
+
             try:
 
-                dtype = meta["type"]
-                decode = meta.get("decode")
 
-                # -----------------------------
-                # SELECTOR (Working Mode)
-                # -----------------------------
-                if dtype == "Selector":
+                dtype = definition["type"]
+
+
+
+                # ----------------------------------
+                # Working mode selector
+                # ----------------------------------
+
+                if tag == "7101":
+
 
                     mode = safe_int(value)
-                    level = mode_to_level(mode)
+
 
                     self.Devices[unit].Update(
+
                         nValue=0,
-                        sValue=str(mode),
-                        Level=level
+
+                        sValue=
+                        WORKING_MODE_MAP.get(
+                            mode,
+                            "Unknown"
+                        ),
+
+                        Level=
+                        working_mode_to_level(
+                            mode
+                        )
+
                     )
+
+
                     continue
 
-                # -----------------------------
-                # SWITCH (Bypass)
-                # -----------------------------
-                if dtype == "Switch":
+
+
+                # ----------------------------------
+                # Charging state text
+                # ----------------------------------
+
+                if tag == "6001":
+
+
+                    state = safe_int(value)
+
+
+                    self.Devices[unit].Update(
+
+                        nValue=0,
+
+                        sValue=
+                        CHARGING_STATE_MAP.get(
+                            state,
+                            f"Unknown ({state})"
+                        )
+
+                    )
+
+
+                    continue
+
+
+
+                # ----------------------------------
+                # Switch
+                # ----------------------------------
+
+                if dtype == "switch":
+
 
                     state = 1 if safe_int(value) else 0
 
+
                     self.Devices[unit].Update(
+
                         nValue=state,
-                        sValue="On" if state else "Off"
+
+                        sValue=
+                        "On" if state else "Off"
+
                     )
+
+
                     continue
 
-                # -----------------------------
-                # TEXT / DECODED VALUES
-                # -----------------------------
-                if decode:
 
-                    raw = safe_int(value)
-                    text = decode.get(raw, f"Unknown ({raw})")
 
-                    self.Devices[unit].Update(
-                        nValue=0,
-                        sValue=text
-                    )
-                    continue
-
-                # -----------------------------
-                # CUSTOM (Hz, kWh labels)
-                # -----------------------------
-                if dtype == "Custom":
-
-                    val = format_value(value)
-
-                    self.Devices[unit].Update(
-                        nValue=0,
-                        sValue=val
-                    )
-                    continue
-
-                # -----------------------------
-                # DEFAULT NUMERIC
-                # -----------------------------
-                num = safe_float(value)
+                # ----------------------------------
+                # Numeric devices
+                # ----------------------------------
 
                 self.Devices[unit].Update(
+
                     nValue=0,
-                    sValue=str(num)
+
+                    sValue=
+                    format_number(
+                        safe_float(value)
+                    )
+
                 )
 
+
+
             except Exception as e:
-                log_error(f"Update error tag {tag}: {e}")
-                
+
+
+                log_error(
+                    f"Update {tag}: {e}"
+                )
+
+
+
+    # ======================================================
+    # DOMOTICZ COMMANDS
+    # ======================================================
+
+    def handle_command(
+        self,
+        unit,
+        command,
+        level
+    ):
+
+
+        # Working Mode selector
+
+        if unit != 2:
+
+            return
+
+
+
+        mode = level_to_working_mode(
+            level
+        )
+
+
+        if mode is None:
+
+            return
+
+
+
+        result = self.api.set_working_mode(
+            mode
+        )
+
+
+        log_debug(
+            f"Working mode changed: {result}"
+        )
