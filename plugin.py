@@ -1,92 +1,241 @@
 """
 INDEVOLT Domoticz Plugin (Local OpenData API)
-Tested for Domoticz 2026.2 (Python 3.11)
-Author: Marcel de Bont
+Domoticz 2026.2 / Python 3.11
+
+Version: 2.0.0
 """
+
 """
-<plugin key="Indevolt" name="Indevolt Home Battery" author="Marcel de Bont" version="1.0.0" wikilink="" externallink="https://github.com/marceldbo/Domoticz-Indevolt-Plugin.git">
+<plugin key="Indevolt"
+        name="Indevolt Home Battery"
+        author="Marcel de Bont"
+        version="2.0.0"
+        wikilink=""
+        externallink="">
     <description>
-        Indevolt Home Battery plugin for Domoticz.
+        Indevolt Home Battery plugin using local OpenData API.
     </description>
+
     <params>
-        <param field="Address" label="Indevolt IP" width="200px" required="true"/>
-        <param field="Mode1" label="Update Interval (sec)" width="75px" required="false" default="10"/>
+
+        <param field="Address"
+               label="Indevolt IP"
+               width="200px"
+               required="true"/>
+
+        <param field="Port"
+               label="Port"
+               width="60px"
+               required="false"
+               default="8080"/>
+
+        <param field="Mode1"
+               label="Update interval (sec)"
+               width="75px"
+               required="false"
+               default="10"/>
+
+        <param field="Mode6"
+               label="Debug logging"
+               width="75px"
+               required="false">
+            <options>
+                <option label="Off" value="0" default="true"/>
+                <option label="On" value="1"/>
+            </options>
+        </param>
+
     </params>
 </plugin>
 """
 
 import Domoticz
+
 from indevolt.api import IndevoltAPI
 from indevolt.devices import DeviceManager
+from indevolt.helpers import log_debug
+
 
 class BasePlugin:
 
     def __init__(self):
+
         self.api = None
         self.device_manager = None
 
+        self.poll_interval = 10
+
+
+    # ======================================================
+    # START
+    # ======================================================
+
     def onStart(self):
-        Domoticz.Log("INDEVOLT plugin starting...")
 
-        self.ip = Parameters["Address"]
-        self.username = Parameters.get("Username", "")
-        self.password = Parameters.get("Password", "")
-        self.poll = int(Parameters.get("Mode1", 10))
+        Domoticz.Log("INDEVOLT plugin starting")
 
-        self.api = IndevoltAPI(self.ip, self.username, self.password)
-        self.device_manager = DeviceManager(Devices)
 
-        Domoticz.Heartbeat(self.poll)
+        try:
 
-        # Create devices
-        self.device_manager.create_devices()
+            host = Parameters["Address"]
 
-        Domoticz.Log("INDEVOLT plugin started.")
+            port = int(
+                Parameters.get(
+                    "Port",
+                    8080
+                )
+            )
+
+            self.poll_interval = int(
+                Parameters.get(
+                    "Mode1",
+                    10
+                )
+            )
+
+            debug = (
+                Parameters.get(
+                    "Mode6",
+                    "0"
+                ) == "1"
+            )
+
+
+            self.api = IndevoltAPI(
+                host,
+                port,
+                debug
+            )
+
+
+            self.device_manager = DeviceManager(
+                Devices,
+                self.api
+            )
+
+
+            self.device_manager.create_devices()
+
+
+            Domoticz.Heartbeat(
+                self.poll_interval
+            )
+
+
+            Domoticz.Log(
+                "INDEVOLT plugin started"
+            )
+
+
+        except Exception as e:
+
+            Domoticz.Error(
+                f"INDEVOLT startup error: {e}"
+            )
+
+
+    # ======================================================
+    # STOP
+    # ======================================================
 
     def onStop(self):
-        Domoticz.Log("INDEVOLT plugin stopped.")
+
+        Domoticz.Log(
+            "INDEVOLT plugin stopped"
+        )
+
+
+    # ======================================================
+    # HEARTBEAT
+    # ======================================================
 
     def onHeartbeat(self):
-        try:
-            data = self.api.get_system_data()
-            self.device_manager.update_devices(data)
-        except Exception as e:
-            Domoticz.Error(f"Heartbeat error: {e}")
-
-#    def onCommand(self, Unit, Command, Level, Color):
-#        Domoticz.Log(f"Command received: {Unit} -> {Command}")
-#        self.api.set_command(Unit, Command, Level)
-    # =========================================================
-    # USER COMMANDS (Selector Switch etc.)
-    # =========================================================
-
-    def onCommand(self, Unit, Command, Level, Hue):
 
         try:
 
-            # Working Mode selector (unit 2)
-            if Unit == 2:
+            data = self.api.get_data()
 
-                mode = level_to_mode(Level)
+            if data:
 
-                if mode is not None:
-                    self.api.set_working_mode(mode)
-                    log_debug(f"Working mode set via Domoticz: {mode}")
+                self.device_manager.update_devices(
+                    data
+                )
+
 
         except Exception as e:
-            Domoticz.Error(f"onCommand error: {e}")
+
+            Domoticz.Error(
+                f"INDEVOLT heartbeat error: {e}"
+            )
+
+
+    # ======================================================
+    # COMMANDS
+    # ======================================================
+
+    def onCommand(
+        self,
+        Unit,
+        Command,
+        Level,
+        Hue
+    ):
+
+        try:
+
+            self.device_manager.handle_command(
+                Unit,
+                Command,
+                Level
+            )
+
+
+        except Exception as e:
+
+            Domoticz.Error(
+                f"INDEVOLT command error: {e}"
+            )
+
+
+
+# ==========================================================
+# DOMOTICZ REQUIRED WRAPPER
+# ==========================================================
 
 global _plugin
+
 _plugin = BasePlugin()
 
+
+
 def onStart():
+
     _plugin.onStart()
 
+
+
 def onStop():
+
     _plugin.onStop()
 
+
+
 def onHeartbeat():
+
     _plugin.onHeartbeat()
 
-def onCommand(Unit, Command, Level, Color):
-    _plugin.onCommand(Unit, Command, Level, Color)
+
+
+def onCommand(
+    Unit,
+    Command,
+    Level,
+    Hue
+):
+
+    _plugin.onCommand(
+        Unit,
+        Command,
+        Level,
+        Hue
+    )
