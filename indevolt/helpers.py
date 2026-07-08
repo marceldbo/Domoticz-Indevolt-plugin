@@ -1,110 +1,185 @@
 """
-INDEVOLT Domoticz Plugin - Helpers
-Safe conversions + formatting utilities
+INDEVOLT Domoticz Plugin
+Helper functions
+
+Version 2.0.0
 """
 
 import Domoticz
 
+from .constants import (
+    WORKING_MODE_LEVELS,
+    LEVEL_TO_WORKING_MODE,
+)
 
-# =========================================================
-# SAFE TYPE CONVERSION
-# =========================================================
+
+# ==========================================================
+# SAFE CONVERSION FUNCTIONS
+# ==========================================================
+
 
 def safe_int(value, default=0):
+
     try:
+
         if value is None:
             return default
+
         return int(value)
+
     except Exception:
+
         return default
+
 
 
 def safe_float(value, default=0.0):
+
     try:
+
         if value is None:
             return default
+
         return float(value)
+
     except Exception:
+
         return default
 
 
-# =========================================================
-# SAFE STRING
-# =========================================================
 
-def safe_str(value, default=""):
+def safe_string(value, default=""):
+
     try:
+
         if value is None:
             return default
+
         return str(value)
+
     except Exception:
+
         return default
 
 
-# =========================================================
-# DEVICE VALUE FORMATTING
-# =========================================================
 
-def format_value(value, decimals=2):
+# ==========================================================
+# VALUE FORMATTING
+# ==========================================================
+
+
+def format_number(value, decimals=2):
+
     """
-    Converts numeric values into clean Domoticz strings
+    Format numeric values for Domoticz.
     """
+
     try:
-        v = float(value)
-        return f"{v:.{decimals}f}"
+
+        return f"{float(value):.{decimals}f}"
+
     except Exception:
+
         return str(value)
 
 
-# =========================================================
-# SELECTOR SWITCH MAPPING HELPERS
-# =========================================================
 
-def mode_to_level(mode):
+# ==========================================================
+# WORKING MODE CONVERSION
+# ==========================================================
+
+
+def working_mode_to_level(mode):
+
     """
-    INDEVOLT → Domoticz selector level
+    INDEVOLT mode -> Domoticz selector level
+
+    1 -> 10
+    4 -> 20
+    5 -> 30
     """
-    mapping = {
-        1: 10,  # Self-consumed
-        4: 20,  # Real-time
-        5: 30,  # Schedule
+
+    return WORKING_MODE_LEVELS.get(
+        safe_int(mode),
+        0
+    )
+
+
+
+def level_to_working_mode(level):
+
+    """
+    Domoticz selector level -> INDEVOLT mode
+    """
+
+    return LEVEL_TO_WORKING_MODE.get(
+        safe_int(level)
+    )
+
+
+
+# ==========================================================
+# DEBUG LOGGING
+# ==========================================================
+
+
+DEBUG = False
+
+
+
+def set_debug(enabled):
+
+    global DEBUG
+
+    DEBUG = enabled
+
+
+
+def log_debug(message):
+
+    if DEBUG:
+
+        Domoticz.Log(
+            f"INDEVOLT DEBUG: {message}"
+        )
+
+
+
+def log_error(message):
+
+    Domoticz.Error(
+        f"INDEVOLT ERROR: {message}"
+    )
+
+
+
+# ==========================================================
+# DATA VALIDATION
+# ==========================================================
+
+
+def valid_api_response(data):
+
+    """
+    Validate INDEVOLT GetData response.
+
+    Expected:
+
+    {
+        "6000":0,
+        "6001":1000,
+        "7101":1
     }
-    return mapping.get(mode, 0)
 
-
-def level_to_mode(level):
     """
-    Domoticz selector level → INDEVOLT
-    """
-    mapping = {
-        10: 1,
-        20: 4,
-        30: 5,
-    }
-    return mapping.get(level)
 
-
-# =========================================================
-# LOGGING WRAPPERS
-# =========================================================
-
-def log_debug(msg):
-    Domoticz.Log(f"[INDEVOLT] {msg}")
-
-
-def log_error(msg):
-    Domoticz.Error(f"[INDEVOLT] {msg}")
-
-
-# =========================================================
-# RESPONSE VALIDATION
-# =========================================================
-
-def validate_response(data):
-    """
-    Ensures API response is usable
-    """
     if not isinstance(data, dict):
-        log_error(f"Invalid API response type: {type(data)}")
+
+        log_error(
+            f"Invalid API response type: {type(data)}"
+        )
+
         return False
+
+
     return True
