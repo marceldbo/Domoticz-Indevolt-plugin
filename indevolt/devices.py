@@ -181,4 +181,4 @@ class DeviceManager:
 
             except Exception as e:
                 log_error(f"Update error tag {tag}: {e}")
-                )
+                
