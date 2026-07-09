@@ -359,7 +359,8 @@ DEVICE_DEFINITIONS = {
         "unit": 17,
         "name": "Bypass Power",
         "create": {
-            "TypeName": "Usage",
+            "Type": 248,
+            "Subtype": 1,
             "Used": 1,
         },
     },
