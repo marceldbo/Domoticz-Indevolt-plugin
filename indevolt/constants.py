@@ -171,7 +171,8 @@ DEVICE_DEFINITIONS = {
             "Used": 1
         }
 
-
+    },
+        
     TAG_CHARGING_STATE: {
         "unit": 3,
         "name": "Charging State",
