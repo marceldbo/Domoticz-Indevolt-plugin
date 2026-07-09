@@ -1,6 +1,6 @@
 """
 INDEVOLT Domoticz Plugin
-Local OpenData API communication
+Local OpenData API
 
 Version 2.0.0
 """
@@ -10,15 +10,17 @@ import urllib.parse
 
 import requests
 
+
 from .constants import (
     POLL_TAGS,
     SET_WORKING_MODE,
 )
 
+
 from .helpers import (
     log_debug,
     log_error,
-    valid_api_response,
+    validate_response,
 )
 
 
@@ -42,10 +44,10 @@ class IndevoltAPI:
 
         self.timeout = 10
 
+
         self.session = requests.Session()
 
 
-        # Enable debug logging
         from .helpers import set_debug
 
         set_debug(debug)
@@ -64,9 +66,9 @@ class IndevoltAPI:
     def get_data(self):
 
         """
-        Read all configured INDEVOLT registers.
+        Read INDEVOLT data.
 
-        Example request:
+        Example:
 
         /rpc/Indevolt.GetData?
         config={"t":[6000,6001,7101]}
@@ -81,6 +83,7 @@ class IndevoltAPI:
 
         """
 
+
         try:
 
 
@@ -91,15 +94,25 @@ class IndevoltAPI:
             }
 
 
-            encoded = urllib.parse.quote(
-                json.dumps(config)
+            json_config = json.dumps(
+                config,
+                separators=(
+                    ",",
+                    ":"
+                )
+            )
+
+
+            encoded_config = urllib.parse.quote(
+                json_config,
+                safe=""
             )
 
 
             url = (
                 f"{self.base_url}"
-                f"/rpc/Indevolt.GetData"
-                f"?config={encoded}"
+                "/rpc/Indevolt.GetData"
+                f"?config={encoded_config}"
             )
 
 
@@ -109,8 +122,11 @@ class IndevoltAPI:
 
 
             response = self.session.get(
+
                 url,
+
                 timeout=self.timeout
+
             )
 
 
@@ -121,16 +137,16 @@ class IndevoltAPI:
 
 
             log_debug(
-                f"GetData response: {data}"
+                f"GetData result: {data}"
             )
 
 
-            if not valid_api_response(data):
+            if validate_response(data):
 
-                return {}
+                return data
 
 
-            return data
+            return {}
 
 
 
@@ -140,7 +156,6 @@ class IndevoltAPI:
             log_error(
                 f"GetData failed: {e}"
             )
-
 
             return {}
 
@@ -158,7 +173,7 @@ class IndevoltAPI:
     ):
 
         """
-        Generic INDEVOLT write command.
+        Generic SetData command.
 
         Example:
 
@@ -174,44 +189,65 @@ class IndevoltAPI:
         try:
 
 
-            if not isinstance(values, list):
+            if not isinstance(
+                values,
+                list
+            ):
 
-                values = [values]
+                values = [
+                    values
+                ]
 
 
             config = {
 
                 "f": int(function),
+
                 "t": int(tag),
+
                 "v": values
 
             }
 
 
-            encoded = urllib.parse.quote(
-                json.dumps(config)
+            json_config = json.dumps(
+                config,
+                separators=(
+                    ",",
+                    ":"
+                )
+            )
+
+
+            encoded_config = urllib.parse.quote(
+                json_config,
+                safe=""
             )
 
 
             url = (
                 f"{self.base_url}"
-                f"/rpc/Indevolt.SetData"
-                f"?config={encoded}"
+                "/rpc/Indevolt.SetData"
+                f"?config={encoded_config}"
             )
 
 
             log_debug(
-                f"SET {config}"
+                f"POST {config}"
             )
 
 
             response = self.session.post(
+
                 url,
+
                 headers={
                     "Content-Type":
                     "application/json"
                 },
+
                 timeout=self.timeout
+
             )
 
 
@@ -222,7 +258,7 @@ class IndevoltAPI:
 
 
             log_debug(
-                f"SetData response: {result}"
+                f"SetData result: {result}"
             )
 
 
@@ -237,13 +273,12 @@ class IndevoltAPI:
                 f"SetData failed: {e}"
             )
 
-
             return None
 
 
 
     # ======================================================
-    # WORKING MODE
+    # WORKING MODE COMMAND
     # ======================================================
 
     def set_working_mode(
@@ -252,9 +287,9 @@ class IndevoltAPI:
     ):
 
         """
-        Change INDEVOLT working mode.
+        Set INDEVOLT working mode.
 
-        Modes:
+        Supported:
 
         1 = Self-consumed Prioritized
         4 = Real-time Control
@@ -262,12 +297,15 @@ class IndevoltAPI:
 
         """
 
+
         return self.set_data(
 
             function=16,
 
             tag=SET_WORKING_MODE,
 
-            values=[int(mode)]
+            values=[
+                int(mode)
+            ]
 
         )
