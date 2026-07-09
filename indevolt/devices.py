@@ -1,6 +1,6 @@
 """
 INDEVOLT Domoticz Plugin
-Device management
+Device handling
 
 Version 2.0.0
 """
@@ -9,15 +9,15 @@ import Domoticz
 
 from .constants import (
     DEVICE_DEFINITIONS,
-    CHARGING_STATE_MAP,
-    WORKING_MODE_MAP,
 )
 
 from .helpers import (
     safe_int,
     safe_float,
     safe_string,
-    format_number,
+    format_value,
+    charging_state,
+    working_mode,
     working_mode_to_level,
     level_to_working_mode,
     log_debug,
@@ -61,148 +61,58 @@ class DeviceManager:
             try:
 
 
-                dtype = definition["type"]
+                params = (
+                    definition["create"]
+                    .copy()
+                )
 
 
-                if dtype == "text":
-
-                    Domoticz.Device(
-
-                        Name=definition["name"],
-                        Unit=unit,
-                        TypeName="Text"
-
-                    ).Create()
+                params["Name"] = (
+                    definition["name"]
+                )
 
 
-
-                elif dtype == "selector":
-
-
-                    Domoticz.Device(
-
-                        Name=definition["name"],
-                        Unit=unit,
-                        TypeName="Selector Switch",
-                        Options={
-                            "LevelActions":
-                            "||||"
-                        }
-
-                    ).Create()
+                params["Unit"] = unit
 
 
+                # Selector needs options
+                if tag == "7101":
 
-                elif dtype == "switch":
+                    params["Options"] = {
 
+                        "LevelNames":
+                        "Self-consumed Prioritized|"
+                        "Real-time Control|"
+                        "Charge/Discharge Schedule",
 
-                    Domoticz.Device(
+                        "LevelActions":
+                        "|||",
 
-                        Name=definition["name"],
-                        Unit=unit,
-                        TypeName="Switch"
+                        "SelectorStyle":
+                        "1",
 
-                    ).Create()
+                    }
 
 
 
-                elif dtype == "percentage":
+                device = Domoticz.Device(
+                    **params
+                )
 
 
-                    Domoticz.Device(
-
-                        Name=definition["name"],
-                        Unit=unit,
-                        TypeName="Percentage"
-
-                    ).Create()
-
-
-
-                elif dtype == "usage":
-
-
-                    Domoticz.Device(
-
-                        Name=definition["name"],
-                        Unit=unit,
-                        TypeName="Usage"
-
-                    ).Create()
-
-
-
-                elif dtype == "voltage":
-
-
-                    Domoticz.Device(
-
-                        Name=definition["name"],
-                        Unit=unit,
-                        TypeName="Voltage"
-
-                    ).Create()
-
-
-
-                elif dtype == "temperature":
-
-
-                    Domoticz.Device(
-
-                        Name=definition["name"],
-                        Unit=unit,
-                        TypeName="Temperature"
-
-                    ).Create()
-
-
-
-                elif dtype == "energy":
-
-
-                    Domoticz.Device(
-
-                        Name=definition["name"],
-                        Unit=unit,
-                        TypeName="Energy"
-
-                    ).Create()
-
-
-
-                elif dtype == "custom":
-
-
-                    Domoticz.Device(
-
-                        Name=definition["name"],
-                        Unit=unit,
-                        Type=243,
-                        Subtype=31,
-                        Options={
-                            "Custom":
-                            definition.get(
-                                "unit",
-                                ""
-                            )
-                        }
-
-                    ).Create()
-
+                device.Create()
 
 
                 log_debug(
-                    f"Created device {definition['name']}"
+                    f"Created {definition['name']}"
                 )
-
 
 
             except Exception as e:
 
 
                 log_error(
-                    f"Create device {tag}: {e}"
+                    f"Create {definition['name']} failed: {e}"
                 )
 
 
@@ -241,18 +151,15 @@ class DeviceManager:
 
 
 
-            value = data[tag]
-
-
             try:
 
 
-                dtype = definition["type"]
+                value = data[tag]
 
 
 
                 # ----------------------------------
-                # Working mode selector
+                # Working Mode
                 # ----------------------------------
 
                 if tag == "7101":
@@ -266,10 +173,7 @@ class DeviceManager:
                         nValue=0,
 
                         sValue=
-                        WORKING_MODE_MAP.get(
-                            mode,
-                            "Unknown"
-                        ),
+                        working_mode(mode),
 
                         Level=
                         working_mode_to_level(
@@ -284,7 +188,7 @@ class DeviceManager:
 
 
                 # ----------------------------------
-                # Charging state text
+                # Charging State
                 # ----------------------------------
 
                 if tag == "6001":
@@ -298,9 +202,8 @@ class DeviceManager:
                         nValue=0,
 
                         sValue=
-                        CHARGING_STATE_MAP.get(
-                            state,
-                            f"Unknown ({state})"
+                        charging_state(
+                            state
                         )
 
                     )
@@ -314,18 +217,47 @@ class DeviceManager:
                 # Switch
                 # ----------------------------------
 
-                if dtype == "switch":
+                if tag == "680":
 
 
-                    state = 1 if safe_int(value) else 0
+                    enabled = (
+                        1
+                        if safe_int(value)
+                        else 0
+                    )
 
 
                     self.Devices[unit].Update(
 
-                        nValue=state,
+                        nValue=enabled,
 
                         sValue=
-                        "On" if state else "Off"
+                        "On"
+                        if enabled
+                        else "Off"
+
+                    )
+
+
+                    continue
+
+
+
+                # ----------------------------------
+                # Text device
+                # ----------------------------------
+
+                if definition["create"].get(
+                    "Subtype"
+                ) == 19:
+
+
+                    self.Devices[unit].Update(
+
+                        nValue=0,
+
+                        sValue=
+                        safe_string(value)
 
                     )
 
@@ -338,30 +270,39 @@ class DeviceManager:
                 # Numeric devices
                 # ----------------------------------
 
+                number = safe_float(
+                    value
+                )
+
+
                 self.Devices[unit].Update(
 
                     nValue=0,
 
                     sValue=
-                    format_number(
-                        safe_float(value)
+                    format_value(
+                        number
                     )
 
                 )
 
+
+                log_debug(
+                    f"{tag}={number}"
+                )
 
 
             except Exception as e:
 
 
                 log_error(
-                    f"Update {tag}: {e}"
+                    f"Update {tag} failed: {e}"
                 )
 
 
 
     # ======================================================
-    # DOMOTICZ COMMANDS
+    # COMMAND HANDLING
     # ======================================================
 
     def handle_command(
@@ -372,7 +313,7 @@ class DeviceManager:
     ):
 
 
-        # Working Mode selector
+        # Working mode selector
 
         if unit != 2:
 
@@ -380,8 +321,10 @@ class DeviceManager:
 
 
 
-        mode = level_to_working_mode(
-            level
+        mode = (
+            level_to_working_mode(
+                level
+            )
         )
 
 
@@ -391,8 +334,11 @@ class DeviceManager:
 
 
 
-        result = self.api.set_working_mode(
-            mode
+        result = (
+            self.api
+            .set_working_mode(
+                mode
+            )
         )
 
 
