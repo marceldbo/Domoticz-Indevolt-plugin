@@ -231,8 +231,13 @@ DEVICE_DEFINITIONS = {
     TAG_TOTAL_INPUT_ENERGY: {
         "unit": 8,
         "name": "Total Input Energy",
+        "custom_unit": "kWh",
         "create": {
-            "TypeName": "Energy",
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
             "Used": 1,
         },
     },
@@ -241,8 +246,13 @@ DEVICE_DEFINITIONS = {
     TAG_TOTAL_OUTPUT_ENERGY: {
         "unit": 9,
         "name": "Total Output Energy",
+        "custom_unit": "kWh",
         "create": {
-            "TypeName": "Energy",
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
             "Used": 1,
         },
     },
