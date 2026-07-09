@@ -150,10 +150,26 @@ DEVICE_DEFINITIONS = {
         "unit": 2,
         "name": "Working Mode",
         "create": {
-            "TypeName": "Selector Switch",
-            "Used": 1,
-        },
-    },
+            "Type": 244,
+            "Subtype": 62,
+            "Switchtype": 18,
+            "Options": {
+                "LevelNames":
+                "Self-consumed Prioritized|"
+                "Real-time Control|"
+                "Charge/Discharge Schedule",
+        
+                "LevelActions":
+                "|||",
+        
+                "LevelOffHidden":
+                "false",
+        
+                "SelectorStyle":
+                "1"
+            },
+            "Used": 1
+        }
 
 
     TAG_CHARGING_STATE: {
@@ -171,7 +187,8 @@ DEVICE_DEFINITIONS = {
         "unit": 4,
         "name": "Battery Power",
         "create": {
-            "TypeName": "Usage",
+            "Type": 243,
+            "Subtype": 29,
             "Used": 1,
         },
     },
@@ -192,7 +209,8 @@ DEVICE_DEFINITIONS = {
         "unit": 6,
         "name": "Grid Input Power",
         "create": {
-            "TypeName": "Usage",
+            "Type": 243,
+            "Subtype", 29,
             "Used": 1,
         },
     },
@@ -202,7 +220,8 @@ DEVICE_DEFINITIONS = {
         "unit": 7,
         "name": "Grid Output Power",
         "create": {
-            "TypeName": "Usage",
+            "Type": 243,
+            "Subtype", 29,
             "Used": 1,
         },
     },
@@ -317,7 +336,9 @@ DEVICE_DEFINITIONS = {
         "unit": 16,
         "name": "Bypass Enabled",
         "create": {
-            "TypeName": "Switch",
+            "Type": 244,
+            "Subtype": 62,
+            "Switchtype": 0,
             "Used": 1,
         },
     },
@@ -337,7 +358,8 @@ DEVICE_DEFINITIONS = {
         "unit": 18,
         "name": "Grid Voltage",
         "create": {
-            "TypeName": "Voltage",
+            "Type": 243,
+            "Subtype": 8,
             "Used": 1,
         },
     },
@@ -361,7 +383,8 @@ DEVICE_DEFINITIONS = {
         "unit": 20,
         "name": "Battery Temperature",
         "create": {
-            "TypeName": "Temperature",
+            "Type": 80,
+            "Subtype": 5,
             "Used": 1,
         },
     },
