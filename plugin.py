@@ -1,8 +1,11 @@
 """
-INDEVOLT Domoticz Plugin (Local OpenData API)
-Domoticz 2026.2 / Python 3.11
+INDEVOLT Domoticz Plugin
+Local OpenData API
 
-Version: 2.0.0
+Domoticz 2026.2
+Python 3.11
+
+Version 2.0.0
 """
 
 """
@@ -12,6 +15,7 @@ Version: 2.0.0
         version="2.0.0"
         wikilink=""
         externallink="">
+
     <description>
         Indevolt Home Battery plugin using local OpenData API.
     </description>
@@ -30,7 +34,7 @@ Version: 2.0.0
                default="8080"/>
 
         <param field="Mode1"
-               label="Update interval (sec)"
+               label="Update Interval (sec)"
                width="75px"
                required="false"
                default="10"/>
@@ -40,30 +44,51 @@ Version: 2.0.0
                width="75px"
                required="false">
             <options>
-                <option label="Off" value="0" default="true"/>
-                <option label="On" value="1"/>
+                <option label="Off"
+                        value="0"
+                        default="true"/>
+                <option label="On"
+                        value="1"/>
             </options>
         </param>
 
     </params>
+
 </plugin>
 """
 
+
 import Domoticz
 
-from indevolt.api import IndevoltAPI
-from indevolt.devices import DeviceManager
-from indevolt.helpers import log_debug
+
+from indevolt.api import (
+    IndevoltAPI
+)
+
+
+from indevolt.devices import (
+    DeviceManager
+)
+
+
+from indevolt.helpers import (
+    log_error,
+    log_info,
+)
+
 
 
 class BasePlugin:
 
+
     def __init__(self):
 
         self.api = None
+
         self.device_manager = None
 
-        self.poll_interval = 10
+        self.interval = 10
+
 
 
     # ======================================================
@@ -72,12 +97,17 @@ class BasePlugin:
 
     def onStart(self):
 
-        Domoticz.Log("INDEVOLT plugin starting")
-
 
         try:
 
+
+            log_info(
+                "Starting INDEVOLT plugin"
+            )
+
+
             host = Parameters["Address"]
+
 
             port = int(
                 Parameters.get(
@@ -86,52 +116,74 @@ class BasePlugin:
                 )
             )
 
-            self.poll_interval = int(
+
+            self.interval = int(
                 Parameters.get(
                     "Mode1",
                     10
                 )
             )
 
+
             debug = (
+
                 Parameters.get(
                     "Mode6",
                     "0"
-                ) == "1"
+                )
+
+                == "1"
+
             )
+
 
 
             self.api = IndevoltAPI(
+
                 host,
+
                 port,
+
                 debug
+
             )
+
 
 
             self.device_manager = DeviceManager(
+
                 Devices,
+
                 self.api
+
             )
+
 
 
             self.device_manager.create_devices()
 
 
+
             Domoticz.Heartbeat(
-                self.poll_interval
+
+                self.interval
+
             )
 
 
-            Domoticz.Log(
+            log_info(
                 "INDEVOLT plugin started"
             )
 
 
+
         except Exception as e:
 
-            Domoticz.Error(
-                f"INDEVOLT startup error: {e}"
+
+            log_error(
+                f"Startup failed: {e}"
             )
+
 
 
     # ======================================================
@@ -140,9 +192,11 @@ class BasePlugin:
 
     def onStop(self):
 
-        Domoticz.Log(
+
+        log_info(
             "INDEVOLT plugin stopped"
         )
+
 
 
     # ======================================================
@@ -151,22 +205,32 @@ class BasePlugin:
 
     def onHeartbeat(self):
 
+
         try:
 
-            data = self.api.get_data()
+
+            data = (
+                self.api
+                .get_data()
+            )
+
 
             if data:
+
 
                 self.device_manager.update_devices(
                     data
                 )
 
 
+
         except Exception as e:
 
-            Domoticz.Error(
-                f"INDEVOLT heartbeat error: {e}"
+
+            log_error(
+                f"Heartbeat failed: {e}"
             )
+
 
 
     # ======================================================
@@ -181,28 +245,37 @@ class BasePlugin:
         Hue
     ):
 
+
         try:
 
+
             self.device_manager.handle_command(
+
                 Unit,
+
                 Command,
+
                 Level
+
             )
 
 
         except Exception as e:
 
-            Domoticz.Error(
-                f"INDEVOLT command error: {e}"
+
+            log_error(
+                f"Command failed: {e}"
             )
 
 
 
 # ==========================================================
-# DOMOTICZ REQUIRED WRAPPER
+# DOMOTICZ ENTRY POINTS
 # ==========================================================
 
+
 global _plugin
+
 
 _plugin = BasePlugin()
 
