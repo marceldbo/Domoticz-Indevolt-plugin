@@ -8,13 +8,54 @@ Version 2.0.0
 import Domoticz
 
 from .constants import (
+    CHARGING_STATE_MAP,
+    WORKING_MODE_MAP,
     WORKING_MODE_LEVELS,
     LEVEL_TO_WORKING_MODE,
 )
 
 
 # ==========================================================
-# SAFE CONVERSION FUNCTIONS
+# DEBUG HANDLING
+# ==========================================================
+
+DEBUG = False
+
+
+def set_debug(enabled):
+
+    global DEBUG
+    DEBUG = bool(enabled)
+
+
+
+def log_debug(message):
+
+    if DEBUG:
+
+        Domoticz.Log(
+            f"INDEVOLT DEBUG: {message}"
+        )
+
+
+
+def log_info(message):
+
+    Domoticz.Log(
+        f"INDEVOLT: {message}"
+    )
+
+
+
+def log_error(message):
+
+    Domoticz.Error(
+        f"INDEVOLT ERROR: {message}"
+    )
+
+
+# ==========================================================
+# SAFE CONVERSIONS
 # ==========================================================
 
 
@@ -62,21 +103,35 @@ def safe_string(value, default=""):
         return default
 
 
-
 # ==========================================================
 # VALUE FORMATTING
 # ==========================================================
 
 
-def format_number(value, decimals=2):
+def format_value(value, decimals=2):
 
     """
     Format numeric values for Domoticz.
+
+    Examples:
+
+    3.540000 -> 3.54
+    50.00000 -> 50
+
     """
 
     try:
 
-        return f"{float(value):.{decimals}f}"
+        number = float(value)
+
+        formatted = (
+            f"{number:.{decimals}f}"
+            .rstrip("0")
+            .rstrip(".")
+        )
+
+        return formatted
+
 
     except Exception:
 
@@ -85,7 +140,51 @@ def format_number(value, decimals=2):
 
 
 # ==========================================================
-# WORKING MODE CONVERSION
+# INDEVOLT STATE DECODING
+# ==========================================================
+
+
+def charging_state(value):
+
+    """
+    Convert:
+
+    1000 -> Static
+    1001 -> Charging
+    1002 -> Discharging
+
+    """
+
+    state = safe_int(value)
+
+    return CHARGING_STATE_MAP.get(
+        state,
+        f"Unknown ({state})"
+    )
+
+
+
+def working_mode(value):
+
+    """
+    Convert:
+
+    1 -> Self-consumed Prioritized
+    4 -> Real-time Control
+    5 -> Charge/Discharge Schedule
+
+    """
+
+    mode = safe_int(value)
+
+    return WORKING_MODE_MAP.get(
+        mode,
+        f"Unknown ({mode})"
+    )
+
+
+# ==========================================================
+# SELECTOR HANDLING
 # ==========================================================
 
 
@@ -117,51 +216,15 @@ def level_to_working_mode(level):
     )
 
 
-
 # ==========================================================
-# DEBUG LOGGING
-# ==========================================================
-
-
-DEBUG = False
-
-
-
-def set_debug(enabled):
-
-    global DEBUG
-
-    DEBUG = enabled
-
-
-
-def log_debug(message):
-
-    if DEBUG:
-
-        Domoticz.Log(
-            f"INDEVOLT DEBUG: {message}"
-        )
-
-
-
-def log_error(message):
-
-    Domoticz.Error(
-        f"INDEVOLT ERROR: {message}"
-    )
-
-
-
-# ==========================================================
-# DATA VALIDATION
+# API RESPONSE CHECK
 # ==========================================================
 
 
-def valid_api_response(data):
+def validate_response(data):
 
     """
-    Validate INDEVOLT GetData response.
+    Verify INDEVOLT GetData response.
 
     Expected:
 
@@ -176,7 +239,7 @@ def valid_api_response(data):
     if not isinstance(data, dict):
 
         log_error(
-            f"Invalid API response type: {type(data)}"
+            f"Invalid API response: {type(data)}"
         )
 
         return False
