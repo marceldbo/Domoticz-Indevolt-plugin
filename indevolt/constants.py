@@ -211,7 +211,7 @@ DEVICE_DEFINITIONS = {
         "name": "Grid Input Power",
         "create": {
             "Type": 243,
-            "Subtype", 29,
+            "Subtype": 29,
             "Used": 1,
         },
     },
@@ -222,7 +222,7 @@ DEVICE_DEFINITIONS = {
         "name": "Grid Output Power",
         "create": {
             "Type": 243,
-            "Subtype", 29,
+            "Subtype": 29,
             "Used": 1,
         },
     },
