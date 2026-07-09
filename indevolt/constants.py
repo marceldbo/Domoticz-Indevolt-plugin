@@ -5,15 +5,13 @@ Constants and device definitions
 Version 2.0.0
 """
 
-
 # ==========================================================
-# INDEVOLT REGISTER DEFINITIONS
+# INDEVOLT REGISTER TAGS
 # ==========================================================
 
 TAG_SERIAL_NUMBER = "0"
 
 TAG_WORKING_MODE = "7101"
-
 TAG_BATTERY_POWER = "6000"
 TAG_CHARGING_STATE = "6001"
 TAG_BATTERY_SOC = "6002"
@@ -55,57 +53,44 @@ SET_WORKING_MODE = 47005
 # ==========================================================
 
 CHARGING_STATE_MAP = {
-
     1000: "Static",
     1001: "Charging",
     1002: "Discharging",
-
 }
 
 
 WORKING_MODE_MAP = {
-
     1: "Self-consumed Prioritized",
     4: "Real-time Control",
     5: "Charge/Discharge Schedule",
-
 }
 
 
-# Domoticz Selector levels
-
 WORKING_MODE_LEVELS = {
-
     1: 10,
     4: 20,
     5: 30,
-
 }
 
 
-# Reverse selector mapping
-
 LEVEL_TO_WORKING_MODE = {
-
     10: 1,
     20: 4,
     30: 5,
-
 }
 
 
 # ==========================================================
-# POLLING LIST
+# API POLLING LIST
 # ==========================================================
 
 POLL_TAGS = [
-
     TAG_SERIAL_NUMBER,
 
     TAG_WORKING_MODE,
+    TAG_CHARGING_STATE,
 
     TAG_BATTERY_POWER,
-    TAG_CHARGING_STATE,
     TAG_BATTERY_SOC,
 
     TAG_TOTAL_INPUT_POWER,
@@ -131,17 +116,18 @@ POLL_TAGS = [
     TAG_GRID_FREQUENCY,
 
     TAG_BATTERY_TEMPERATURE,
-
 ]
 
 
 # ==========================================================
-# DOMOTICZ DEVICE DEFINITIONS
-# ==========================================================
+# DEVICE DEFINITIONS
 #
-# Domoticz Unit numbers are fixed.
+# Each entry:
 #
-# These are the units users will see.
+# tag:
+#   unit       = Domoticz device unit
+#   name       = device name
+#   create     = exact Domoticz.Device parameters
 #
 # ==========================================================
 
@@ -150,188 +136,234 @@ DEVICE_DEFINITIONS = {
 
 
     TAG_SERIAL_NUMBER: {
-
         "unit": 1,
         "name": "Indevolt Serial Number",
-        "type": "text",
-
+        "create": {
+            "Type": 243,
+            "Subtype": 19,
+            "Used": 1,
+        },
     },
 
 
     TAG_WORKING_MODE: {
-
         "unit": 2,
         "name": "Working Mode",
-        "type": "selector",
-
+        "create": {
+            "TypeName": "Selector Switch",
+            "Used": 1,
+        },
     },
 
 
     TAG_CHARGING_STATE: {
-
         "unit": 3,
         "name": "Charging State",
-        "type": "text",
-
+        "create": {
+            "Type": 243,
+            "Subtype": 19,
+            "Used": 1,
+        },
     },
 
 
     TAG_BATTERY_POWER: {
-
         "unit": 4,
         "name": "Battery Power",
-        "type": "usage",
-
+        "create": {
+            "TypeName": "Usage",
+            "Used": 1,
+        },
     },
 
 
     TAG_BATTERY_SOC: {
-
         "unit": 5,
         "name": "Battery SOC",
-        "type": "percentage",
-
+        "create": {
+            "Type": 243,
+            "Subtype": 6,
+            "Used": 1,
+        },
     },
 
 
     TAG_TOTAL_INPUT_POWER: {
-
         "unit": 6,
         "name": "Grid Input Power",
-        "type": "usage",
-
+        "create": {
+            "TypeName": "Usage",
+            "Used": 1,
+        },
     },
 
 
     TAG_TOTAL_OUTPUT_POWER: {
-
         "unit": 7,
         "name": "Grid Output Power",
-        "type": "usage",
-
+        "create": {
+            "TypeName": "Usage",
+            "Used": 1,
+        },
     },
 
 
     TAG_TOTAL_INPUT_ENERGY: {
-
         "unit": 8,
         "name": "Total Input Energy",
-        "type": "energy",
-
+        "create": {
+            "TypeName": "Energy",
+            "Used": 1,
+        },
     },
 
 
     TAG_TOTAL_OUTPUT_ENERGY: {
-
         "unit": 9,
         "name": "Total Output Energy",
-        "type": "energy",
-
+        "create": {
+            "TypeName": "Energy",
+            "Used": 1,
+        },
     },
 
 
     TAG_DAILY_CHARGE: {
-
         "unit": 10,
         "name": "Battery Daily Charge",
-        "type": "custom",
-        "unit": "kWh",
-
+        "custom_unit": "kWh",
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
+            "Used": 1,
+        },
     },
 
 
     TAG_DAILY_DISCHARGE: {
-
         "unit": 11,
         "name": "Battery Daily Discharge",
-        "type": "custom",
-        "unit": "kWh",
-
+        "custom_unit": "kWh",
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
+            "Used": 1,
+        },
     },
 
 
     TAG_TOTAL_CHARGE: {
-
         "unit": 12,
         "name": "Battery Total Charge",
-        "type": "custom",
-        "unit": "kWh",
-
+        "custom_unit": "kWh",
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
+            "Used": 1,
+        },
     },
 
 
     TAG_TOTAL_DISCHARGE: {
-
         "unit": 13,
         "name": "Battery Total Discharge",
-        "type": "custom",
-        "unit": "kWh",
-
+        "custom_unit": "kWh",
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
+            "Used": 1,
+        },
     },
 
 
     TAG_BACKUP_SOC: {
-
         "unit": 14,
         "name": "Backup SOC",
-        "type": "percentage",
-
+        "create": {
+            "Type": 243,
+            "Subtype": 6,
+            "Used": 1,
+        },
     },
 
 
     TAG_RATED_CAPACITY: {
-
         "unit": 15,
         "name": "Rated Capacity",
-        "type": "custom",
-        "unit": "kWh",
-
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
+            "Used": 1,
+        },
     },
 
 
     TAG_BYPASS_ENABLE: {
-
         "unit": 16,
         "name": "Bypass Enabled",
-        "type": "switch",
-
+        "create": {
+            "TypeName": "Switch",
+            "Used": 1,
+        },
     },
 
 
     TAG_BYPASS_POWER: {
-
         "unit": 17,
         "name": "Bypass Power",
-        "type": "usage",
-
+        "create": {
+            "TypeName": "Usage",
+            "Used": 1,
+        },
     },
 
 
     TAG_GRID_VOLTAGE: {
-
         "unit": 18,
         "name": "Grid Voltage",
-        "type": "voltage",
-
+        "create": {
+            "TypeName": "Voltage",
+            "Used": 1,
+        },
     },
 
 
     TAG_GRID_FREQUENCY: {
-
         "unit": 19,
         "name": "Grid Frequency",
-        "type": "custom",
-        "unit": "Hz",
-
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;Hz",
+            },
+            "Used": 1,
+        },
     },
 
 
     TAG_BATTERY_TEMPERATURE: {
-
         "unit": 20,
         "name": "Battery Temperature",
-        "type": "temperature",
-
+        "create": {
+            "TypeName": "Temperature",
+            "Used": 1,
+        },
     },
 
 }
