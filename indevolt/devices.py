@@ -81,7 +81,7 @@ class DeviceManager:
                     params["Options"] = {
 
                         "LevelNames":
-                        "Setting|"
+                        "|"
                         "Self-consumed Prioritized|"
                         "Real-time Control|"
                         "Charge/Discharge Schedule",
