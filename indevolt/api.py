@@ -1,127 +1,311 @@
-import requests
+"""
+INDEVOLT Domoticz Plugin
+Local OpenData API
+
+Version 2.0.0
+"""
+
 import json
 import urllib.parse
-import Domoticz
+
+import requests
+
+
+from .constants import (
+    POLL_TAGS,
+    SET_WORKING_MODE,
+)
+
+
+from .helpers import (
+    log_debug,
+    log_error,
+    validate_response,
+)
+
 
 
 class IndevoltAPI:
 
-    def __init__(self, host, username="", password=""):
-        self.base_url = f"http://{host}:8080"
+
+    def __init__(
+        self,
+        host,
+        port=8080,
+        debug=False
+    ):
+
+        self.host = host
+        self.port = int(port)
+
+        self.base_url = (
+            f"http://{self.host}:{self.port}"
+        )
+
+        self.timeout = 10
+
+
         self.session = requests.Session()
-        self.auth = (username, password) if username else None
 
-    def _rpc_get(self, tags):
-        """
-        tags = [1664, 1665, ...]
-        """
 
-        config = {
-            "t": tags
+        from .helpers import set_debug
+
+        set_debug(debug)
+
+
+        log_debug(
+            f"API initialized: {self.base_url}"
+        )
+
+
+
+    # ======================================================
+    # GET DATA
+    # ======================================================
+
+    def get_data(self):
+
+        """
+        Read INDEVOLT data.
+
+        Example:
+
+        /rpc/Indevolt.GetData?
+        config={"t":[6000,6001,7101]}
+
+        Returns:
+
+        {
+            "6000":0,
+            "6001":1000,
+            "7101":1
         }
 
-        encoded = urllib.parse.quote(json.dumps(config))
-
-        url = f"{self.base_url}/rpc/Indevolt.GetData?config={encoded}"
-
-        r = self.session.get(url, auth=self.auth, timeout=10)
-        r.raise_for_status()
-
-        return r.json()
-
-    def get_system_data(self):
         """
-        Central data fetch using cJSON tags.
-        """
+
 
         try:
-            # 🔥 CORE ENERGY TAG SET (adjustable if needed)
-            tags = [
-                0,     # Indevolt SN
-                7101,  # Indevolt Working Mode
-                6000,  # Indevolt Battery Power (W) 
-                6001,  # Indevolt Battery Charging State
-                6002,  # Indevolt Battery SOC (%)
-                2101,  # Indevolt Total Input Power (W)
-                2108,  # Indevolt Total Output Power (W)
-                2107,  # Indevolt Total Input Energy (kWh)
-                2104,  # Indevolt Total Output Energy (kWh)
-                6004,  # Indevolt Battery Daily Charge (kWh)
-                6005,  # Indevolt Battery Daily Discharge (kWh)
-                6006,  # Indevolt Battery Total Charge (kWh)
-                6007,  # Indevolt Battery Total Discharge (kWh)
-                6105,  # Indevolt Backup SOC (%)
-                142,   # Indevolt Rated Capacity (kWh)
-                680,   # Indevolt Bypass Mode
-                667,   # Indevolt Bypass Power (W)
-                2600,  # Indevolt Grid Voltage (V)
-                2612,  # Indevolt Grid Fequency (Hz)
-                9012,  # Indevolt Battery Temp (C)
-                7265,  # Indevolt Light Mode Setting
-                47005, # Indevolt Working Mode Setting
-                47015, # Indevolt Working Mode State Setting
-            ]
-            
-            data = self._rpc_get(tags)
 
-            return self._normalize(data)
 
-        except Exception as e:
-            Domoticz.Error(f"Indevolt RPC error: {e}")
+            config = {
+
+                "t": POLL_TAGS
+
+            }
+
+
+            json_config = json.dumps(
+                config,
+                separators=(
+                    ",",
+                    ":"
+                )
+            )
+
+
+            encoded_config = urllib.parse.quote(
+                json_config,
+                safe=""
+            )
+
+
+            url = (
+                f"{self.base_url}"
+                "/rpc/Indevolt.GetData"
+                f"?config={encoded_config}"
+            )
+
+
+            log_debug(
+                f"GET {url}"
+            )
+
+
+            response = self.session.get(
+
+                url,
+
+                timeout=self.timeout
+
+            )
+
+
+            response.raise_for_status()
+
+
+            data = response.json()
+
+
+            log_debug(
+                f"GetData result: {data}"
+            )
+
+
+            if validate_response(data):
+
+                return data
+
+
             return {}
 
-    def _normalize(self, raw):
-        """
-        Convert Indevolt RPC response into flat dict
-        """
 
-        result = {}
-
-        try:
-            # Expected structure varies slightly by firmware
-            # so we defensively parse it
-
-            if isinstance(raw, dict):
-                for k, v in raw.items():
-                    if isinstance(v, (int, float, str)):
-                        result[k] = v
-
-                    elif isinstance(v, dict):
-                        # flatten nested
-                        for k2, v2 in v.items():
-                            result[k2] = v2
 
         except Exception as e:
-            Domoticz.Error(f"Normalization error: {e}")
 
-        return result
-        
-    def set_working_mode(self, mode):
+
+            log_error(
+                f"GetData failed: {e}"
+            )
+
+            return {}
+
+
+
+    # ======================================================
+    # SET DATA
+    # ======================================================
+
+    def set_data(
+        self,
+        function,
+        tag,
+        values
+    ):
+
         """
-        mode:
-            1 = Self-consumed Prioritized
-            4 = Real-time Control
-            5 = Charge/Discharge Schedule
-        """
-    
-        payload = {
-            "f": 16,
-            "t": 47005,
-            "v": [int(mode)]
+        Generic SetData command.
+
+        Example:
+
+        {
+          "f":16,
+          "t":47005,
+          "v":[1]
         }
-    
-        url = (
-            f"{self.base_url}/rpc/Indevolt.SetData"
-            f"?config={urllib.parse.quote(json.dumps(payload))}"
-        )
-    
+
+        """
+
+
         try:
-            r = self.session.post(url, timeout=10)
-            r.raise_for_status()
-    
-            Domoticz.Log(f"Working mode set: {mode} -> {r.text}")
-            return True
-    
+
+
+            if not isinstance(
+                values,
+                list
+            ):
+
+                values = [
+                    values
+                ]
+
+
+            config = {
+
+                "f": int(function),
+
+                "t": int(tag),
+
+                "v": values
+
+            }
+
+
+            json_config = json.dumps(
+                config,
+                separators=(
+                    ",",
+                    ":"
+                )
+            )
+
+
+            encoded_config = urllib.parse.quote(
+                json_config,
+                safe=""
+            )
+
+
+            url = (
+                f"{self.base_url}"
+                "/rpc/Indevolt.SetData"
+                f"?config={encoded_config}"
+            )
+
+
+            log_debug(
+                f"POST {config}"
+            )
+
+
+            response = self.session.post(
+
+                url,
+
+                headers={
+                    "Content-Type":
+                    "application/json"
+                },
+
+                timeout=self.timeout
+
+            )
+
+
+            response.raise_for_status()
+
+
+            result = response.json()
+
+
+            log_debug(
+                f"SetData result: {result}"
+            )
+
+
+            return result
+
+
+
         except Exception as e:
-            Domoticz.Error(f"SetWorkingMode failed: {e}")
-            return False
+
+
+            log_error(
+                f"SetData failed: {e}"
+            )
+
+            return None
+
+
+
+    # ======================================================
+    # WORKING MODE COMMAND
+    # ======================================================
+
+    def set_working_mode(
+        self,
+        mode
+    ):
+
+        """
+        Set INDEVOLT working mode.
+
+        Supported:
+
+        1 = Self-consumed Prioritized
+        4 = Real-time Control
+        5 = Charge/Discharge Schedule
+
+        """
+
+
+        return self.set_data(
+
+            function=16,
+
+            tag=SET_WORKING_MODE,
+
+            values=[
+                int(mode)
+            ]
+
+        )
