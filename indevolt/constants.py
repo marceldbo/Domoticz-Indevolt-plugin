@@ -155,7 +155,7 @@ DEVICE_DEFINITIONS = {
             "Switchtype": 18,
             "Options": {
                 "LevelNames":
-                "Setting|"
+                "|"
                 "Self-consumed Prioritized|"
                 "Real-time Control|"
                 "Charge/Discharge Schedule",
