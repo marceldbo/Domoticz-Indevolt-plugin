@@ -81,17 +81,16 @@ class DeviceManager:
                     params["Options"] = {
 
                         "LevelNames":
-                        "|"
+                        "Setting|"
                         "Self-consumed Prioritized|"
                         "Real-time Control|"
                         "Charge/Discharge Schedule",
 
                         "LevelActions":
-                        "|1|4|5",
+                        "|10|20|30",
                         
                         "LevelOffHidden": "True",
-                        "SelectorStyle":
-                        "1",
+                        "SelectorStyle": "1",
 
                     }
 
@@ -169,7 +168,8 @@ class DeviceManager:
 
                     mode = safe_int(value)
 
-
+                    level = WORKING_MODE_LEVELS.get(mode, 0)
+                    
                     self.Devices[unit].Update(
 
                         nValue=1,   # Keeps the switch in active state. No additional 
@@ -178,9 +178,7 @@ class DeviceManager:
                         sValue=
                         working_mode(mode),
 
-                        Level=
-                        working_mode_to_level(
-                            mode
+                        Level=level
                         )
 
                     )
