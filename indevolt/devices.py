@@ -81,13 +81,15 @@ class DeviceManager:
                     params["Options"] = {
 
                         "LevelNames":
+                        "Setting|"
                         "Self-consumed Prioritized|"
                         "Real-time Control|"
                         "Charge/Discharge Schedule",
 
                         "LevelActions":
-                        "1|4|5",
-
+                        "|1|4|5",
+                        
+                        "LevelOffHidden": "True",
                         "SelectorStyle":
                         "1",
 
