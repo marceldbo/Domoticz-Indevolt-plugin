@@ -210,7 +210,6 @@ DEVICE_DEFINITIONS = {
     TAG_TOTAL_AC_INPUT_POWER: {
         "unit": 6,
         "name": "Total AC Input Power",
-        "custom_unit": "W",
         "create": {
             "Type": 243,
             "Subtype": 31,
@@ -225,7 +224,6 @@ DEVICE_DEFINITIONS = {
     TAG_TOTAL_AC_OUTPUT_POWER: {
         "unit": 7,
         "name": "Total AC Output Power",
-        "custom_unit": "W",
         "create": {
             "Type": 243,
             "Subtype": 31,
