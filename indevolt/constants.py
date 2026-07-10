@@ -169,7 +169,7 @@ DEVICE_DEFINITIONS = {
                 "SelectorStyle":
                 "1"
             },
-            "Used": 1
+            "Used": 1,
         },
 
     },
