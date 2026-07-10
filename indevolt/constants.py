@@ -169,7 +169,7 @@ DEVICE_DEFINITIONS = {
                 "1"
             },
             "Used": 1
-        }
+        },
 
     },
         
