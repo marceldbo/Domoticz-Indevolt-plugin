@@ -164,7 +164,7 @@ class DeviceManager:
                 # Working Mode
                 # ----------------------------------
 
-                if tag == "7101":
+                if tag == 7101:
 
 
                     mode = safe_int(value)
@@ -194,7 +194,7 @@ class DeviceManager:
                 # Charging State
                 # ----------------------------------
 
-                if tag == "6001":
+                if tag == 6001:
 
 
                     state = safe_int(value)
@@ -220,7 +220,7 @@ class DeviceManager:
                 # Switch
                 # ----------------------------------
 
-                if tag == "680":
+                if tag == 680:
 
 
                     enabled = (
