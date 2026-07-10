@@ -86,7 +86,7 @@ class DeviceManager:
                         "Charge/Discharge Schedule",
 
                         "LevelActions":
-                        "|||",
+                        "1|4|5",
 
                         "SelectorStyle":
                         "1",
