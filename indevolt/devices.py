@@ -138,7 +138,7 @@ class DeviceManager:
         for tag, definition in DEVICE_DEFINITIONS.items():
 
 
-            if tag not in data:
+            if str(tag) not in data:
 
                 continue
 
@@ -156,7 +156,7 @@ class DeviceManager:
             try:
 
 
-                value = data[tag]
+                value = data[str(tag)]
 
 
 
