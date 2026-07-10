@@ -175,9 +175,7 @@ class DeviceManager:
                         nValue=1,   # Keeps the switch in active state. No additional 
                                     # "On" action needed after selection change
 
-                        sValue=working_mode(mode),
-
-                        Level=level
+                        sValue=str(level),
                         
                     )
 
