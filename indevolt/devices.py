@@ -76,7 +76,7 @@ class DeviceManager:
 
 
                 # Selector needs options
-                if tag == "7101":
+                if tag == 7101:
 
                     params["Options"] = {
 
