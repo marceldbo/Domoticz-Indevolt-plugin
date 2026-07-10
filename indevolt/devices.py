@@ -178,8 +178,7 @@ class DeviceManager:
                         sValue=working_mode(mode),
 
                         Level=level
-                        )
-
+                        
                     )
 
 
