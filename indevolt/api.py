@@ -14,6 +14,7 @@ import requests
 from .constants import (
     POLL_TAGS,
     SET_WORKING_MODE,
+    SET_CHARGING_STATE,
 )
 
 
