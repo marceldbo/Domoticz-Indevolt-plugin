@@ -148,7 +148,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_WORKING_MODE: {
         "unit": 2,
-        "name": "Working Mode",
+        "name": "Mode",
         "create": {
             "Type": 244,
             "Subtype": 62,
