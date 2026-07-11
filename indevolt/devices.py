@@ -9,6 +9,7 @@ import Domoticz
 
 from .constants import (
     DEVICE_DEFINITIONS,
+    WORKING_MODE_LEVELS,
 )
 
 from .helpers import (
