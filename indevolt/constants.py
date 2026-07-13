@@ -240,7 +240,7 @@ DEVICE_DEFINITIONS = {
        # "custom_unit": "kWh",
         "create": {
        #     "Type": 243,
-            "TypeName": kWh",
+            "TypeName": "kWh",
        #     "Subtype": 31,
        #     "Options": {
        #         "Custom": "1;kWh",
