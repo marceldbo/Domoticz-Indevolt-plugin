@@ -394,9 +394,8 @@ DEVICE_DEFINITIONS = {
             "Used": 1,
         },
     },
-
     
-    TAG_BYPASS_ENABLE: {
+    TAG_LIGHT_ENABLE: {
         "unit": 21,
         "name": "Light Enabled",
         "create": {
