@@ -46,7 +46,8 @@ TAG_BATTERY_TEMPERATURE = 9012
 # ==========================================================
 
 SET_WORKING_MODE = 47005
-
+SET_CHARGING_STATE = 47015
+SET_BYPASS_ENABLE = 7266
 
 # ==========================================================
 # DECODING TABLES
@@ -58,6 +59,17 @@ CHARGING_STATE_MAP = {
     1002: "Discharging",
 }
 
+CHARGING_STATE_LEVELS = {
+    0: 10,
+    1: 20,
+    2: 30,
+}
+
+LEVEL_TO_CHARGING_STATE = {
+    10: 0,
+    20: 1,
+    30: 2,
+}
 
 WORKING_MODE_MAP = {
     1: "Self-consumed Prioritized",
@@ -65,20 +77,17 @@ WORKING_MODE_MAP = {
     5: "Charge/Discharge Schedule",
 }
 
-
 WORKING_MODE_LEVELS = {
     1: 10,
     4: 20,
     5: 30,
 }
 
-
 LEVEL_TO_WORKING_MODE = {
     10: 1,
     20: 4,
     30: 5,
 }
-
 
 # ==========================================================
 # API POLLING LIST
@@ -148,7 +157,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_WORKING_MODE: {
         "unit": 2,
-        "name": "Working Mode",
+        "name": "Mode",
         "create": {
             "Type": 244,
             "Subtype": 62,

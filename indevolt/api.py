@@ -14,6 +14,8 @@ import requests
 from .constants import (
     POLL_TAGS,
     SET_WORKING_MODE,
+    SET_BYPASS_ENABLE,
+    SET_CHARGING_STATE,
 )
 
 
@@ -308,4 +310,25 @@ class IndevoltAPI:
                 int(mode)
             ]
 
+        )
+
+    # ======================================================
+    # SET BYPASS ENABLE/DISABLE COMMAND
+    # ======================================================
+
+        
+    def set_bypass(self, enabled):
+        """
+        Enable or disable Bypass.
+    
+        True  -> 1
+        False -> 0
+        """
+    
+        value = 1 if enabled else 0
+    
+        return self.set_data(
+            function=16,
+            tag=SET_BYPASS_ENABLE,
+            values=[value]
         )
