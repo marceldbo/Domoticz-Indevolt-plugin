@@ -303,43 +303,28 @@ class DeviceManager:
     # COMMAND HANDLING
     # ======================================================
 
-    def handle_command(
-        self,
-        unit,
-        command,
-        level
-    ):
+    def handle_command(self, unit, command, level):
 
+    # Working Mode selector
+    if unit == 2:
 
-        # Working mode selector
+        mode = level_to_working_mode(level)
 
-        if unit != 2:
+        if mode is not None:
+            result = self.api.set_working_mode(mode)
+            log_debug(f"Working Mode changed to {mode}: {result}")
 
-            return
+        return
 
+    # Bypass switch
+    if unit == 16:
 
+        enabled = (command == "On")
 
-        mode = (
-            level_to_working_mode(
-                level
-            )
-        )
-
-
-        if mode is None:
-
-            return
-
-
-
-        result = (
-            self.api
-            .set_working_mode(
-                mode
-            )
-        )
-
+        result = self.api.set_bypass(enabled)
 
         log_debug(
-            f"Working mode changed: {result}"
+            f"Bypass {'enabled' if enabled else 'disabled'}: {result}"
         )
+
+        return
