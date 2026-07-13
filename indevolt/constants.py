@@ -56,24 +56,6 @@ SET_LIGHT_ENABLE = 7265
 # DECODING TABLES
 # ==========================================================
 
-CHARGING_STATE_MAP = {
-    1000: "Static",
-    1001: "Charging",
-    1002: "Discharging",
-}
-
-CHARGING_STATE_LEVELS = {
-    0: 10,
-    1: 20,
-    2: 30,
-}
-
-LEVEL_TO_CHARGING_STATE = {
-    10: 0,
-    20: 1,
-    30: 2,
-}
-
 WORKING_MODE_MAP = {
     1: "Self-consumed Prioritized",
     4: "Real-time Control",
@@ -90,6 +72,24 @@ LEVEL_TO_WORKING_MODE = {
     10: 1,
     20: 4,
     30: 5,
+}
+
+CHARGING_STATE_MAP = {
+    1000: "Static",
+    1001: "Charging",
+    1002: "Discharging",
+}
+
+CHARGING_STATE_LEVELS = {
+    0: 10,
+    1: 20,
+    2: 30,
+}
+
+LEVEL_TO_CHARGING_STATE = {
+    10: 0,
+    20: 1,
+    30: 2,
 }
 
 # ==========================================================
