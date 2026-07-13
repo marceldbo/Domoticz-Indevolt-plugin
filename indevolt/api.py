@@ -10,14 +10,13 @@ import urllib.parse
 
 import requests
 
-
 from .constants import (
     POLL_TAGS,
     SET_WORKING_MODE,
-    SET_BYPASS_ENABLE,
     SET_CHARGING_STATE,
+    SET_BYPASS_ENABLE,
+    SET_LIGHT_ENABLE,
 )
-
 
 from .helpers import (
     log_debug,
@@ -25,10 +24,7 @@ from .helpers import (
     validate_response,
 )
 
-
-
 class IndevoltAPI:
-
 
     def __init__(
         self,
@@ -46,7 +42,6 @@ class IndevoltAPI:
 
         self.timeout = 10
 
-
         self.session = requests.Session()
 
 
@@ -58,8 +53,6 @@ class IndevoltAPI:
         log_debug(
             f"API initialized: {self.base_url}"
         )
-
-
 
     # ======================================================
     # GET DATA
@@ -85,16 +78,13 @@ class IndevoltAPI:
 
         """
 
-
         try:
-
 
             config = {
 
                 "t": POLL_TAGS
 
             }
-
 
             json_config = json.dumps(
                 config,
@@ -104,12 +94,10 @@ class IndevoltAPI:
                 )
             )
 
-
             encoded_config = urllib.parse.quote(
                 json_config,
                 safe=""
             )
-
 
             url = (
                 f"{self.base_url}"
@@ -117,11 +105,9 @@ class IndevoltAPI:
                 f"?config={encoded_config}"
             )
 
-
             log_debug(
                 f"GET {url}"
             )
-
 
             response = self.session.get(
 
@@ -131,26 +117,19 @@ class IndevoltAPI:
 
             )
 
-
             response.raise_for_status()
 
-
             data = response.json()
-
 
             log_debug(
                 f"GetData result: {data}"
             )
 
-
             if validate_response(data):
 
                 return data
 
-
             return {}
-
-
 
         except Exception as e:
 
@@ -187,9 +166,7 @@ class IndevoltAPI:
 
         """
 
-
         try:
-
 
             if not isinstance(
                 values,
@@ -199,7 +176,6 @@ class IndevoltAPI:
                 values = [
                     values
                 ]
-
 
             config = {
 
@@ -211,7 +187,6 @@ class IndevoltAPI:
 
             }
 
-
             json_config = json.dumps(
                 config,
                 separators=(
@@ -220,12 +195,10 @@ class IndevoltAPI:
                 )
             )
 
-
             encoded_config = urllib.parse.quote(
                 json_config,
                 safe=""
             )
-
 
             url = (
                 f"{self.base_url}"
@@ -233,11 +206,9 @@ class IndevoltAPI:
                 f"?config={encoded_config}"
             )
 
-
             log_debug(
                 f"POST {config}"
             )
-
 
             response = self.session.post(
 
@@ -252,21 +223,15 @@ class IndevoltAPI:
 
             )
 
-
             response.raise_for_status()
 
-
             result = response.json()
-
 
             log_debug(
                 f"SetData result: {result}"
             )
 
-
             return result
-
-
 
         except Exception as e:
 
@@ -276,8 +241,6 @@ class IndevoltAPI:
             )
 
             return None
-
-
 
     # ======================================================
     # WORKING MODE COMMAND
@@ -299,7 +262,6 @@ class IndevoltAPI:
 
         """
 
-
         return self.set_data(
 
             function=16,
@@ -315,7 +277,6 @@ class IndevoltAPI:
     # ======================================================
     # SET BYPASS ENABLE/DISABLE COMMAND
     # ======================================================
-
         
     def set_bypass(self, enabled):
         """
@@ -330,5 +291,25 @@ class IndevoltAPI:
         return self.set_data(
             function=16,
             tag=SET_BYPASS_ENABLE,
+            values=[value]
+        )
+
+    # ======================================================
+    # SET LIGHT ENABLE/DISABLE COMMAND
+    # ======================================================
+        
+    def set_bypass(self, enabled):
+        """
+        Enable or disable Light.
+    
+        True  -> 1
+        False -> 0
+        """
+    
+        value = 1 if enabled else 0
+    
+        return self.set_data(
+            function=16,
+            tag=SET_LIGHT_ENABLE,
             values=[value]
         )
