@@ -47,6 +47,7 @@ TAG_BATTERY_TEMPERATURE = 9012
 
 SET_WORKING_MODE = 47005
 SET_CHARGING_STATE = 47015
+SET_BYPASS_ENABLE = 7266
 
 # ==========================================================
 # DECODING TABLES
