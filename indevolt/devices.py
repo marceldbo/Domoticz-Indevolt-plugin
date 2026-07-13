@@ -47,34 +47,26 @@ class DeviceManager:
 
     def create_devices(self):
 
-
         for tag, definition in DEVICE_DEFINITIONS.items():
 
-
             unit = definition["unit"]
-
 
             if unit in self.Devices:
 
                 continue
 
-
             try:
-
 
                 params = (
                     definition["create"]
                     .copy()
                 )
 
-
                 params["Name"] = (
                     definition["name"]
                 )
 
-
                 params["Unit"] = unit
-
 
                 # Selector needs options
                 if tag == 7101:
@@ -95,23 +87,17 @@ class DeviceManager:
 
                     }
 
-
-
                 device = Domoticz.Device(
                     **params
                 )
 
-
                 device.Create()
-
 
                 log_debug(
                     f"Created {definition['name']}"
                 )
 
-
             except Exception as e:
-
 
                 log_error(
                     f"Create {definition['name']} failed: {e}"
@@ -128,21 +114,15 @@ class DeviceManager:
         data
     ):
 
-
         if not isinstance(data, dict):
 
             return
 
-
-
         for tag, definition in DEVICE_DEFINITIONS.items():
-
 
             if str(tag) not in data:
 
                 continue
-
-
 
             unit = definition["unit"]
 
@@ -151,21 +131,16 @@ class DeviceManager:
 
                 continue
 
-
-
             try:
 
 
                 value = data[str(tag)]
-
-
 
                 # ----------------------------------
                 # Working Mode
                 # ----------------------------------
 
                 if tag == 7101:
-
 
                     mode = safe_int(value)
 
@@ -180,10 +155,7 @@ class DeviceManager:
                         
                     )
 
-
                     continue
-
-
 
                 # ----------------------------------
                 # Charging State
@@ -191,9 +163,7 @@ class DeviceManager:
 
                 if tag == 6001:
 
-
                     state = safe_int(value)
-
 
                     self.Devices[unit].Update(
 
@@ -206,10 +176,7 @@ class DeviceManager:
 
                     )
 
-
                     continue
-
-
 
                 # ----------------------------------
                 # Switch
@@ -217,29 +184,17 @@ class DeviceManager:
 
                 if tag == 680:
 
-
-                    enabled = (
-                        1
-                        if safe_int(value)
-                        else 0
-                    )
-
+                    enabled = safe_int(value) == 1
 
                     self.Devices[unit].Update(
 
-                        nValue=enabled,
+                        nValue=1 if enabled else 0,
 
-                        sValue=
-                        "On"
-                        if enabled
-                        else "Off"
+                        sValue="On" if enabled else "Off"
 
                     )
 
-
                     continue
-
-
 
                 # ----------------------------------
                 # Text device
@@ -248,7 +203,6 @@ class DeviceManager:
                 if definition["create"].get(
                     "Subtype"
                 ) == 19:
-
 
                     self.Devices[unit].Update(
 
@@ -259,10 +213,7 @@ class DeviceManager:
 
                     )
 
-
                     continue
-
-
 
                 # ----------------------------------
                 # Numeric devices
@@ -271,7 +222,6 @@ class DeviceManager:
                 number = safe_float(
                     value
                 )
-
 
                 self.Devices[unit].Update(
 
@@ -284,20 +234,15 @@ class DeviceManager:
 
                 )
 
-
                 log_debug(
                     f"{tag}={number}"
                 )
 
-
             except Exception as e:
-
 
                 log_error(
                     f"Update {tag} failed: {e}"
                 )
-
-
 
     # ======================================================
     # COMMAND HANDLING
