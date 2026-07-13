@@ -239,9 +239,8 @@ DEVICE_DEFINITIONS = {
         "name": "Total Input Energy",
        # "custom_unit": "kWh",
         "create": {
-       #     "Type": 243,
-            "TypeName": "kWh",
-       #     "Subtype": 31,
+            "Type": 243,
+            "Subtype": 31,
        #     "Options": {
        #         "Custom": "1;kWh",
        #     },
