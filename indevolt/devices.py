@@ -179,10 +179,10 @@ class DeviceManager:
                     continue
 
                 # ----------------------------------
-                # Switch
+                # Switches
                 # ----------------------------------
 
-                if tag == 680:
+                if tag in {680, 7171}:
 
                     enabled = safe_int(value) == 1
 
@@ -270,6 +270,19 @@ class DeviceManager:
     
             log_debug(
                 f"Bypass {'enabled' if enabled else 'disabled'}: {result}"
+            )
+    
+            return
+        
+        # Light switch
+        if unit == 21:
+    
+            enabled = (command == "On")
+    
+            result = self.api.set_light(enabled)
+    
+            log_debug(
+                f"Light {'enabled' if enabled else 'disabled'}: {result}"
             )
     
             return

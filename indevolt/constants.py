@@ -39,6 +39,7 @@ TAG_GRID_VOLTAGE = 2600
 TAG_GRID_FREQUENCY = 2612
 
 TAG_BATTERY_TEMPERATURE = 9012
+TAG_LIGHT_ENABLE = 7171
 
 
 # ==========================================================
@@ -48,6 +49,7 @@ TAG_BATTERY_TEMPERATURE = 9012
 SET_WORKING_MODE = 47005
 SET_CHARGING_STATE = 47015
 SET_BYPASS_ENABLE = 7266
+SET_LIGHT_ENABLE = 7265
 
 # ==========================================================
 # DECODING TABLES
@@ -125,6 +127,7 @@ POLL_TAGS = [
     TAG_GRID_FREQUENCY,
 
     TAG_BATTERY_TEMPERATURE,
+    TAG_LIGHT_ENABLE,
 ]
 
 
@@ -143,7 +146,6 @@ POLL_TAGS = [
 
 DEVICE_DEFINITIONS = {
 
-
     TAG_SERIAL_NUMBER: {
         "unit": 1,
         "name": "Serial Number",
@@ -153,7 +155,6 @@ DEVICE_DEFINITIONS = {
             "Used": 1,
         },
     },
-
 
     TAG_WORKING_MODE: {
         "unit": 2,
@@ -193,7 +194,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_BATTERY_POWER: {
         "unit": 4,
         "name": "Battery Power",
@@ -203,7 +203,6 @@ DEVICE_DEFINITIONS = {
             "Used": 1,
         },
     },
-
 
     TAG_BATTERY_SOC: {
         "unit": 5,
@@ -215,7 +214,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_TOTAL_AC_INPUT_POWER: {
         "unit": 6,
         "name": "Total AC Input Power",
@@ -226,7 +224,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_TOTAL_AC_OUTPUT_POWER: {
         "unit": 7,
         "name": "Total AC Output Power",
@@ -236,7 +233,6 @@ DEVICE_DEFINITIONS = {
             "Used": 1,
         },
     },
-
 
     TAG_TOTAL_INPUT_ENERGY: {
         "unit": 8,
@@ -252,7 +248,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_TOTAL_OUTPUT_ENERGY: {
         "unit": 9,
         "name": "Total Output Energy",
@@ -266,7 +261,6 @@ DEVICE_DEFINITIONS = {
             "Used": 1,
         },
     },
-
 
     TAG_DAILY_CHARGE: {
         "unit": 10,
@@ -282,7 +276,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_DAILY_DISCHARGE: {
         "unit": 11,
         "name": "Battery Daily Discharge",
@@ -296,7 +289,6 @@ DEVICE_DEFINITIONS = {
             "Used": 1,
         },
     },
-
 
     TAG_TOTAL_CHARGE: {
         "unit": 12,
@@ -312,7 +304,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_TOTAL_DISCHARGE: {
         "unit": 13,
         "name": "Battery Total Discharge",
@@ -327,7 +318,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_BACKUP_SOC: {
         "unit": 14,
         "name": "Backup SOC",
@@ -337,7 +327,6 @@ DEVICE_DEFINITIONS = {
             "Used": 1,
         },
     },
-
 
     TAG_RATED_CAPACITY: {
         "unit": 15,
@@ -352,7 +341,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_BYPASS_ENABLE: {
         "unit": 16,
         "name": "Bypass Enabled",
@@ -364,7 +352,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_BYPASS_POWER: {
         "unit": 17,
         "name": "Bypass Power",
@@ -375,7 +362,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_GRID_VOLTAGE: {
         "unit": 18,
         "name": "Grid Voltage",
@@ -385,7 +371,6 @@ DEVICE_DEFINITIONS = {
             "Used": 1,
         },
     },
-
 
     TAG_GRID_FREQUENCY: {
         "unit": 19,
@@ -400,7 +385,6 @@ DEVICE_DEFINITIONS = {
         },
     },
 
-
     TAG_BATTERY_TEMPERATURE: {
         "unit": 20,
         "name": "Battery Temperature",
@@ -411,4 +395,15 @@ DEVICE_DEFINITIONS = {
         },
     },
 
+    
+    TAG_BYPASS_ENABLE: {
+        "unit": 21,
+        "name": "Light Enabled",
+        "create": {
+            "Type": 244,
+            "Subtype": 62,
+            "Switchtype": 0,
+            "Used": 1,
+        },
+    },
 }
