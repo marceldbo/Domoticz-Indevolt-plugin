@@ -241,9 +241,9 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 243,
             "Subtype": 31,
-       #     "Options": {
-       #         "Custom": "1;kWh",
-       #     },
+            "Options": {
+                "Custom": "1;kWh",
+            },
             "Used": 1,
         },
     },
