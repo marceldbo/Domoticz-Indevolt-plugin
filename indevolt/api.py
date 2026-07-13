@@ -298,7 +298,7 @@ class IndevoltAPI:
     # SET LIGHT ENABLE/DISABLE COMMAND
     # ======================================================
         
-    def set_bypass(self, enabled):
+    def set_light(self, enabled):
         """
         Enable or disable Light.
     
