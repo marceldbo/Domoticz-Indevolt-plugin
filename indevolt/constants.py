@@ -41,7 +41,6 @@ TAG_GRID_FREQUENCY = 2612
 TAG_BATTERY_TEMPERATURE = 9012
 TAG_LIGHT_ENABLE = 7171
 
-
 # ==========================================================
 # SETDATA REGISTERS
 # ==========================================================
@@ -182,7 +181,7 @@ DEVICE_DEFINITIONS = {
 
     },
         
-    TAG_CHARGING_STATE: {
+   TAG_CHARGING_STATE: {
         "unit": 3,
         "name": "Charging State",
         "create": {
