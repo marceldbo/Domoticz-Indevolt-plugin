@@ -126,10 +126,7 @@ class DeviceManager:
     # UPDATE DEVICES
     # ======================================================
 
-    def update_devices(
-        self,
-        data
-    ):
+    def update_devices(self,data):
 
         if not isinstance(data, dict):
 
@@ -165,7 +162,7 @@ class DeviceManager:
                     
                     self.Devices[unit].Update(
 
-                        nValue=1,   # Keeps the switch in active state. No additional 
+                    	nValue=1,   # Keeps the switch in active state. No additional 
                                     # "On" action needed after selection change
 
                         sValue=str(mode_level),
@@ -182,7 +179,7 @@ class DeviceManager:
 
                     state = safe_int(value)
 
-                    state_level = CHARGING_STATE_LEVELS.get(state, 0)
+                    state_level = CHARGING_STATE_LEVELS.get(state)
 
                     self.Devices[unit].Update(
 
