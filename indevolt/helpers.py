@@ -14,20 +14,16 @@ from .constants import (
     LEVEL_TO_WORKING_MODE,
 )
 
-
 # ==========================================================
 # DEBUG HANDLING
 # ==========================================================
 
 DEBUG = False
 
-
 def set_debug(enabled):
 
     global DEBUG
     DEBUG = bool(enabled)
-
-
 
 def log_debug(message):
 
@@ -37,15 +33,11 @@ def log_debug(message):
             f"INDEVOLT DEBUG: {message}"
         )
 
-
-
 def log_info(message):
 
     Domoticz.Log(
         f"INDEVOLT: {message}"
     )
-
-
 
 def log_error(message):
 
@@ -53,11 +45,9 @@ def log_error(message):
         f"INDEVOLT ERROR: {message}"
     )
 
-
 # ==========================================================
 # SAFE CONVERSIONS
 # ==========================================================
-
 
 def safe_int(value, default=0):
 
@@ -72,8 +62,6 @@ def safe_int(value, default=0):
 
         return default
 
-
-
 def safe_float(value, default=0.0):
 
     try:
@@ -86,8 +74,6 @@ def safe_float(value, default=0.0):
     except Exception:
 
         return default
-
-
 
 def safe_string(value, default=""):
 
@@ -102,11 +88,9 @@ def safe_string(value, default=""):
 
         return default
 
-
 # ==========================================================
 # VALUE FORMATTING
 # ==========================================================
-
 
 def format_value(value, decimals=2):
 
@@ -132,24 +116,20 @@ def format_value(value, decimals=2):
 
         return formatted
 
-
     except Exception:
 
         return str(value)
 
-
-
 # ==========================================================
 # INDEVOLT STATE DECODING
 # ==========================================================
-
 
 def charging_state(value):
 
     """
     Convert:
 
-    1000 -> Static
+    1000 -> Static (Stand-by)
     1001 -> Charging
     1002 -> Discharging
 
@@ -161,8 +141,6 @@ def charging_state(value):
         state,
         f"Unknown ({state})"
     )
-
-
 
 def working_mode(value):
 
@@ -182,11 +160,38 @@ def working_mode(value):
         f"Unknown ({mode})"
     )
 
+# ==========================================================
+# CHARGING STATE SELECTOR HANDLING
+# ==========================================================
+
+def charging_state_to_level(state):
+
+    """
+    INDEVOLT charging state -> Domoticz selector level
+
+    0 -> 10
+    1 -> 20
+    2 -> 30
+    """
+
+    return CHARGING_STATE_LEVELS.get(
+        safe_int(state),
+        0
+    )
+
+def level_to_charging_state(level):
+
+    """
+    Domoticz selector level -> INDEVOLT charging state
+    """
+
+    return LEVEL_TO_CHARGING_STATE.get(
+        safe_int(level)
+    )
 
 # ==========================================================
-# SELECTOR HANDLING
+# WORKING MODE SELECTOR HANDLING
 # ==========================================================
-
 
 def working_mode_to_level(mode):
 
@@ -203,8 +208,6 @@ def working_mode_to_level(mode):
         0
     )
 
-
-
 def level_to_working_mode(level):
 
     """
@@ -215,11 +218,9 @@ def level_to_working_mode(level):
         safe_int(level)
     )
 
-
 # ==========================================================
 # API RESPONSE CHECK
 # ==========================================================
-
 
 def validate_response(data):
 
