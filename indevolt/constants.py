@@ -181,16 +181,6 @@ DEVICE_DEFINITIONS = {
 
     },
         
-   #TAG_CHARGING_STATE: {
-   #     "unit": 3,
-   #     "name": "Charging State",
-   #     "create": {
-   #         "Type": 243,
-   #         "Subtype": 19,
-   #         "Used": 1,
-   #     },
-   #},
-
     TAG_CHARGING_STATE: {
         "unit": 3,
         "name": "Charging state",
