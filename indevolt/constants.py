@@ -12,8 +12,9 @@ Version 2.0.0
 TAG_SERIAL_NUMBER = 0
 
 TAG_WORKING_MODE = 7101
-TAG_BATTERY_POWER = 6000
 TAG_CHARGING_STATE = 6001
+
+TAG_BATTERY_POWER = 6000
 TAG_BATTERY_SOC = 6002
 
 TAG_TOTAL_AC_INPUT_POWER = 2101
@@ -29,7 +30,6 @@ TAG_TOTAL_CHARGE = 6006
 TAG_TOTAL_DISCHARGE = 6007
 
 TAG_BACKUP_SOC = 6105
-
 TAG_RATED_CAPACITY = 142
 
 TAG_BYPASS_ENABLE = 680
@@ -41,37 +41,19 @@ TAG_GRID_FREQUENCY = 2612
 TAG_BATTERY_TEMPERATURE = 9012
 TAG_LIGHT_ENABLE = 7171
 
-
 # ==========================================================
 # SETDATA REGISTERS
 # ==========================================================
 
 SET_WORKING_MODE = 47005
 SET_CHARGING_STATE = 47015
+
 SET_BYPASS_ENABLE = 7266
 SET_LIGHT_ENABLE = 7265
 
 # ==========================================================
 # DECODING TABLES
 # ==========================================================
-
-CHARGING_STATE_MAP = {
-    1000: "Static",
-    1001: "Charging",
-    1002: "Discharging",
-}
-
-CHARGING_STATE_LEVELS = {
-    0: 10,
-    1: 20,
-    2: 30,
-}
-
-LEVEL_TO_CHARGING_STATE = {
-    10: 0,
-    20: 1,
-    30: 2,
-}
 
 WORKING_MODE_MAP = {
     1: "Self-consumed Prioritized",
@@ -89,6 +71,24 @@ LEVEL_TO_WORKING_MODE = {
     10: 1,
     20: 4,
     30: 5,
+}
+
+CHARGING_STATE_MAP = {
+    1000: "Static (Stand-by)",
+    1001: "Charging",
+    1002: "Discharging",
+}
+
+CHARGING_STATE_LEVELS = {
+    0: 10,
+    1: 20,
+    2: 30,
+}
+
+LEVEL_TO_CHARGING_STATE = {
+    10: 0,
+    20: 1,
+    30: 2,
 }
 
 # ==========================================================
@@ -117,7 +117,6 @@ POLL_TAGS = [
     TAG_TOTAL_DISCHARGE,
 
     TAG_BACKUP_SOC,
-
     TAG_RATED_CAPACITY,
 
     TAG_BYPASS_ENABLE,
@@ -130,7 +129,6 @@ POLL_TAGS = [
     TAG_LIGHT_ENABLE,
 ]
 
-
 # ==========================================================
 # DEVICE DEFINITIONS
 #
@@ -142,7 +140,6 @@ POLL_TAGS = [
 #   create     = exact Domoticz.Device parameters
 #
 # ==========================================================
-
 
 DEVICE_DEFINITIONS = {
 
@@ -184,16 +181,44 @@ DEVICE_DEFINITIONS = {
 
     },
         
+   #TAG_CHARGING_STATE: {
+   #     "unit": 3,
+   #     "name": "Charging State",
+   #     "create": {
+   #         "Type": 243,
+   #         "Subtype": 19,
+   #         "Used": 1,
+   #     },
+   #},
+
     TAG_CHARGING_STATE: {
         "unit": 3,
-        "name": "Charging State",
+        "name": "Charging state",
         "create": {
-            "Type": 243,
-            "Subtype": 19,
+            "Type": 244,
+            "Subtype": 62,
+            "Switchtype": 18,
+            "Options": {
+                "LevelNames":
+                "|"
+                "Static (Stand-by)|"
+                "Charging|"
+                "Discharging",
+        
+                "LevelActions":
+                "|0|1|2",
+        
+                "LevelOffHidden":
+                "true",
+        
+                "SelectorStyle":
+                "1"
+            },
             "Used": 1,
         },
-    },
 
+    },
+    
     TAG_BATTERY_POWER: {
         "unit": 4,
         "name": "Battery Power",
@@ -241,9 +266,9 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 243,
             "Subtype": 31,
-       #     "Options": {
-       #         "Custom": "1;kWh",
-       #     },
+            "Options": {
+                "Custom": "1;kWh",
+            },
             "Used": 1,
         },
     },

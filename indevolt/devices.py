@@ -9,6 +9,7 @@ import Domoticz
 
 from .constants import (
     DEVICE_DEFINITIONS,
+    CHARGING_STATE_LEVELS,
     WORKING_MODE_LEVELS,
 )
 
@@ -18,6 +19,8 @@ from .helpers import (
     safe_string,
     format_value,
     charging_state,
+    charging_state_to_level,
+    level_to_charging_state,
     working_mode,
     working_mode_to_level,
     level_to_working_mode,
@@ -25,10 +28,7 @@ from .helpers import (
     log_error,
 )
 
-
-
 class DeviceManager:
-
 
     def __init__(
         self,
@@ -38,8 +38,6 @@ class DeviceManager:
 
         self.Devices = devices
         self.api = api
-
-
 
     # ======================================================
     # CREATE DEVICES
@@ -68,7 +66,7 @@ class DeviceManager:
 
                 params["Unit"] = unit
 
-                # Selector needs options
+                # WORKING MODE Selector needs options
                 if tag == 7101:
 
                     params["Options"] = {
@@ -87,6 +85,25 @@ class DeviceManager:
 
                     }
 
+                # CHARGING STATE Selector needs options
+                if tag == 6001:
+
+                    params["Options"] = {
+
+                        "LevelNames":
+                        "Setting|"
+                        "Static (Stand-by)|"
+                        "Charging|"
+                        "Discharging",
+
+                        "LevelActions":
+                        "|10|20|30",
+                        
+                        "LevelOffHidden": "True",
+                        "SelectorStyle": "1",
+
+                    }
+                
                 device = Domoticz.Device(
                     **params
                 )
@@ -144,14 +161,14 @@ class DeviceManager:
 
                     mode = safe_int(value)
 
-                    level = WORKING_MODE_LEVELS.get(mode, 0)
+                    mode_level = WORKING_MODE_LEVELS.get(mode, 0)
                     
                     self.Devices[unit].Update(
 
                         nValue=1,   # Keeps the switch in active state. No additional 
                                     # "On" action needed after selection change
 
-                        sValue=str(level),
+                        sValue=str(mode_level),
                         
                     )
 
@@ -165,14 +182,14 @@ class DeviceManager:
 
                     state = safe_int(value)
 
+                    state_level = CHARGING_STATE_LEVELS.get(state, 0)
+
                     self.Devices[unit].Update(
 
-                        nValue=0,
+                        nValue=1,   # Keeps the switch in active state. No additional 
+                                    # "On" action needed after selection change
 
-                        sValue=
-                        charging_state(
-                            state
-                        )
+                        sValue=str(state_level),
 
                     )
 
@@ -260,7 +277,18 @@ class DeviceManager:
                 log_debug(f"Working Mode changed to {mode}: {result}")
     
             return
+
+        # Charging state selector
+        if unit == 3:
     
+            state = level_to_charging_state(level)
+    
+            if state is not None:
+                result = self.api.set_charging_state(state)
+                log_debug(f"Charging state changed to {state}: {result}")
+    
+            return
+        
         # Bypass switch
         if unit == 16:
     

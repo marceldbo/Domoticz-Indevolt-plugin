@@ -133,14 +133,11 @@ class IndevoltAPI:
 
         except Exception as e:
 
-
             log_error(
                 f"GetData failed: {e}"
             )
 
             return {}
-
-
 
     # ======================================================
     # SET DATA
@@ -274,6 +271,41 @@ class IndevoltAPI:
 
         )
 
+    # ======================================================
+    # CHARGING STATE COMMAND 
+    #
+    # Note: Only works when WORKING MODE is set to 
+    #       Real-time Control.
+    # ======================================================
+
+    def set_charging_state(
+        self,
+        mode
+    ):
+
+        """
+        Set INDEVOLT charging state.
+
+        Supported:
+
+        0 = Static (Stand-by)
+        4 = Charging
+        5 = Discharging
+
+        """
+
+        return self.set_data(
+
+            function=16,
+
+            tag=SET_CHARGING_STATE,
+
+            values=[
+                int(mode)
+            ]
+
+        )
+    
     # ======================================================
     # SET BYPASS ENABLE/DISABLE COMMAND
     # ======================================================
