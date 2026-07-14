@@ -85,7 +85,7 @@ class DeviceManager:
                     }
 
                 # CHARGING STATE Selector needs options
-                if tag == 7101:
+                if tag == 6001:
 
                     params["Options"] = {
 
