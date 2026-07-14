@@ -21,6 +21,8 @@ from .helpers import (
     working_mode,
     working_mode_to_level,
     level_to_working_mode,
+    charging_state_to_level,
+    level_to_charging_state,
     log_debug,
     log_error,
 )
