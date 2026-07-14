@@ -118,7 +118,6 @@ POLL_TAGS = [
     TAG_TOTAL_DISCHARGE,
 
     TAG_BACKUP_SOC,
-
     TAG_RATED_CAPACITY,
 
     TAG_BYPASS_ENABLE,
@@ -131,7 +130,6 @@ POLL_TAGS = [
     TAG_LIGHT_ENABLE,
 ]
 
-
 # ==========================================================
 # DEVICE DEFINITIONS
 #
@@ -143,7 +141,6 @@ POLL_TAGS = [
 #   create     = exact Domoticz.Device parameters
 #
 # ==========================================================
-
 
 DEVICE_DEFINITIONS = {
 
