@@ -272,8 +272,10 @@ class IndevoltAPI:
         )
 
     # ======================================================
-    # CHARGING STATE COMMAND (Only works when WORKING MODE
-    # is set to Real-time Control)
+    # CHARGING STATE COMMAND 
+    #
+    # Note: Only works when WORKING MODE is set to 
+    #       Real-time Control.
     # ======================================================
 
     def set_charging_state(
