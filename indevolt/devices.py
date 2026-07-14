@@ -18,19 +18,16 @@ from .helpers import (
     safe_string,
     format_value,
     charging_state,
+    charging_state_to_level,
+    level_to_charging_state,
     working_mode,
     working_mode_to_level,
     level_to_working_mode,
-    charging_state_to_level,
-    level_to_charging_state,
     log_debug,
     log_error,
 )
 
-
-
 class DeviceManager:
-
 
     def __init__(
         self,
@@ -40,8 +37,6 @@ class DeviceManager:
 
         self.Devices = devices
         self.api = api
-
-
 
     # ======================================================
     # CREATE DEVICES
@@ -70,7 +65,7 @@ class DeviceManager:
 
                 params["Unit"] = unit
 
-                # Selector needs options
+                # WORKING MODE Selector needs options
                 if tag == 7101:
 
                     params["Options"] = {
@@ -89,6 +84,25 @@ class DeviceManager:
 
                     }
 
+                # CHARGING STATE Selector needs options
+                if tag == 7101:
+
+                    params["Options"] = {
+
+                        "LevelNames":
+                        "Setting|"
+                        "Static (Stand-by)|"
+                        "Charging|"
+                        "Discharging",
+
+                        "LevelActions":
+                        "|10|20|30",
+                        
+                        "LevelOffHidden": "True",
+                        "SelectorStyle": "1",
+
+                    }
+                
                 device = Domoticz.Device(
                     **params
                 )
