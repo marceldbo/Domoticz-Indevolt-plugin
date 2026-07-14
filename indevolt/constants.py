@@ -5,7 +5,7 @@ Constants and device definitions
 Version 2.0.0
 """
 
-# ==========================================================
+# ========================================================
 # INDEVOLT REGISTER TAGS
 # ==========================================================
 
@@ -252,7 +252,7 @@ DEVICE_DEFINITIONS = {
     TAG_TOTAL_INPUT_ENERGY: {
         "unit": 8,
         "name": "Total Input Energy",
-       # "custom_unit": "kWh",
+        "custom_unit": "kWh",
         "create": {
             "Type": 243,
             "Subtype": 31,
