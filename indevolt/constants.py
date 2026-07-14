@@ -181,16 +181,44 @@ DEVICE_DEFINITIONS = {
 
     },
         
-   TAG_CHARGING_STATE: {
+   #TAG_CHARGING_STATE: {
+   #     "unit": 3,
+   #     "name": "Charging State",
+   #     "create": {
+   #         "Type": 243,
+   #         "Subtype": 19,
+   #         "Used": 1,
+   #     },
+   #},
+
+    TAG_CHARGING_STATE: {
         "unit": 3,
-        "name": "Charging State",
+        "name": "Charging state",
         "create": {
-            "Type": 243,
-            "Subtype": 19,
+            "Type": 244,
+            "Subtype": 62,
+            "Switchtype": 18,
+            "Options": {
+                "LevelNames":
+                "|"
+                "Static (Stand-by)|"
+                "Charging|"
+                "Discharging",
+        
+                "LevelActions":
+                "|0|1|2",
+        
+                "LevelOffHidden":
+                "true",
+        
+                "SelectorStyle":
+                "1"
+            },
             "Used": 1,
         },
-    },
 
+    },
+    
     TAG_BATTERY_POWER: {
         "unit": 4,
         "name": "Battery Power",
