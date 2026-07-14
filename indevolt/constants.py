@@ -74,7 +74,7 @@ LEVEL_TO_WORKING_MODE = {
 }
 
 CHARGING_STATE_MAP = {
-    1000: "Static",
+    1000: "Static (Stand-by)",
     1001: "Charging",
     1002: "Discharging",
 }
