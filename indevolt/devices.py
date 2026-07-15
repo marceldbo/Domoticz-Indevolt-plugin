@@ -120,8 +120,6 @@ class DeviceManager:
                     f"Create {definition['name']} failed: {e}"
                 )
 
-
-
     # ======================================================
     # UPDATE DEVICES
     # ======================================================
@@ -179,11 +177,11 @@ class DeviceManager:
 
                     state = safe_int(value)
 
-                    state_level = CHARGING_STATE_LEVELS.get(state)
+                    state_level = CHARGING_STATE_LEVELS.get(state, 0)
 
                     self.Devices[unit].Update(
 
-                        nValue=1,   # Keeps the switch in active state. No additional 
+                        nValue=1,   # Keeps the switch in active state. No additional  
                                     # "On" action needed after selection change
 
                         sValue=str(state_level),

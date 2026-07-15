@@ -280,7 +280,7 @@ class IndevoltAPI:
 
     def set_charging_state(
         self,
-        mode
+        state
     ):
 
         """
@@ -289,8 +289,8 @@ class IndevoltAPI:
         Supported:
 
         0 = Static (Stand-by)
-        4 = Charging
-        5 = Discharging
+        1 = Charging
+        2 = Discharging
 
         """
 
@@ -301,7 +301,7 @@ class IndevoltAPI:
             tag=SET_CHARGING_STATE,
 
             values=[
-                int(mode)
+                int(state)
             ]
 
         )

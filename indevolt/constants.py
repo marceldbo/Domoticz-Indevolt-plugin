@@ -212,9 +212,13 @@ DEVICE_DEFINITIONS = {
     TAG_BATTERY_POWER: {
         "unit": 4,
         "name": "Battery Power",
+        "custom_unit": "kWh",
         "create": {
             "Type": 243,
-            "Subtype": 29,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
             "Used": 1,
         },
     },
