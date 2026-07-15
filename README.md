@@ -27,7 +27,7 @@ To update:
 
 ## Configuration and additional notes
 
-- The plugin should be selectable under the `Hardware tab`. Look for `Indevolt Battery Monitor`.
+- The plugin should be selectable under the `Hardware tab`. Look for `Indevolt Home Battery`.
 - Before configuring, make sure that Domoticz accepts new devices.
 - Configure the plugin with a name and ip-address.
 - New devices should be visible under Switches, Temperature and Utility and in the `Devices tab`.
