@@ -81,9 +81,9 @@ CHARGING_STATE_MAP = {
 }
 
 CHARGING_STATE_LEVELS = {
-    0: 10,
-    1: 20,
-    2: 30,
+    1000: 10,
+    1001: 20,
+    1002: 30,
 }
 
 LEVEL_TO_CHARGING_STATE = {
