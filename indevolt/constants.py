@@ -77,16 +77,13 @@ CHARGING_STATE_MAP = {
     1000: "Static (Stand-by)",
     1001: "Charging",
     1002: "Discharging",
-
-    0: "Static (Stand-by)",
-    1: "Charging",
-    2: "Discharging",
+    
 }
 
 CHARGING_STATE_LEVELS = {
-    0: 10,
-    1: 20,
-    2: 30,
+    1000: 10,
+    1001: 20,
+    1002: 30,
 }
 
 LEVEL_TO_CHARGING_STATE = {
