@@ -37,8 +37,8 @@ class DeviceManager:
 
     # Convert Domoticz unit -> Indevolt tag
     self.unit_to_tag = {
-        definition["unit"]: tag
-        for tag, definition in DEVICE_DEFINITIONS.items()
+        definition["unit"]: unitag
+        for unitag, definition in DEVICE_DEFINITIONS.items()
     }
 
     # ======================================================
@@ -264,7 +264,7 @@ class DeviceManager:
 
     def handle_command(self, unit, command, level):
 
-        tag = self.unit_to_tag.get(unit)
+        tag = self.unit_to_tag.get(unit):
 
         if tag is None:
            
