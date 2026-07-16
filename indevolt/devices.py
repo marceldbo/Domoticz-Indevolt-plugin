@@ -263,7 +263,7 @@ class DeviceManager:
     def handle_command(self, unit, command, level):
 
         # Working Mode selector
-        if unit == 2:
+        if unit == DEVICE_DEFINITIONS[TAG_WORKING_MODE]["unit"]:
     
             mode = level_to_working_mode(level)
     
@@ -274,7 +274,7 @@ class DeviceManager:
             return
 
         # Charging state selector
-        if unit == 3:
+        if unit == DEVICE_DEFINITIONS[TAG_CHARGING_STATE]["unit"]:
     
             state = level_to_charging_state(level)
     
@@ -285,7 +285,7 @@ class DeviceManager:
             return
         
         # Bypass switch
-        if unit == 16:
+        if unit == DEVICE_DEFINITIONS[TAG_BYPASS_ENABLE]["unit"]:
     
             enabled = (command == "On")
     
@@ -298,7 +298,7 @@ class DeviceManager:
             return
         
         # Light switch
-        if unit == 21:
+        if unit == DEVICE_DEFINITIONS[TAG_LIGHT_ENABLE]["unit"]:
     
             enabled = (command == "On")
     
