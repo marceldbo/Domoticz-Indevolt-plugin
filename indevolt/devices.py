@@ -74,7 +74,8 @@ class DeviceManager:
                         "Charge/Discharge Schedule",
 
                         "LevelActions":
-                        "|10|20|30",
+                        #"|10|20|30",
+                        "|||",
                         
                         "LevelOffHidden": "True",
                         "SelectorStyle": "1",
