@@ -194,7 +194,7 @@ class DeviceManager:
                 # Switches
                 # ----------------------------------
 
-                if tag in {680, 7171}:
+                if tag in {TAG_BYPASS_ENABLE, TAG_LIGHT_ENABLE}:
 
                     enabled = safe_int(value) == 1
 
