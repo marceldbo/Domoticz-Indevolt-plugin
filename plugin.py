@@ -90,7 +90,7 @@ class BasePlugin:
 
         try:
 
-                log_info(
+            log_info(
                 "Starting INDEVOLT plugin"
             )
 
