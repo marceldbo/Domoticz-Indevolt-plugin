@@ -168,7 +168,8 @@ DEVICE_DEFINITIONS = {
                 "Charge/Discharge Schedule",
         
                 "LevelActions":
-                "|1|4|5",
+                #"|1|4|5",
+        		"|||",
         
                 "LevelOffHidden":
                 "true",
@@ -196,7 +197,8 @@ DEVICE_DEFINITIONS = {
                 "Discharging",
         
                 "LevelActions":
-                "|0|1|2",
+                #"|0|1|2",
+                "|||",
         
                 "LevelOffHidden":
                 "true",
