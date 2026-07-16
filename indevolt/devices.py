@@ -152,7 +152,7 @@ class DeviceManager:
                 # Working Mode
                 # ----------------------------------
 
-                if tag == 7101:
+                if tag == TAG_WORKING_MODE:
 
                     mode = safe_int(value)
 
@@ -173,7 +173,7 @@ class DeviceManager:
                 # Charging State
                 # ----------------------------------
 
-                if tag == 6001:
+                if tag == TAG_CHARGING_STATE:
 
                     state = safe_int(value)
 
