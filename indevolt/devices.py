@@ -35,12 +35,6 @@ class DeviceManager:
         self.Devices = devices
         self.api = api
 
-    # Convert Domoticz unit -> Indevolt tag
-    self.unit_to_tag = {
-        definition["unit"]: tag
-        for tag, definition in DEVICE_DEFINITIONS.items()
-    }
-
     # ======================================================
     # CREATE DEVICES
     # ======================================================
@@ -263,12 +257,6 @@ class DeviceManager:
     # ======================================================
 
     def handle_command(self, unit, command, level):
-
-        tag = self.unit_to_tag.get(unit)
-
-        if tag is None:
-           
-            return
 
         # Working Mode selector
         if tag == TAG_WORKING_MODE:
