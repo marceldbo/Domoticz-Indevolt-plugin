@@ -63,7 +63,7 @@ class DeviceManager:
                 params["Unit"] = unit
 
                 # WORKING MODE Selector needs options
-                if tag == TAG_WORKING_MODE:
+                if tag == 7101:
 
                     params["Options"] = {
 
@@ -82,7 +82,7 @@ class DeviceManager:
                     }
 
                 # CHARGING STATE Selector needs options
-                if tag == TAG_CHARGING_STATE:
+                if tag == 6001:
 
                     params["Options"] = {
 
@@ -148,7 +148,7 @@ class DeviceManager:
                 # Working Mode
                 # ----------------------------------
 
-                if tag == TAG_WORKING_MODE:
+                if tag == 7101:
 
                     mode = safe_int(value)
 
@@ -169,7 +169,7 @@ class DeviceManager:
                 # Charging State
                 # ----------------------------------
 
-                if tag == TAG_CHARGING_STATE:
+                if tag == 6001:
 
                     state = safe_int(value)
 
@@ -190,7 +190,7 @@ class DeviceManager:
                 # Switches
                 # ----------------------------------
 
-                if tag in {TAG_BYPASS_ENABLE, TAG_LIGHT_ENABLE}:
+                if tag in {680, 7171}:
 
                     enabled = safe_int(value) == 1
 
@@ -259,7 +259,7 @@ class DeviceManager:
     def handle_command(self, unit, command, level):
 
         # Working Mode selector
-        if tag == TAG_WORKING_MODE:
+        if tag == 7101:
     
             mode = level_to_working_mode(level)
     
@@ -270,7 +270,7 @@ class DeviceManager:
             return
 
         # Charging state selector
-        if tag == TAG_CHARGING_STATE:
+        if tag == 6001:
     
             state = level_to_charging_state(level)
     
@@ -281,7 +281,7 @@ class DeviceManager:
             return
         
         # Bypass switch
-        if tag == TAG_BYPASS_ENABLE:
+        if tag == 680:
     
             enabled = (command == "On")
     
@@ -294,7 +294,7 @@ class DeviceManager:
             return
         
         # Light switch
-        if tag == TAG_LIGHT_ENABLE:
+        if tag == 7171:
     
             enabled = (command == "On")
     
