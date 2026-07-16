@@ -93,7 +93,8 @@ class DeviceManager:
                         "Discharging",
 
                         "LevelActions":
-                        "|10|20|30",
+                        "|||",
+                        # "|10|20|30",
                         
                         "LevelOffHidden": "True",
                         "SelectorStyle": "1",
