@@ -264,9 +264,10 @@ class DeviceManager:
 
     def handle_command(self, unit, command, level):
 
-        tag = self.unit_to_tag.get(unit):
+        tag = self.unit_to_tag.get(unit)
 
-        if tage is None:
+        if tag is None:
+           
             return
 
         # Working Mode selector
