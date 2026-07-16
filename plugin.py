@@ -57,29 +57,22 @@ Version 2.0.0
 </plugin>
 """
 
-
 import Domoticz
-
 
 from indevolt.api import (
     IndevoltAPI
 )
 
-
 from indevolt.devices import (
     DeviceManager
 )
-
 
 from indevolt.helpers import (
     log_error,
     log_info,
 )
 
-
-
 class BasePlugin:
-
 
     def __init__(self):
 
@@ -89,25 +82,19 @@ class BasePlugin:
 
         self.interval = 10
 
-
-
     # ======================================================
     # START
     # ======================================================
 
     def onStart(self):
 
-
         try:
 
-
-            log_info(
+                log_info(
                 "Starting INDEVOLT plugin"
             )
 
-
             host = Parameters["Address"]
-
 
             port = int(
                 Parameters.get(
@@ -116,14 +103,12 @@ class BasePlugin:
                 )
             )
 
-
             self.interval = int(
                 Parameters.get(
                     "Mode1",
                     10
                 )
             )
-
 
             debug = (
 
@@ -136,8 +121,6 @@ class BasePlugin:
 
             )
 
-
-
             self.api = IndevoltAPI(
 
                 host,
@@ -148,8 +131,6 @@ class BasePlugin:
 
             )
 
-
-
             self.device_manager = DeviceManager(
 
                 Devices,
@@ -158,11 +139,7 @@ class BasePlugin:
 
             )
 
-
-
             self.device_manager.create_devices()
-
-
 
             Domoticz.Heartbeat(
 
@@ -170,21 +147,15 @@ class BasePlugin:
 
             )
 
-
             log_info(
                 "INDEVOLT plugin started"
             )
 
-
-
         except Exception as e:
-
 
             log_error(
                 f"Startup failed: {e}"
             )
-
-
 
     # ======================================================
     # STOP
@@ -192,12 +163,9 @@ class BasePlugin:
 
     def onStop(self):
 
-
         log_info(
             "INDEVOLT plugin stopped"
         )
-
-
 
     # ======================================================
     # HEARTBEAT
@@ -205,11 +173,9 @@ class BasePlugin:
 
     def onHeartbeat(self):
 
-
         try:
 
-
-            data = (
+                data = (
                 self.api
                 .get_data()
             )
@@ -217,21 +183,15 @@ class BasePlugin:
 
             if data:
 
-
                 self.device_manager.update_devices(
-                    data
+                data
                 )
 
-
-
         except Exception as e:
-
 
             log_error(
                 f"Heartbeat failed: {e}"
             )
-
-
 
     # ======================================================
     # COMMANDS
@@ -245,9 +205,7 @@ class BasePlugin:
         Hue
     ):
 
-
         try:
-
 
             self.device_manager.handle_command(
 
@@ -259,45 +217,31 @@ class BasePlugin:
 
             )
 
-
         except Exception as e:
-
 
             log_error(
                 f"Command failed: {e}"
             )
 
-
-
 # ==========================================================
 # DOMOTICZ ENTRY POINTS
 # ==========================================================
 
-
 global _plugin
 
-
 _plugin = BasePlugin()
-
-
 
 def onStart():
 
     _plugin.onStart()
 
-
-
 def onStop():
 
     _plugin.onStop()
 
-
-
 def onHeartbeat():
 
     _plugin.onHeartbeat()
-
-
 
 def onCommand(
     Unit,
