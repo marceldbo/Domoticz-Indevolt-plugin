@@ -270,7 +270,7 @@ class DeviceManager:
             return
 
         # Charging state selector
-        if unit == 2:
+        if unit == 3:
     
             state = level_to_charging_state(level)
     
