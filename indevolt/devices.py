@@ -67,7 +67,7 @@ class DeviceManager:
                 params["Unit"] = unit
 
                 # WORKING MODE Selector needs options
-                if tag == 7101:
+                if tag == TAG_WORKING_MODE:
 
                     params["Options"] = {
 
@@ -86,7 +86,7 @@ class DeviceManager:
                     }
 
                 # CHARGING STATE Selector needs options
-                if tag == 6001:
+                if tag == TAG_CHARGING_STATE:
 
                     params["Options"] = {
 
