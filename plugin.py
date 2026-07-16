@@ -184,7 +184,7 @@ class BasePlugin:
             if data:
 
                 self.device_manager.update_devices(
-                data
+                    data
                 )
 
         except Exception as e:
