@@ -175,11 +175,10 @@ class BasePlugin:
 
         try:
 
-                data = (
+            data = (
                 self.api
                 .get_data()
             )
-
 
             if data:
 
