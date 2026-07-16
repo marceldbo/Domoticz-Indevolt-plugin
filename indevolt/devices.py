@@ -30,14 +30,16 @@ from .helpers import (
 
 class DeviceManager:
 
-    def __init__(
-        self,
-        devices,
-        api
-    ):
+    def __init__(self, devices, api):
 
         self.Devices = devices
         self.api = api
+
+    # Convert Domoticz unit -> Indevolt tag
+    self.unit_to_tag = {
+        definition["unit"]: tag
+        for tag, definition in DEVICE_DEFINITIONS.items()
+    }
 
     # ======================================================
     # CREATE DEVICES
@@ -262,8 +264,13 @@ class DeviceManager:
 
     def handle_command(self, unit, command, level):
 
+        tag = self.unit_to_tag.get(unit):
+
+        if tage is None:
+            return
+
         # Working Mode selector
-        if unit == DEVICE_DEFINITIONS[TAG_WORKING_MODE]["unit"]:
+        if tag == TAG_WORKING_MODE:
     
             mode = level_to_working_mode(level)
     
@@ -274,7 +281,7 @@ class DeviceManager:
             return
 
         # Charging state selector
-        if unit == DEVICE_DEFINITIONS[TAG_CHARGING_STATE]["unit"]:
+        if tag == TAG_CHARGING_STATE:
     
             state = level_to_charging_state(level)
     
@@ -285,7 +292,7 @@ class DeviceManager:
             return
         
         # Bypass switch
-        if unit == DEVICE_DEFINITIONS[TAG_BYPASS_ENABLE]["unit"]:
+        if tag == TAG_BYPASS_ENABLE:
     
             enabled = (command == "On")
     
@@ -298,7 +305,7 @@ class DeviceManager:
             return
         
         # Light switch
-        if unit == DEVICE_DEFINITIONS[TAG_LIGHT_ENABLE]["unit"]:
+        if tag == TAG_LIGHT_ENABLE:
     
             enabled = (command == "On")
     
