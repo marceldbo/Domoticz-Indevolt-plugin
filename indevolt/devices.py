@@ -30,14 +30,16 @@ from .helpers import (
 
 class DeviceManager:
 
-    def __init__(
-        self,
-        devices,
-        api
-    ):
+    def __init__(self, devices, api):
 
         self.Devices = devices
         self.api = api
+
+    # Convert Domoticz unit -> Indevolt tag
+    self.unit_to_tag = {
+        definition["unit"]: tag
+        for tag, definition in DEVICE_DEFINITIONS.items()
+    }
 
     # ======================================================
     # CREATE DEVICES
@@ -67,7 +69,7 @@ class DeviceManager:
                 params["Unit"] = unit
 
                 # WORKING MODE Selector needs options
-                if tag == 7101:
+                if tag == TAG_WORKING_MODE:
 
                     params["Options"] = {
 
@@ -86,7 +88,7 @@ class DeviceManager:
                     }
 
                 # CHARGING STATE Selector needs options
-                if tag == 6001:
+                if tag == TAG_CHARGING_STATE:
 
                     params["Options"] = {
 
@@ -152,7 +154,7 @@ class DeviceManager:
                 # Working Mode
                 # ----------------------------------
 
-                if tag == 7101:
+                if tag == TAG_WORKING_MODE:
 
                     mode = safe_int(value)
 
@@ -173,7 +175,7 @@ class DeviceManager:
                 # Charging State
                 # ----------------------------------
 
-                if tag == 6001:
+                if tag == TAG_CHARGING_STATE:
 
                     state = safe_int(value)
 
@@ -194,7 +196,7 @@ class DeviceManager:
                 # Switches
                 # ----------------------------------
 
-                if tag in {680, 7171}:
+                if tag in {TAG_BYPASS_ENABLE, TAG_LIGHT_ENABLE}:
 
                     enabled = safe_int(value) == 1
 
@@ -262,8 +264,13 @@ class DeviceManager:
 
     def handle_command(self, unit, command, level):
 
+        tag = self.unit_to_tag.get(unit):
+
+        if tage is None:
+            return
+
         # Working Mode selector
-        if unit == 2:
+        if tag == TAG_WORKING_MODE:
     
             mode = level_to_working_mode(level)
     
@@ -274,7 +281,7 @@ class DeviceManager:
             return
 
         # Charging state selector
-        if unit == 3:
+        if tag == TAG_CHARGING_STATE:
     
             state = level_to_charging_state(level)
     
@@ -285,7 +292,7 @@ class DeviceManager:
             return
         
         # Bypass switch
-        if unit == 16:
+        if tag == TAG_BYPASS_ENABLE:
     
             enabled = (command == "On")
     
@@ -298,7 +305,7 @@ class DeviceManager:
             return
         
         # Light switch
-        if unit == 21:
+        if tag == TAG_LIGHT_ENABLE:
     
             enabled = (command == "On")
     
