@@ -185,7 +185,14 @@ class DeviceManager:
                     )
 
                     log_debug(
-                        f"Charging State: "
+                        f"Charging State update: "
+                        f"raw={state}, "
+                        f"level={state_level}, "
+                        f"result={result}"
+                    )
+                
+                    log_debug(
+                        f"Charging State device: "
                         f"Name={device.Name}, "
                         f"nValue={device.nValue}, "
                         f"sValue={device.sValue}"
