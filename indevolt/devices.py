@@ -153,8 +153,8 @@ class DeviceManager:
                     
                     self.Devices[unit].Update(
 
-                    	nValue=mode_level,  # Keeps the switch in active state. No additional 
-                                            # "On" action needed after selection change
+                    	nValue=1,  # Keeps the switch in active state. No additional 
+                                   # "On" action needed after selection change
 
                         sValue=str(mode_level),
                         
@@ -174,8 +174,8 @@ class DeviceManager:
 
                     self.Devices[unit].Update(
 
-                       nValue=state_level,  # Keeps the switch in active state. No additional  
-                                            # "On" action needed after selection change
+                       nValue=1,  # Keeps the switch in active state. No additional  
+                                  # "On" action needed after selection change
 
                        sValue=str(state_level),
 
