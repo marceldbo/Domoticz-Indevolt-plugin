@@ -25,7 +25,8 @@ Version 2.0.0
         <param field="Address"
                label="Indevolt IP"
                width="200px"
-               required="true"/>
+               required="true"
+               default="192.168.10.142"/>
 
         <param field="Port"
                label="Port"
@@ -46,9 +47,10 @@ Version 2.0.0
             <options>
                 <option label="Off"
                         value="0"
-                        default="true"/>
+                        default="false"/>
                 <option label="On"
-                        value="1"/>
+                        value="1"
+                        default="true"/>
             </options>
         </param>
 
