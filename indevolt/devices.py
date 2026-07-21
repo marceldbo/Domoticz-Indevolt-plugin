@@ -68,13 +68,12 @@ class DeviceManager:
                     params["Options"] = {
 
                         "LevelNames":
-                        "Setting|"
-                        "Self-consumed Prioritized|"
-                        "Real-time Control|"
-                        "Charge/Discharge Schedule",
+                            "Self-consumed Prioritized|"
+                            "Real-time Control|"
+                            "Charge/Discharge Schedule",
 
                         "LevelActions":
-                        "|||",
+                            "|||",
                         
                         "LevelOffHidden": "True",
                         "SelectorStyle": "1",
@@ -87,13 +86,12 @@ class DeviceManager:
                     params["Options"] = {
 
                         "LevelNames":
-                        "Setting|"
-                        "Static (Stand-by)|"
-                        "Charging|"
-                        "Discharging",
+                            "Static (Stand-by)|"
+                            "Charging|"
+                            "Discharging",
 
                         "LevelActions":
-                        "|||",
+                            "|||",
                                                 
                         "LevelOffHidden": "True",
                         "SelectorStyle": "1",
@@ -155,8 +153,8 @@ class DeviceManager:
                     
                     self.Devices[unit].Update(
 
-                    	nValue=1,   # Keeps the switch in active state. No additional 
-                                    # "On" action needed after selection change
+                    	nValue=mode_level,  # Keeps the switch in active state. No additional 
+                                            # "On" action needed after selection change
 
                         sValue=str(mode_level),
                         
@@ -176,8 +174,8 @@ class DeviceManager:
 
                     self.Devices[unit].Update(
 
-                       nValue=1,   # Keeps the switch in active state. No additional  
-                                   # "On" action needed after selection change
+                       nValue=state_level,  # Keeps the switch in active state. No additional  
+                                            # "On" action needed after selection change
 
                        sValue=str(state_level),
 
