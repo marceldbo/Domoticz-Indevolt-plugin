@@ -162,13 +162,12 @@ DEVICE_DEFINITIONS = {
             "Switchtype": 18,
             "Options": {
                 "LevelNames":
-                "|"
-                "Self-consumed Prioritized|"
-                "Real-time Control|"
-                "Charge/Discharge Schedule",
+                    "Self-consumed Prioritized|"
+                    "Real-time Control|"
+                    "Charge/Discharge Schedule",
         
                 "LevelActions":
-                "|||",
+                    "|||",
         
                 "LevelOffHidden":
                 "true",
@@ -190,13 +189,12 @@ DEVICE_DEFINITIONS = {
             "Switchtype": 18,
             "Options": {
                 "LevelNames":
-                "|"
-                "Static (Stand-by)|"
-                "Charging|"
-                "Discharging",
+                    "Static (Stand-by)|"
+                    "Charging|"
+                    "Discharging",
         
                 "LevelActions":
-                "|||",
+                    "|||",
         
                 "LevelOffHidden":
                 "true",
