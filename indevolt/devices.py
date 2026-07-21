@@ -183,7 +183,10 @@ class DeviceManager:
                        sValue=str(state_level),
 
                     )
-
+                
+                    log_debug(
+                        f"After update: nValue={device.nValue}, sValue={device.sValue}"
+                    )
                     continue
 
                 # ----------------------------------
