@@ -184,9 +184,6 @@ class DeviceManager:
 
                     )
                 
-                    log_debug(
-                        f"After update: nValue={device.nValue}, sValue={device.sValue}"
-                    )
                     continue
 
                 # ----------------------------------
