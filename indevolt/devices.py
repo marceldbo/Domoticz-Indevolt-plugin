@@ -175,9 +175,7 @@ class DeviceManager:
 
                     state_level = CHARGING_STATE_LEVELS.get(state, 0)
 
-                    self.Devices[unit]
-                    
-                    result = device.Update(
+                    self.Devices[unit].Update(
 
                        nValue=1,   # Keeps the switch in active state. No additional  
                                    # "On" action needed after selection change
@@ -186,20 +184,6 @@ class DeviceManager:
 
                     )
 
-                    log_debug(
-                        f"Charging State update: "
-                        f"raw={state}, "
-                        f"level={state_level}, "
-                        f"result={result}"
-                    )
-                
-                    log_debug(
-                        f"Charging State device: "
-                        f"Name={device.Name}, "
-                        f"nValue={device.nValue}, "
-                        f"sValue={device.sValue}"
-                    )
-                    
                     continue
 
                 # ----------------------------------
