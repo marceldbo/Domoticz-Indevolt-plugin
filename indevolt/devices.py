@@ -74,7 +74,6 @@ class DeviceManager:
                         "Charge/Discharge Schedule",
 
                         "LevelActions":
-                        #"|10|20|30",
                         "|||",
                         
                         "LevelOffHidden": "True",
@@ -95,8 +94,7 @@ class DeviceManager:
 
                         "LevelActions":
                         "|||",
-                        # "|10|20|30",
-                        
+                                                
                         "LevelOffHidden": "True",
                         "SelectorStyle": "1",
 
@@ -180,9 +178,9 @@ class DeviceManager:
                     self.Devices[unit].Update(
 
                        nValue=1,   # Keeps the switch in active state. No additional  
-                                    # "On" action needed after selection change
+                                   # "On" action needed after selection change
 
-                        sValue=str(state_level),
+                       sValue=str(state_level),
 
                     )
 
