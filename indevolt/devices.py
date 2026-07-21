@@ -141,7 +141,6 @@ class DeviceManager:
 
             try:
 
-
                 value = data[str(tag)]
 
                 # ----------------------------------
