@@ -183,7 +183,14 @@ class DeviceManager:
                        sValue=str(state_level),
 
                     )
-                
+
+                    log_debug(
+                        f"Charging State: "
+                        f"Name={device.Name}, "
+                        f"nValue={device.nValue}, "
+                        f"sValue={device.sValue}"
+                    )
+                    
                     continue
 
                 # ----------------------------------
