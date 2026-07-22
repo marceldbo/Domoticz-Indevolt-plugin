@@ -2,7 +2,7 @@
 INDEVOLT Domoticz Plugin
 Device handling
 
-Version 2.0.0
+Version 2.1.0
 """
 
 import Domoticz
@@ -30,10 +30,11 @@ from .helpers import (
 
 class DeviceManager:
 
-    def __init__(self, devices, api):
+    def __init__(self, devices, api, config):
 
         self.Devices = devices
         self.api = api
+        self.config = config
 
     # ======================================================
     # CREATE DEVICES
@@ -68,13 +69,12 @@ class DeviceManager:
                     params["Options"] = {
 
                         "LevelNames":
-                        "Setting|"
-                        "Self-consumed Prioritized|"
-                        "Real-time Control|"
-                        "Charge/Discharge Schedule",
+                            "Self-consumed Prioritized|"
+                            "Real-time Control|"
+                            "Charge/Discharge Schedule",
 
                         "LevelActions":
-                        "|10|20|30",
+                            "|||",
                         
                         "LevelOffHidden": "True",
                         "SelectorStyle": "1",
@@ -87,15 +87,13 @@ class DeviceManager:
                     params["Options"] = {
 
                         "LevelNames":
-                        "Setting|"
-                        "Static (Stand-by)|"
-                        "Charging|"
-                        "Discharging",
+                            "Static (Stand-by)|"
+                            "Charging|"
+                            "Discharging",
 
                         "LevelActions":
-                        "|||",
-                        # "|10|20|30",
-                        
+                            "|||",
+                                                
                         "LevelOffHidden": "True",
                         "SelectorStyle": "1",
 
@@ -142,7 +140,6 @@ class DeviceManager:
 
             try:
 
-
                 value = data[str(tag)]
 
                 # ----------------------------------
@@ -157,8 +154,8 @@ class DeviceManager:
                     
                     self.Devices[unit].Update(
 
-                    	nValue=1,   # Keeps the switch in active state. No additional 
-                                    # "On" action needed after selection change
+                    	nValue=1,  # Keeps the switch in active state. No additional 
+                                   # "On" action needed after selection change
 
                         sValue=str(mode_level),
                         
@@ -169,7 +166,7 @@ class DeviceManager:
                 # ----------------------------------
                 # Charging State
                 # ----------------------------------
-
+  
                 if tag == 6001:
 
                     state = safe_int(value)
@@ -178,10 +175,10 @@ class DeviceManager:
 
                     self.Devices[unit].Update(
 
-                        nValue=1,   # Keeps the switch in active state. No additional  
-                                    # "On" action needed after selection change
+                       nValue=1,  # Keeps the switch in active state. No additional  
+                                  # "On" action needed after selection change
 
-                        sValue=str(state_level),
+                       sValue=str(state_level),
 
                     )
 
@@ -274,11 +271,66 @@ class DeviceManager:
         if unit == 3:
     
             state = level_to_charging_state(level)
+
+            if state == 0:
+                
+                result = self.api.set_charging_parameters(
+            
+                    state=0,
+        
+                    power=0,
+        
+                    target_soc=self.config.discharge_target_soc
+            
+                )
+            
+                log_debug(f"Stand-by enabled: {result}"
+                )
+            
+            if state == 1:
+                
+                result = self.api.set_charging_parameters(
+                    
+                    state=1,
+                
+                    power=self.config.max_charge_power,
+                
+                    target_soc=self.config.charge_target_soc
+                )
+                
+                log_debug(f"Charging enabled: {result}"
+                )
+                    
+            elif state == 2:
     
-            if state is not None:
-                result = self.api.set_charging_state(state)
-                log_debug(f"Charging state changed to {state}: {result}")
+                result = self.api.set_charging_parameters(
     
+                    state=2,
+    
+                    power=self.config.max_discharge_power,
+    
+                    target_soc=self.config.discharge_target_soc
+    
+                )
+    
+                log_debug(f"Discharging enabled: {result}"
+                )
+
+            else:
+    
+                result = self.api.set_charging_parameters(
+        
+                    state=0,
+        
+                    power=0,
+        
+                    target_soc=self.config.discharge_target_soc
+        
+                )
+        
+                log_debug(f"Stand-by enabled: {result}"
+                )
+
             return
         
         # Bypass switch

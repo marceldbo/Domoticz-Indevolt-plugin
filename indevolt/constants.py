@@ -2,7 +2,7 @@
 INDEVOLT Domoticz Plugin
 Constants and device definitions
 
-Version 2.0.0
+Version 2.1.0
 """
 
 # ========================================================
@@ -62,15 +62,15 @@ WORKING_MODE_MAP = {
 }
 
 WORKING_MODE_LEVELS = {
-    1: 10,
-    4: 20,
-    5: 30,
+    1: 0,
+    4: 10,
+    5: 20,
 }
 
 LEVEL_TO_WORKING_MODE = {
-    10: 1,
-    20: 4,
-    30: 5,
+    0: 1,
+    10: 4,
+    20: 5,
 }
 
 CHARGING_STATE_MAP = {
@@ -80,15 +80,15 @@ CHARGING_STATE_MAP = {
 }
 
 CHARGING_STATE_LEVELS = {
-    1000: 10,
-    1001: 20,
-    1002: 30,
+    1000: 0,
+    1001: 10,
+    1002: 20,
 }
 
 LEVEL_TO_CHARGING_STATE = {
-    10: 0,
-    20: 1,
-    30: 2,
+    0: 0,
+    10: 1,
+    20: 2,
 }
 
 # ==========================================================
@@ -162,13 +162,12 @@ DEVICE_DEFINITIONS = {
             "Switchtype": 18,
             "Options": {
                 "LevelNames":
-                "|"
-                "Self-consumed Prioritized|"
-                "Real-time Control|"
-                "Charge/Discharge Schedule",
+                    "Self-consumed Prioritized|"
+                    "Real-time Control|"
+                    "Charge/Discharge Schedule",
         
                 "LevelActions":
-                "|1|4|5",
+                    "|||",
         
                 "LevelOffHidden":
                 "true",
@@ -190,13 +189,12 @@ DEVICE_DEFINITIONS = {
             "Switchtype": 18,
             "Options": {
                 "LevelNames":
-                "|"
-                "Static (Stand-by)|"
-                "Charging|"
-                "Discharging",
+                    "Static (Stand-by)|"
+                    "Charging|"
+                    "Discharging",
         
                 "LevelActions":
-                "|0|1|2",
+                    "|||",
         
                 "LevelOffHidden":
                 "true",

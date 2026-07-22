@@ -2,7 +2,7 @@
 INDEVOLT Domoticz Plugin
 Helper functions
 
-Version 2.0.0
+Version 2.1.0
 """
 
 import Domoticz
@@ -171,9 +171,9 @@ def charging_state_to_level(state):
     """
     INDEVOLT charging state -> Domoticz selector level
 
-    0 -> 10
-    1 -> 20
-    2 -> 30
+    0 -> 0
+    1 -> 10
+    2 -> 20
     """
 
     return CHARGING_STATE_LEVELS.get(
@@ -200,9 +200,9 @@ def working_mode_to_level(mode):
     """
     INDEVOLT mode -> Domoticz selector level
 
-    1 -> 10
-    4 -> 20
-    5 -> 30
+    1 -> 0
+    4 -> 10
+    5 -> 20
     """
 
     return WORKING_MODE_LEVELS.get(
