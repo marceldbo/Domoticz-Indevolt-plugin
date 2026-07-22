@@ -173,7 +173,7 @@ class DeviceManager:
                 # Charging State
                 # ----------------------------------
 
-                if tag == 6001:
+                #if tag == 6001:
 
                     #api_state = safe_int(value)
                 
