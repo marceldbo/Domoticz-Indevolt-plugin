@@ -126,11 +126,7 @@ class BasePlugin:
                 == "1"
 
             )
-
-            self.config = IndevoltConfig()
-
-            self.config.load()
-                
+                     
             self.api = IndevoltAPI(
 
                 host,
@@ -141,11 +137,17 @@ class BasePlugin:
 
             )
 
+            self.config = IndevoltConfig()
+
+            self.config.load()
+                
             self.device_manager = DeviceManager(
 
                 Devices,
 
                 self.api
+
+                self.config
 
             )
 
