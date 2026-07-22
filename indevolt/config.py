@@ -123,7 +123,7 @@ class IndevoltConfig:
             url = (
                 self.base_url
                 + "?type=command"
-                + "&param=saveuservariable"
+                + "&param=adduservariable"
                 + f"&vname={name}"
                 + "&vtype=0"
                 + f"&vvalue={value}"
