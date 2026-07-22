@@ -326,8 +326,6 @@ class DeviceManager:
                 log_debug(f"Charging enabled: {result}"
                 )
                     
-            return
-
             elif state == 2:
     
                 result = self.api.set_charging_parameters(
