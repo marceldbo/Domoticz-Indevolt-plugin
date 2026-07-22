@@ -12,7 +12,7 @@ Version 2.0.0
 <plugin key="Indevolt"
         name="Indevolt Home Battery"
         author="Marcel de Bont"
-        version="2.0.0"
+        version="2.1"
         wikilink=""
         externallink="">
 
@@ -60,6 +60,10 @@ Version 2.0.0
 """
 
 import Domoticz
+
+from indevolt.config import (
+    IndevoltConfig
+)
 
 from indevolt.api import (
     IndevoltAPI
