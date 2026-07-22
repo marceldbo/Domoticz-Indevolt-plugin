@@ -36,12 +36,6 @@ class DeviceManager:
         self.api = api
         self.config = config
 
-        # Last value received from the API
-        #self.actual_charging_state = None
-
-        # Last value requested by the user
-        #self.requested_charging_state = None
-
     # ======================================================
     # CREATE DEVICES
     # ======================================================
@@ -317,11 +311,7 @@ class DeviceManager:
         if unit == 3:
     
             state = level_to_charging_state(level)
-    
-            if state is None:
-
-                return
-           
+                        
             if state == 1:
                 
                 result = self.api.set_charging_parameters(
@@ -338,36 +328,36 @@ class DeviceManager:
                     
             return
 
-        elif state == 2:
-
-            result = self.api.set_charging_parameters(
-
-                state=2,
-
-                power=self.config.max_discharge_power,
-
-                target_soc=self.config.discharge_target_soc
-
-            )
-
-            log_debug(f"Discharging enabled: {result}"
-            )
-
-        else:
-
-            result = self.api.set_charging_parameters(
+            elif state == 2:
     
-                state=0,
+                result = self.api.set_charging_parameters(
     
-                power=0,
+                    state=2,
     
-                target_soc=self.config.discharge_target_soc
+                    power=self.config.max_discharge_power,
     
-            )
+                    target_soc=self.config.discharge_target_soc
     
-            log_debug(
-                f"Stand-by enabled: {result}"
-            )
+                )
+    
+                log_debug(f"Discharging enabled: {result}"
+                )
+
+            else:
+    
+                result = self.api.set_charging_parameters(
+        
+                    state=0,
+        
+                    power=0,
+        
+                    target_soc=self.config.discharge_target_soc
+        
+                )
+        
+                log_debug(
+                    f"Stand-by enabled: {result}"
+                )
 
             return
         
