@@ -145,7 +145,7 @@ class BasePlugin:
 
                 Devices,
 
-                self.api
+                self.api,
 
                 self.config
 
