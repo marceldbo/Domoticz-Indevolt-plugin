@@ -35,6 +35,12 @@ class DeviceManager:
         self.Devices = devices
         self.api = api
 
+        # Last value received from the API
+        self.actual_charging_state = None
+
+        # Last value requested by the user
+        self.requested_charging_state = None
+
     # ======================================================
     # CREATE DEVICES
     # ======================================================
@@ -273,7 +279,11 @@ class DeviceManager:
     
             if state is not None:
                 result = self.api.set_charging_state(state)
-                log_debug(f"Charging state changed to {state}: {result}")
+
+                # Remember what we asked the battery to do
+                self.requested_charging_state = state
+                
+                log_debug(f"Charging state requested: {state}")
     
             return
         
