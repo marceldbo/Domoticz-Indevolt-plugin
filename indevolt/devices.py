@@ -271,7 +271,22 @@ class DeviceManager:
         if unit == 3:
     
             state = level_to_charging_state(level)
-                        
+
+            if state == 0:
+                
+                result = self.api.set_charging_parameters(
+            
+                    state=0,
+        
+                    power=0,
+        
+                    target_soc=self.config.discharge_target_soc
+            
+                )
+            
+                log_debug(f"Stand-by enabled: {result}"
+                )
+            
             if state == 1:
                 
                 result = self.api.set_charging_parameters(
