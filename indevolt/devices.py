@@ -353,8 +353,7 @@ class DeviceManager:
         
                 )
         
-                log_debug(
-                    f"Stand-by enabled: {result}"
+                log_debug(f"Stand-by enabled: {result}"
                 )
 
             return
