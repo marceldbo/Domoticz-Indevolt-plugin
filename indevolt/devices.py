@@ -30,10 +30,11 @@ from .helpers import (
 
 class DeviceManager:
 
-    def __init__(self, devices, api):
+    def __init__(self, devices, api, config):
 
         self.Devices = devices
         self.api = api
+        self.config = config
 
         # Last value received from the API
         #self.actual_charging_state = None
