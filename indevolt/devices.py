@@ -318,7 +318,7 @@ class DeviceManager:
     
             state = level_to_charging_state(level)
     
-            if state None:
+            if state is None:
 
                 return
            
