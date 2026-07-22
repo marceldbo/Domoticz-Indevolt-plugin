@@ -37,7 +37,7 @@ DEFAULT_SETTINGS = {
     },
 
     "Indevolt_MaxDischargePower": {
-        "default": 2400,
+        "default": 800,
         "min": 50,
         "max": 2400,
     },

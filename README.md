@@ -2,12 +2,12 @@
 
 This plugin for Domoticz uses the local OpenData integration for INDEVOLT home battery systems.
 
-## Feature summary
+## Implemented feature summary
 
 - Battery SOC monitoring
-- Power flow (PV / Grid / Load / Battery)
+- Power flow (Grid / Load / Battery)
 - Voltage, current, temperature, frequency
-- Setting working mode, charging state and bypass
+- Setting of Working mode, Charging state and Bypass socket
 - Automatic device creation
 - Local API (no cloud dependency)
 
@@ -30,6 +30,7 @@ To update:
 - The plugin should be selectable under the `Hardware tab`. Look for `Indevolt Home Battery`.
 - Before configuring, make sure that Domoticz accepts new devices.
 - Configure the plugin with a name and ip-address.
-- New devices should be visible under Switches, Temperature and Utility and in the `Devices tab`.
+- New devices should be visible under Switches, Temperature and Utility and in the `Devices tab`. I have selected the most used devices to be visible immediately as real devices in the dashboard. Under the 'Devices tab', there are more selectable devices e.g. Grid Voltage, Grid Frequency etc.
+- Under the 'User variables' tab as part of 'More options', the desired values for Charging, Discharging and Desired State-of-Charge, can be changed in case you don't like the default values. Check the regulations for your country regarding allowable (and safe) values!
 
 For convenience, I have also generated and included an icon to be used with the newly created devices. This can be installed by uploading the `Indevolt stack.zip` file in the custom icons section in the Domoticz GUI and updating the device.

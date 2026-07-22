@@ -149,7 +149,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 243,
             "Subtype": 19,
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -210,13 +210,9 @@ DEVICE_DEFINITIONS = {
     TAG_BATTERY_POWER: {
         "unit": 4,
         "name": "Battery Power",
-        "custom_unit": "kWh",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "Type": 248,
+            "Subtype": 1,
             "Used": 1,
         },
     },
@@ -237,7 +233,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 248,
             "Subtype": 1,
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -247,7 +243,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 248,
             "Subtype": 1,
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -261,7 +257,7 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -275,7 +271,7 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -289,7 +285,7 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -303,7 +299,7 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -317,7 +313,7 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -331,7 +327,7 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -341,7 +337,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 243,
             "Subtype": 6,
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -375,7 +371,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 248,
             "Subtype": 1,
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -385,7 +381,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 243,
             "Subtype": 8,
-            "Used": 1,
+            "Used": 0,
         },
     },
 
@@ -398,7 +394,7 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;Hz",
             },
-            "Used": 1,
+            "Used": 0,
         },
     },
 
