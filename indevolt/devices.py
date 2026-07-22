@@ -318,17 +318,59 @@ class DeviceManager:
     
             state = level_to_charging_state(level)
     
-            if state is not None:
-                result = self.api.set_charging_state(state)
-                log_debug(f"Charging State changed to {state}: {result}")
+            if state None:
+
+                return
+           
+            if state == 1:
                 
-                # Remember what we asked the battery to do
-                #self.requested_charging_state = state
+                result = self.api.set_charging_parameters(
+                    
+                    state=1,
                 
-                #log_debug(f"Charging state requested: {state}")
-    
+                    power=self.config.max_charge_power,
+                
+                    target_soc=self.config.charge_target_soc
+                )
+                
+                log_debug(f"Charging enabled: {result}"
+                )
+                    
             return
-            
+
+        elif state == 2:
+
+            result = self.api.set_charging_parameters(
+
+                state=2,
+
+                power=self.config.max_discharge_power,
+
+                target_soc=self.config.discharge_target_soc
+
+            )
+
+            log_debug(f"Discharging enabled: {result}"
+            )
+
+        else:
+
+        result = self.api.set_charging_parameters(
+
+            state=0,
+
+            power=0,
+
+            target_soc=self.config.discharge_target_soc
+
+        )
+
+        log_debug(
+            f"Stand-by enabled: {result}"
+        )
+
+    return
+        
         # Bypass switch
         if unit == 16:
     
