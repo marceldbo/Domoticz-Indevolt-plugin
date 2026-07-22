@@ -5,7 +5,7 @@ Local OpenData API
 Domoticz 2026.2
 Python 3.11
 
-Version 2.0.0
+Version 2.1.
 """
 
 """
@@ -127,6 +127,10 @@ class BasePlugin:
 
             )
 
+            self.config = IndevoltConfig()
+
+            self.config.load()
+                
             self.api = IndevoltAPI(
 
                 host,
