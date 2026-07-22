@@ -78,8 +78,8 @@ class IndevoltConfig:
 
             url = (
                 self.base_url
-                "?type=command"
-                "&param=getuservariables"
+                + "?type=command"
+                + "&param=getuservariables"
             )
 
             result = requests.get(
@@ -122,11 +122,11 @@ class IndevoltConfig:
 
             url = (
                 self.base_url
-                "?type=command"
-                "&param=saveuservariable"
-                f"&vname={name}"
-                "&vtype=0"
-                f"&vvalue={value}"
+                + "?type=command"
+                + "&param=saveuservariable"
+                + f"&vname={name}"
+                + "&vtype=0"
+                + f"&vvalue={value}"
             )
 
             requests.get(
