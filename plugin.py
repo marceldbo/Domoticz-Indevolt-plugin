@@ -5,7 +5,7 @@ Local OpenData API
 Domoticz 2026.2
 Python 3.11
 
-Version 2.1.
+Version 2.1.0
 """
 
 """
