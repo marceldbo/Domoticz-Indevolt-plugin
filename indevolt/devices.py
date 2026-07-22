@@ -355,21 +355,21 @@ class DeviceManager:
 
         else:
 
-        result = self.api.set_charging_parameters(
+            result = self.api.set_charging_parameters(
+    
+                state=0,
+    
+                power=0,
+    
+                target_soc=self.config.discharge_target_soc
+    
+            )
+    
+            log_debug(
+                f"Stand-by enabled: {result}"
+            )
 
-            state=0,
-
-            power=0,
-
-            target_soc=self.config.discharge_target_soc
-
-        )
-
-        log_debug(
-            f"Stand-by enabled: {result}"
-        )
-
-    return
+            return
         
         # Bypass switch
         if unit == 16:
