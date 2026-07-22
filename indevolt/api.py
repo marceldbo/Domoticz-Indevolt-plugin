@@ -278,9 +278,11 @@ class IndevoltAPI:
     #       Real-time Control.
     # ======================================================
 
-    def set_charging_state(
+    def set_charging_parameters(
         self,
-        state
+        state,
+        power,
+        target_soc
     ):
 
         """
@@ -292,6 +294,14 @@ class IndevoltAPI:
         1 = Charging
         2 = Discharging
 
+        power:
+
+            5-2400 W
+
+        target_soc:
+
+            5-100%
+
         """
 
         return self.set_data(
@@ -301,7 +311,9 @@ class IndevoltAPI:
             tag=SET_CHARGING_STATE,
 
             values=[
-                int(state)
+                int(state),
+                int(power),
+                int(target_soc)
             ]
 
         )
