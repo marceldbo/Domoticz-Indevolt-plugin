@@ -36,10 +36,10 @@ class DeviceManager:
         self.api = api
 
         # Last value received from the API
-        self.actual_charging_state = None
+        #self.actual_charging_state = None
 
         # Last value requested by the user
-        self.requested_charging_state = None
+        #self.requested_charging_state = None
 
     # ======================================================
     # CREATE DEVICES
@@ -174,9 +174,9 @@ class DeviceManager:
 
                 if tag == 6001:
 
-                    api_state = safe_int(value)
+                    #api_state = safe_int(value)
                 
-                    self.actual_charging_state = api_state
+                    #self.actual_charging_state = api_state
                 
                     #
                     # Firmware currently doesn't update tag 6001.
@@ -186,48 +186,48 @@ class DeviceManager:
                     # from Domoticz.
                     #
                 
-                    if api_state in (1000, 1001, 1002):
+                    #if api_state in (1000, 1001, 1002):
                 
-                        display_state = api_state
+                    #    display_state = api_state
                 
                         # If API agrees with our requested state,
                         # clear the pending request.
-                        if display_state == self.requested_charging_state:
-                            self.requested_charging_state = None
+                    #    if display_state == self.requested_charging_state:
+                    #        self.requested_charging_state = None
                 
-                    elif self.requested_charging_state is not None:
+                    #elif self.requested_charging_state is not None:
                 
-                        display_state = self.requested_charging_state
+                    #    display_state = self.requested_charging_state
                 
-                    else:
+                    #else:
                 
-                        display_state = api_state
+                    #    display_state = api_state
                 
-                    level = charging_state_to_level(display_state)
+                    #level = charging_state_to_level(display_state)
                 
-                    self.Devices[unit].Update(
-                        nValue=1,
-                        sValue=str(level)
-                    )
+                    #self.Devices[unit].Update(
+                    #    nValue=1,
+                    #    sValue=str(level)
+                    #)
                 
-                    continue
+                    #continue
                
-                #if tag == 6001:
+                if tag == 6001:
 
-                #    state = safe_int(value)
+                    state = safe_int(value)
 
-                #    state_level = CHARGING_STATE_LEVELS.get(state, 0)
+                    state_level = CHARGING_STATE_LEVELS.get(state, 0)
 
-                #    self.Devices[unit].Update(
+                    self.Devices[unit].Update(
 
-                #       nValue=1,  # Keeps the switch in active state. No additional  
-                #                  # "On" action needed after selection change
+                       nValue=1,  # Keeps the switch in active state. No additional  
+                                  # "On" action needed after selection change
 
-                #       sValue=str(state_level),
+                       sValue=str(state_level),
 
-                #    )
+                    )
 
-                #    continue
+                    continue
 
                 # ----------------------------------
                 # Switches
@@ -319,14 +319,15 @@ class DeviceManager:
     
             if state is not None:
                 result = self.api.set_charging_state(state)
-
-                # Remember what we asked the battery to do
-                self.requested_charging_state = state
+                log_debug(f"Charging State changed to {state}: {result}")
                 
-                log_debug(f"Charging state requested: {state}")
+                # Remember what we asked the battery to do
+                #self.requested_charging_state = state
+                
+                #log_debug(f"Charging state requested: {state}")
     
             return
-        
+            
         # Bypass switch
         if unit == 16:
     
