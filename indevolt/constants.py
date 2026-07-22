@@ -285,7 +285,7 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 0,
+            "Used": 1,
         },
     },
 
@@ -299,7 +299,7 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 0,
+            "Used": 1,
         },
     },
 
