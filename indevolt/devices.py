@@ -166,47 +166,7 @@ class DeviceManager:
                 # ----------------------------------
                 # Charging State
                 # ----------------------------------
-
-                #if tag == 6001:
-
-                    #api_state = safe_int(value)
-                
-                    #self.actual_charging_state = api_state
-                
-                    #
-                    # Firmware currently doesn't update tag 6001.
-                    #
-                    # If the API reports a valid new state, use it.
-                    # Otherwise keep displaying the last state requested
-                    # from Domoticz.
-                    #
-                
-                    #if api_state in (1000, 1001, 1002):
-                
-                    #    display_state = api_state
-                
-                        # If API agrees with our requested state,
-                        # clear the pending request.
-                    #    if display_state == self.requested_charging_state:
-                    #        self.requested_charging_state = None
-                
-                    #elif self.requested_charging_state is not None:
-                
-                    #    display_state = self.requested_charging_state
-                
-                    #else:
-                
-                    #    display_state = api_state
-                
-                    #level = charging_state_to_level(display_state)
-                
-                    #self.Devices[unit].Update(
-                    #    nValue=1,
-                    #    sValue=str(level)
-                    #)
-                
-                    #continue
-               
+  
                 if tag == 6001:
 
                     state = safe_int(value)
