@@ -162,6 +162,15 @@ def working_mode(value):
         f"Unknown ({mode})"
     )
 
+def grid_charging_enable(value):
+    """
+    GetData:
+        1000 = Disabled
+        1001 = Enabled
+    """
+
+    return safe_int(value) == 1001
+
 # ==========================================================
 # CHARGING STATE SELECTOR HANDLING
 # ==========================================================
