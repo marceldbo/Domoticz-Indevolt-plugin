@@ -41,6 +41,8 @@ TAG_GRID_FREQUENCY = 2612
 TAG_BATTERY_TEMPERATURE = 9012
 TAG_LIGHT_ENABLE = 7171
 
+TAG_GRID_CHARGING_ENABLE = 2618
+
 # ==========================================================
 # SETDATA REGISTERS
 # ==========================================================
@@ -50,6 +52,8 @@ SET_CHARGING_STATE = 47015
 
 SET_BYPASS_ENABLE = 7266
 SET_LIGHT_ENABLE = 7265
+
+SET_GRID_CHARGING_ENABLE = 1143
 
 # ==========================================================
 # DECODING TABLES
@@ -127,6 +131,8 @@ POLL_TAGS = [
 
     TAG_BATTERY_TEMPERATURE,
     TAG_LIGHT_ENABLE,
+    
+    TAG_GRID_CHARGING_ENABLE,
 ]
 
 # ==========================================================
@@ -182,7 +188,7 @@ DEVICE_DEFINITIONS = {
         
     TAG_CHARGING_STATE: {
         "unit": 3,
-        "name": "Charging state",
+        "name": "State",
         "create": {
             "Type": 244,
             "Subtype": 62,
@@ -209,7 +215,7 @@ DEVICE_DEFINITIONS = {
     
     TAG_BATTERY_POWER: {
         "unit": 4,
-        "name": "Battery Power",
+        "name": "Power",
         "create": {
             "Type": 248,
             "Subtype": 1,
@@ -219,7 +225,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_BATTERY_SOC: {
         "unit": 5,
-        "name": "Battery SOC",
+        "name": "SoC",
         "create": {
             "Type": 243,
             "Subtype": 6,
@@ -277,7 +283,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_DAILY_CHARGE: {
         "unit": 10,
-        "name": "Battery Daily Charge",
+        "name": "Daily Charge",
         "custom_unit": "kWh",
         "create": {
             "Type": 243,
@@ -285,13 +291,13 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 0,
+            "Used": 1,
         },
     },
 
     TAG_DAILY_DISCHARGE: {
         "unit": 11,
-        "name": "Battery Daily Discharge",
+        "name": "Daily Discharge",
         "custom_unit": "kWh",
         "create": {
             "Type": 243,
@@ -299,13 +305,13 @@ DEVICE_DEFINITIONS = {
             "Options": {
                 "Custom": "1;kWh",
             },
-            "Used": 0,
+            "Used": 1,
         },
     },
 
     TAG_TOTAL_CHARGE: {
         "unit": 12,
-        "name": "Battery Total Charge",
+        "name": "Total Charge",
         "custom_unit": "kWh",
         "create": {
             "Type": 243,
@@ -319,7 +325,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_TOTAL_DISCHARGE: {
         "unit": 13,
-        "name": "Battery Total Discharge",
+        "name": "Total Discharge",
         "custom_unit": "kWh",
         "create": {
             "Type": 243,
@@ -333,7 +339,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_BACKUP_SOC: {
         "unit": 14,
-        "name": "Backup SOC",
+        "name": "Backup SoC",
         "create": {
             "Type": 243,
             "Subtype": 6,
@@ -356,7 +362,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_BYPASS_ENABLE: {
         "unit": 16,
-        "name": "Bypass Enabled",
+        "name": "Bypass",
         "create": {
             "Type": 244,
             "Subtype": 62,
@@ -400,7 +406,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_BATTERY_TEMPERATURE: {
         "unit": 20,
-        "name": "Battery Temperature",
+        "name": "Internal temp.",
         "create": {
             "Type": 80,
             "Subtype": 5,
@@ -410,7 +416,18 @@ DEVICE_DEFINITIONS = {
     
     TAG_LIGHT_ENABLE: {
         "unit": 21,
-        "name": "Light Enabled",
+        "name": "LED bar",
+        "create": {
+            "Type": 244,
+            "Subtype": 62,
+            "Switchtype": 0,
+            "Used": 1,
+        },
+    },
+
+    TAG_GRID_CHARGING_ENABLE: {
+        "unit": 22,
+        "name": "Grid Charging",
         "create": {
             "Type": 244,
             "Subtype": 62,
