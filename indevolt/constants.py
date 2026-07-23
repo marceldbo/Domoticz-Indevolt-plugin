@@ -5,7 +5,7 @@ Constants and device definitions
 Version 2.1.0
 """
 
-# ========================================================
+# ==========================================================
 # INDEVOLT REGISTER TAGS
 # ==========================================================
 
@@ -427,7 +427,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_GRID_CHARGING_ENABLE: {
         "unit": 22,
-        "name": "Grid Charging",
+        "name": "Grid Charging enable",
         "create": {
             "Type": 244,
             "Subtype": 62,
