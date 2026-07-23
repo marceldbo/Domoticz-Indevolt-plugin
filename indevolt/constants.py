@@ -362,7 +362,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_BYPASS_ENABLE: {
         "unit": 16,
-        "name": "Bypass Enabled",
+        "name": "Bypass",
         "create": {
             "Type": 244,
             "Subtype": 62,
@@ -416,7 +416,7 @@ DEVICE_DEFINITIONS = {
     
     TAG_LIGHT_ENABLE: {
         "unit": 21,
-        "name": "Light Enabled",
+        "name": "LED bar",
         "create": {
             "Type": 244,
             "Subtype": 62,
@@ -427,7 +427,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_GRID_CHARGING_ENABLE: {
         "unit": 22,
-        "name": "Grid Charging Enabled",
+        "name": "Grid Charging",
         "create": {
             "Type": 244,
             "Subtype": 62,
