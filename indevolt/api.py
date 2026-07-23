@@ -365,7 +365,7 @@ class IndevoltAPI:
         
     def set_grid_charging(self, enabled):
         """
-        Enable or disable Light.
+        Enable or disable grid charging.
     
         True  -> 1
         False -> 0
