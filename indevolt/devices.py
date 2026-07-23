@@ -342,7 +342,20 @@ class DeviceManager:
             enabled = (command == "On")
     
             result = self.api.set_bypass(enabled)
-    
+
+            #
+            # Fake the switch immediately because
+            # GetData may not update immediately.
+            #
+        
+            self.Devices[unit].Update(
+        
+                nValue=1 if enabled else 0,
+        
+                sValue="On" if enabled else "Off"
+        
+            )
+            
             log_debug(
                 f"Bypass {'enabled' if enabled else 'disabled'}: {result}"
             )
@@ -355,7 +368,20 @@ class DeviceManager:
             enabled = (command == "On")
     
             result = self.api.set_light(enabled)
-    
+
+            #
+            # Fake the switch immediately because
+            # GetData may not update immediately.
+            #
+        
+            self.Devices[unit].Update(
+        
+                nValue=1 if enabled else 0,
+        
+                sValue="On" if enabled else "Off"
+        
+            )
+            
             log_debug(
                 f"Light {'enabled' if enabled else 'disabled'}: {result}"
             )
