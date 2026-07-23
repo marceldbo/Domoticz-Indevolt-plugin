@@ -358,3 +358,16 @@ class DeviceManager:
             )
     
             return
+
+        # Grid Charging switch
+        if unit == 22:
+    
+            enabled = (command == "On")
+    
+            result = self.api.set_grid_charging(enabled)
+    
+            log_debug(
+                f"Grid Charging {'enabled' if enabled else 'disabled'}: {result}"
+            )
+    
+            return
