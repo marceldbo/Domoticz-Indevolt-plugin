@@ -16,6 +16,7 @@ from .constants import (
     SET_CHARGING_STATE,
     SET_BYPASS_ENABLE,
     SET_LIGHT_ENABLE,
+    SET_GRID_CHARGING_ENABLE,
 )
 
 from .helpers import (
@@ -355,5 +356,25 @@ class IndevoltAPI:
         return self.set_data(
             function=16,
             tag=SET_LIGHT_ENABLE,
+            values=[value]
+        )
+
+    # ======================================================
+    # SET GRID CHARGING ENABLE/DISABLE COMMAND
+    # ======================================================
+        
+    def set_grid_charging(self, enabled):
+        """
+        Enable or disable Light.
+    
+        True  -> 1
+        False -> 0
+        """
+    
+        value = 1 if enabled else 0
+    
+        return self.set_data(
+            function=16,
+            tag=SET_GRID_CHARGING_ENABLE,
             values=[value]
         )
