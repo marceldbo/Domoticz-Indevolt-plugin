@@ -427,7 +427,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_GRID_CHARGING_ENABLE: {
         "unit": 22,
-        "name": "Grid Charging enable",
+        "name": "Grid Charging",
         "create": {
             "Type": 244,
             "Subtype": 62,
