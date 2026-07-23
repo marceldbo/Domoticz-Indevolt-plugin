@@ -188,9 +188,12 @@ class DeviceManager:
                 # Switches
                 # ----------------------------------
 
-                if tag in {680, 7171}:
+                if tag in {680, 7171, 2618}:
 
-                    enabled = safe_int(value) == 1
+                    if tag == 2618:
+                        enabled = safe_int(value) == 1001
+                    else:
+                        enabled = safe_int(value) == 1
 
                     self.Devices[unit].Update(
 
@@ -365,7 +368,20 @@ class DeviceManager:
             enabled = (command == "On")
     
             result = self.api.set_grid_charging(enabled)
-    
+
+            #
+            # Fake the switch immediately because
+            # GetData may not update immediately.
+            #
+        
+            self.Devices[unit].Update(
+        
+                nValue=1 if enabled else 0,
+        
+                sValue="On" if enabled else "Off"
+        
+            )
+            
             log_debug(
                 f"Grid Charging {'enabled' if enabled else 'disabled'}: {result}"
             )
