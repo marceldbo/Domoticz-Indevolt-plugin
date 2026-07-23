@@ -406,7 +406,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_BATTERY_TEMPERATURE: {
         "unit": 20,
-        "name": "Temperature",
+        "name": "Internal temp.",
         "create": {
             "Type": 80,
             "Subtype": 5,
