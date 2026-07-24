@@ -369,8 +369,10 @@ class DeviceManager:
         
         if EV_CURRENT_UNIT not in self.Devices:
             return None
-
-        return float(self.Devices[unit].sValue)
+        
+        try:
+        
+            return float(self.Devices[unit].sValue)
 
         except Exception as e:
 
