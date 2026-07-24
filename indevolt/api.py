@@ -46,11 +46,9 @@ class IndevoltAPI:
 
         self.session = requests.Session()
 
-
         from .helpers import set_debug
 
         set_debug(debug)
-
 
         log_debug(
             f"API initialized: {self.base_url}"
