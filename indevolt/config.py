@@ -56,19 +56,19 @@ DEFAULT_EV_SETTINGS = {
         "max": 1,
     },
 
-    "Indevolt_EV_Start_Current": {
+    "Indevolt_EV_Start_Current_Amps": {
         "default": 3,
         "min": 1,
         "max": 5,
     },
 
-    "Indevolt_EV_Stop_Current": {
+    "Indevolt_EV_Stop_Current_Amps": {
         "default": 2,
         "min": 0,
         "max": 5,
     },
 
-    "Indevolt_EV_Stop_Delay": {
+    "Indevolt_EV_Stop_Delay_Mins": {
         "default": 10,
         "min": 5,
         "max": 120,
@@ -103,9 +103,9 @@ class IndevoltConfig:
         # Cached EV values
 
         self.ev_management_enabled = False
-        self.ev_start_current = 3
-        self.ev_stop_current = 2
-        self.ev_stop_delay = 10
+        self.ev_start_current_amps = 3
+        self.ev_stop_current_amps = 2
+        self.ev_stop_delay_mins = 10
 
     # ==================================================
     # READ USER VARIABLES
@@ -269,17 +269,17 @@ class IndevoltConfig:
                     value == 1
                 )
 
-            elif name == "Indevolt_EV_Start_Current":
+            elif name == "Indevolt_EV_Start_Current_Amps":
 
-                self.ev_start_current = value
+                self.ev_start_current_amps = value
 
-            elif name == "Indevolt_EV_Stop_Current":
+            elif name == "Indevolt_EV_Stop_Current_Amps":
 
-                self.ev_stop_current = value
+                self.ev_stop_current_amps = value
 
-            elif name == "Indevolt_EV_Stop_Delay":
+            elif name == "Indevolt_EV_Stop_Delay_Mins":
 
-                self.ev_stop_delay = value
+                self.ev_stop_delay_mins = value
 
         log_debug(
             "Indevolt configuration loaded"
@@ -288,9 +288,9 @@ class IndevoltConfig:
         log_debug(
             f"EV Management="
             f"{self.ev_management_enabled}, "
-            f"Start={self.ev_start_current}A, "
-            f"Stop={self.ev_stop_current}A, "
-            f"Delay={self.ev_stop_delay}min"
+            f"Start={self.ev_start_current_amps}A, "
+            f"Stop={self.ev_stop_current_amps}A, "
+            f"Delay={self.ev_stop_delay_mins}min"
         )
 
     # ==================================================
