@@ -233,7 +233,7 @@ class IndevoltConfig:
 
                 except ValueError:
 
-                    value = cfg{"default"]
+                    value = cfg["default"]
 
             # Validate
 
