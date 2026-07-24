@@ -198,7 +198,21 @@ class IndevoltConfig:
 
         variables = self.get_variables()
 
-        for name, cfg in DEFAULT_SETTINGS.items():
+        #
+        # Combine all settings
+        #
+
+        settings = {}
+
+        settings.update(
+            DEFAULT_SETTINGS
+        )
+
+        settings.update(
+            DEFAULT_EV_SETTINGS
+        )
+        
+        for name, cfg in settings.items():
 
             if name not in variables:
 
@@ -211,9 +225,15 @@ class IndevoltConfig:
 
             else:
 
-                value = int(
-                    variables[name]
+                try:
+
+                    value = int(
+                        variables[name]
                 )
+
+                except ValueError:
+
+                    value = cfg{"default"]
 
             # Validate
 
@@ -227,7 +247,7 @@ class IndevoltConfig:
                 value
             )
 
-            # Store internally
+            # Store battery settings internally
 
             if name == "Indevolt_ChargeTargetSOC":
 
@@ -245,8 +265,44 @@ class IndevoltConfig:
 
                 self.max_discharge_power = value
 
+
+            #
+            # Store EV settings internally
+            #
+
+            elif name == "Indevolt_EV_Management_Enabled":
+
+                self.ev_management_enabled = (
+                    value == 1
+                )
+
+            elif name == "Indevolt_EV_Current_Device_IDX":
+
+                self.ev_current_device_idx = value
+
+            elif name == "Indevolt_EV_Start_Current":
+
+                self.ev_start_current = value
+
+            elif name == "Indevolt_EV_Stop_Current":
+
+                self.ev_stop_current = value
+
+            elif name == "Indevolt_EV_Stop_Delay":
+
+                self.ev_stop_delay = value
+
         log_debug(
             "Indevolt configuration loaded"
+        )
+
+        log_debug(
+            f"EV Management="
+            f"{self.ev_management_enabled}, "
+            f"Device={self.ev_current_device_idx}, "
+            f"Start={self.ev_start_current}A, "
+            f"Stop={self.ev_stop_current}A, "
+            f"Delay={self.ev_stop_delay}min"
         )
 
     # ==================================================
