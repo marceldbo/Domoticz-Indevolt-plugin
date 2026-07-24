@@ -337,7 +337,7 @@ class DeviceManager:
                 
                 enabled,
                 
-                self.config.discharge_target_soc
+                self.config.discharge_target_soc_percent
     
             )
     
@@ -413,7 +413,7 @@ class DeviceManager:
         
                     power=0,
         
-                    target_soc=self.config.discharge_target_soc
+                    target_soc=self.config.discharge_target_soc_percent
             
                 )
             
@@ -426,9 +426,9 @@ class DeviceManager:
                     
                     state=1,
                 
-                    power=self.config.max_charge_power,
+                    power=self.config.max_charge_power_watt,
                 
-                    target_soc=self.config.charge_target_soc
+                    target_soc=self.config.charge_target_soc_percent
                 )
                 
                 log_debug(f"Charging enabled: {result}"
@@ -440,9 +440,9 @@ class DeviceManager:
     
                     state=2,
     
-                    power=self.config.max_discharge_power,
+                    power=self.config.max_discharge_power_watt,
     
-                    target_soc=self.config.discharge_target_soc
+                    target_soc=self.config.discharge_target_soc_percent
     
                 )
     
@@ -457,7 +457,7 @@ class DeviceManager:
         
                     power=0,
         
-                    target_soc=self.config.discharge_target_soc
+                    target_soc=self.config.discharge_target_soc_percent
         
                 )
         
