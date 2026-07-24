@@ -271,6 +271,14 @@ class DeviceManager:
 
     def set_working_mode(self, mode):
 
+        if self.current_working_mode == mode:
+
+            log_debug(
+                f"Working Mode already {mode}, skipping."
+            )
+
+            return True
+        
         try:
 
             result = self.api.set_working_mode(
@@ -314,51 +322,41 @@ class DeviceManager:
 
     def set_rtc_standby(self, enabled):
 
-    try:
-
-        if enabled:
-
-            #
-            # Real-time Control standby
-            #
-            result = self.api.set_realtime_control_standby(
-
-                True,
-
-                target_soc=self.config.discharge_target_soc
-
+        if self.rtc_standby_active == enabled:
+        
+            log_debug(
+                f"RTC Stand-by already {'enabled' if enabled else 'disabled'}, skipping."
             )
-
-            self.rtc_standby_active = True
-
-        else:
-
-            #
-            # Exit standby
-            #
+        
+            return True
+    
+        try:
+    
             result = self.api.set_realtime_control_standby(
-
-                False,
-
-                target_soc=self.config.discharge_target_soc
-
+                
+                enabled,
+                
+                self.config.discharge_target_soc
+    
             )
-
-            self.rtc_standby_active = False
-
-        log_debug(
-            f"RTC Standby {enabled}: {result}"
-        )
-
-        return result
-
-    except Exception as e:
-
-        log_error(
-            f"RTC Standby failed: {e}"
-        )
-
-        return None
+    
+            self.rtc_standby_active = enabled
+    
+            log_debug(
+                    f"RTC Stand-by "
+                    f"{'enabled' if enabled else 'disabled'}: "
+                    f"{result}"
+            )
+    
+            return result
+    
+        except Exception as e:
+    
+            log_error(
+                f"RTC Standby failed: {e}"
+            )
+    
+            return None
     
     # ======================================================
     # COMMAND HANDLING
