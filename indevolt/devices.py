@@ -357,6 +357,28 @@ class DeviceManager:
             )
     
             return None
+
+    # ======================================================
+    # GET EV CURRENT
+    # ======================================================
+
+    def get_ev_current(self):
+
+        definition = DEVICE_DEFINITIONS[TAG_EV_CHARGING_CURRENT]
+        unit = definition["unit"]
+        
+        if EV_CURRENT_UNIT not in self.Devices:
+            return None
+
+        return float(self.Devices[unit].sValue)
+
+        except Exception as e:
+
+            log_error(
+                f"EV current read failed: {e}"
+            )
+
+            return None
     
     # ======================================================
     # COMMAND HANDLING
