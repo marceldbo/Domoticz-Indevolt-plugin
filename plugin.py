@@ -257,33 +257,13 @@ class BasePlugin:
     # EV MANAGEMENT
     # ======================================================
 
-    def get_ev_current(self):
-
-        if 30 not in Devices:
-
-                return None
-        
-        try:
-
-            return float(
-                Device[30].sValue
-            )
-
-        except Exception as e:
-
-            log_error(
-                f"EV current read failed: {e}"
-            )
-
-        return None
-
     def handle_ev_management(self):
 
         if not self.ev_enabled:
 
             return
 
-        current = self.get_ev_current()
+        current = self.device_manager.get_ev_current()
 
         if current is None:
 
