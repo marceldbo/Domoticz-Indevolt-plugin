@@ -98,8 +98,6 @@ class BasePlugin:
 
         self.ev_enabled = False
 
-        self.ev_current_device_idx = 0
-
         self.ev_start_current = 10
 
         self.ev_stop_current = 2
@@ -172,10 +170,6 @@ class BasePlugin:
                 
             self.ev_enabled = (
                 self.config.ev_management_enabled
-            )
-                
-            self.ev_current_device_idx = (
-                self.config.ev_current_device_idx
             )
                 
             self.ev_start_current = (
@@ -265,17 +259,15 @@ class BasePlugin:
 
     def get_ev_current(self):
 
+        if 30 not in Devices:
+
+                return None
+        
         try:
 
-            device = Domoticz.Device(
-                self.ev_current_device_idx
+            return float(
+                Device[30].sValue
             )
-
-            if device:
-
-                return float(
-                    device.sValue
-                )
 
         except Exception as e:
 
