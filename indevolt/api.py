@@ -14,6 +14,7 @@ from .constants import (
     POLL_TAGS,
     SET_WORKING_MODE,
     SET_CHARGING_STATE,
+    SET_RTC_STANDBY,
     SET_BYPASS_ENABLE,
     SET_LIGHT_ENABLE,
     SET_GRID_CHARGING_ENABLE,
@@ -353,27 +354,29 @@ class IndevoltAPI:
 
         if enabled:
 
-            return self.set_charging_parameters(
+            state=0,
 
-                state=0,
-
-                power=0,
-
-                target_soc=target_soc
-
-            )
-
+            power=0,
+             
         else:
 
-            return self.set_charging_parameters(
+            state=0,
 
-                state=0,
+            power=0,
+             
+        return self.set_data(
+    
+            function=16,
+    
+            tag=SET_RTC_STANDBY,
+    
+            values=[
+                state,
+                power,
+                int(target_soc)
+            ]
 
-                power=0,
-
-                target_soc=target_soc
-
-            )
+         )    
     
     # ======================================================
     # SET BYPASS ENABLE/DISABLE COMMAND
