@@ -267,7 +267,7 @@ DEVICE_DEFINITIONS = {
         "name": "Total Output Energy (W,kWh)",
         "create": {
             "TypeName": "kWh",
-            "
+            "SwitchType": 4,
             "Used": 0,
         },
     },
@@ -286,6 +286,7 @@ DEVICE_DEFINITIONS = {
         "name": "Daily Discharge (W,kWh)",
         "create": {
             "TypeName": "kWh",
+            "SwitchType": 4,
             "Used": 1,
         },
     },
@@ -304,6 +305,7 @@ DEVICE_DEFINITIONS = {
         "name": "Total Discharge (W,kWh)",
         "create": {
             "TypeName": "kWh",
+            "SwitchType": 4,
             "Used": 0,
         },
     },
