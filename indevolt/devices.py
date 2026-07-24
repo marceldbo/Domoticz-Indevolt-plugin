@@ -11,6 +11,7 @@ from .constants import (
     DEVICE_DEFINITIONS,
     CHARGING_STATE_LEVELS,
     WORKING_MODE_LEVELS,
+    TAG_EV_CHARGING_CURRENT,
 )
 
 from .helpers import (
