@@ -102,7 +102,7 @@ class BasePlugin:
 
         self.ev_stop_current_amp = 2
 
-        self.ev_stop_delay_min = 10
+        self.ev_stop_delay_min = 5
 
         self.ev_override_active = False
 
