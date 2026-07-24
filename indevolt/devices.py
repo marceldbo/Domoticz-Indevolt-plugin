@@ -321,11 +321,9 @@ class DeviceManager:
             #
             # Real-time Control standby
             #
-            result = self.api.set_charging_parameters(
+            result = self.api.set_realtime_control_standby(
 
-                state=0,
-
-                power=0,
+                True,
 
                 target_soc=self.config.discharge_target_soc
 
@@ -338,11 +336,9 @@ class DeviceManager:
             #
             # Exit standby
             #
-            result = self.api.set_charging_parameters(
+            result = self.api.set_realtime_control_standby(
 
-                state=0,
-
-                power=self.config.max_discharge_power,
+                False,
 
                 target_soc=self.config.discharge_target_soc
 
