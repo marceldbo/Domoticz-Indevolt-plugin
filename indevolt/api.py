@@ -330,8 +330,8 @@ class IndevoltAPI:
 
     def set_realtime_control_standby(
         self,
-        enabled
-        target_soc=20
+        enabled,
+        target_soc
     ):
 
         """
