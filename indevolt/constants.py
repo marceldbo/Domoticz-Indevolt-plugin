@@ -142,7 +142,6 @@ POLL_TAGS = [
     
     TAG_GRID_CHARGING_ENABLE,
 
-    TAG_EV_CHARGING_CURRENT,
 ]
 
 # ==========================================================
