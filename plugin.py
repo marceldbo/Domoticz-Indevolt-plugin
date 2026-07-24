@@ -61,6 +61,8 @@ Version 2.1.0
 
 import Domoticz
 
+from datetime import datetime, timedelta
+
 from indevolt.config import (
     IndevoltConfig
 )
@@ -86,8 +88,32 @@ class BasePlugin:
 
         self.device_manager = None
 
+        self.config = None
+
         self.interval = 10
 
+        # ==============================
+        # EV automation state
+        # ==============================
+
+        self.ev_enabled = False
+
+        self.ev_current_device_idx = 0
+
+        self.ev_start_current = 10
+
+        self.ev_stop_current = 2
+
+        self.ev_stop_delay = 10
+
+
+        self.ev_override_active = False
+
+        self.ev_stop_timer = None
+
+        self.original_working_mode = None
+
+        
     # ======================================================
     # START
     # ======================================================
@@ -140,6 +166,43 @@ class BasePlugin:
             self.config = IndevoltConfig()
 
             self.config.load()
+
+            #
+            # EV configuration
+            #
+
+            self.ev_enabled = self.config.get(
+                "EV_MANAGEMENT_ENABLED",
+                False
+            )
+
+            self.ev_current_device_idx = int(
+                self.config.get(
+                    "EV_CURRENT_DEVICE_IDX",
+                    0
+                )
+            )
+
+            self.ev_start_current = float(
+                self.config.get(
+                    "EV_START_CURRENT",
+                    10
+                )
+            )
+
+            self.ev_stop_current = float(
+                self.config.get(
+                    "EV_STOP_CURRENT",
+                    2
+                )
+            )
+
+            self.ev_stop_delay = int(
+                self.config.get(
+                    "EV_STOP_DELAY",
+                    10
+                )
+            )
                 
             self.device_manager = DeviceManager(
 
@@ -198,12 +261,141 @@ class BasePlugin:
                     data
                 )
 
+            #
+            # EV automation
+            #
+
+            self.handle_ev_management()
+            
         except Exception as e:
 
             log_error(
                 f"Heartbeat failed: {e}"
             )
 
+    # ======================================================
+    # EV MANAGEMENT
+    # ======================================================
+
+    def get_ev_current(self):
+
+        try:
+
+            device = Domoticz.Device(
+                self.ev_current_device_idx
+            )
+
+            if device:
+
+                return float(
+                    device.sValue
+                )
+
+        except Exception as e:
+
+            log_error(
+                f"EV current read failed: {e}"
+            )
+
+        return None
+
+    def handle_ev_management(self):
+
+        if not self.ev_enabled:
+
+            return
+
+        current = self.get_ev_current()
+
+        if current is None:
+
+            return
+
+        now = datetime.now()
+
+        #
+        # EV charging detected
+        #
+
+        if current >= self.ev_start_current:
+
+            self.ev_stop_timer = None
+
+            if not self.ev_override_active:
+
+                log_info(
+                    f"EV charging detected "
+                    f"({current}A)"
+                )
+
+                #
+                # Save current mode
+                #
+
+                self.original_working_mode = (
+                    self.device_manager
+                    .get_working_mode()
+                )
+
+                #
+                # Force Real-time Control
+                #
+
+                self.device_manager.set_working_mode(
+                    4
+                )
+
+                #
+                # Enable RTC Stand-by
+                #
+
+                self.device_manager.set_rtc_standby(
+                    True
+                )
+
+                self.ev_override_active = True
+
+        #
+        # EV stopped
+        #
+
+        elif current <= self.ev_stop_current:
+
+            if self.ev_override_active:
+
+                if self.ev_stop_timer is None:
+
+                    self.ev_stop_timer = now
+
+                    log_info(
+                        "EV stopped. "
+                        "Starting restore timer"
+                    )
+
+                elif (
+                    now - self.ev_stop_timer
+                ) >= timedelta(
+                    minutes=self.ev_stop_delay
+                ):
+
+                    log_info(
+                        "Restoring normal "
+                        "battery operation"
+                    )
+
+                    self.device_manager.set_rtc_standby(
+                        False
+                    )
+
+                    self.device_manager.set_working_mode(
+                        self.original_working_mode
+                        or 1
+                    )
+
+                    self.ev_override_active = False
+
+                    self.ev_stop_timer = None
+    
     # ======================================================
     # COMMANDS
     # ======================================================
