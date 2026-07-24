@@ -106,7 +106,6 @@ class BasePlugin:
 
         self.ev_stop_delay = 10
 
-
         self.ev_override_active = False
 
         self.ev_stop_timer = None
