@@ -255,7 +255,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_TOTAL_INPUT_ENERGY: {
         "unit": 8,
-        "name": "Total Input Energy",
+        "name": "Total Input Energy (W,kWh)",
         "create": {
             "TypeName": "kWh",
             "Used": 0,
@@ -264,16 +264,17 @@ DEVICE_DEFINITIONS = {
     
     TAG_TOTAL_OUTPUT_ENERGY: {
         "unit": 9,
-        "name": "Total Output Energy",
+        "name": "Total Output Energy (W,kWh)",
         "create": {
             "TypeName": "kWh",
+            "
             "Used": 0,
         },
     },
     
     TAG_DAILY_CHARGE: {
         "unit": 10,
-        "name": "Daily Charge",
+        "name": "Daily Charge (W,kWh)",
         "create": {
             "TypeName": "kWh",
             "Used": 1,
@@ -282,7 +283,7 @@ DEVICE_DEFINITIONS = {
     
     TAG_DAILY_DISCHARGE: {
         "unit": 11,
-        "name": "Daily Discharge",
+        "name": "Daily Discharge (W,kWh)",
         "create": {
             "TypeName": "kWh",
             "Used": 1,
@@ -291,7 +292,7 @@ DEVICE_DEFINITIONS = {
     
     TAG_TOTAL_CHARGE: {
         "unit": 12,
-        "name": "Total Charge",
+        "name": "Total Charge (W,kWh)",
         "create": {
             "TypeName": "kWh",
             "Used": 0,
@@ -300,7 +301,7 @@ DEVICE_DEFINITIONS = {
     
     TAG_TOTAL_DISCHARGE: {
         "unit": 13,
-        "name": "Total Discharge",
+        "name": "Total Discharge (W,kWh)",
         "create": {
             "TypeName": "kWh",
             "Used": 0,
