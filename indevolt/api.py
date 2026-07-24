@@ -2,7 +2,7 @@
 INDEVOLT Domoticz Plugin
 Local OpenData API
 
-Version 2.1.0
+Version 2.2.0
 """
 
 import json
@@ -318,6 +318,62 @@ class IndevoltAPI:
             ]
 
         )
+
+    # ======================================================
+    # REAL-TIME CONTROL STANDBY COMMAND
+    #
+    # Requires:
+    #   Working Mode = 4 (Real-time Control)
+    #
+    # ======================================================
+
+    def set_realtime_control_standby(
+        self,
+        enabled
+        target_soc=20
+    ):
+
+        """
+        Enable or disable Real-time Control standby.
+
+        enabled=True:
+
+            Battery stops charging/discharging
+
+            state = 0
+            power = 0
+
+        enabled=False:
+
+            Exit standby.
+
+            The battery will resume RTC operation.
+
+        """
+
+        if enabled:
+
+            return self.set_charging_parameters(
+
+                state=0,
+
+                power=0,
+
+                target_soc=target_soc
+
+            )
+
+        else:
+
+            return self.set_charging_parameters(
+
+                state=0,
+
+                power=0,
+
+                target_soc=target_soc
+
+            )
     
     # ======================================================
     # SET BYPASS ENABLE/DISABLE COMMAND
