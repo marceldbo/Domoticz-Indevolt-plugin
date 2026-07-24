@@ -98,11 +98,11 @@ class BasePlugin:
 
         self.ev_enabled = False
 
-        self.ev_start_current = 10
+        self.ev_start_current_amp = 10
 
-        self.ev_stop_current = 2
+        self.ev_stop_current_amp = 2
 
-        self.ev_stop_delay = 10
+        self.ev_stop_delay_min = 10
 
         self.ev_override_active = False
 
@@ -173,15 +173,15 @@ class BasePlugin:
             )
                 
             self.ev_start_current = (
-                self.config.ev_start_current
+                self.config.ev_start_current_amp
             )
                 
             self.ev_stop_current = (
-                self.config.ev_stop_current
+                self.config.ev_stop_current_amp
             )
                 
             self.ev_stop_delay = (
-                self.config.ev_stop_delay
+                self.config.ev_stop_delay_min
             )
                 
             self.device_manager = DeviceManager(
@@ -263,7 +263,7 @@ class BasePlugin:
 
             return
 
-        current = self.device_manager.get_ev_current()
+        current = self.device_manager.get_ev_current_amp()
 
         if current is None:
 
@@ -275,7 +275,7 @@ class BasePlugin:
         # EV charging detected
         #
 
-        if current >= self.ev_start_current:
+        if current >= self.ev_start_current_amp:
 
             self.ev_stop_timer = None
 
@@ -317,7 +317,7 @@ class BasePlugin:
         # EV stopped
         #
 
-        elif current <= self.ev_stop_current:
+        elif current <= self.ev_stop_current_amp:
 
             if self.ev_override_active:
 
@@ -333,7 +333,7 @@ class BasePlugin:
                 elif (
                     now - self.ev_stop_timer
                 ) >= timedelta(
-                    minutes=self.ev_stop_delay
+                    minutes=self.ev_stop_delay_min
                 ):
 
                     log_info(
