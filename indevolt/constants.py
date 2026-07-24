@@ -272,21 +272,30 @@ DEVICE_DEFINITIONS = {
         },
     },
     
-    TAG_DAILY_CHARGE: {
+    TAG_DAILY_CHARGE: { 
         "unit": 10,
-        "name": "Daily Charge (W, kWh)",
-        "create": {
-            "TypeName": "kWh",
+        "name": "Daily Charge",
+        "custom_unit": "kWh",
+        "create": { 
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            }, 
             "Used": 1,
         },
-    },
+    }, 
     
     TAG_DAILY_DISCHARGE: {
         "unit": 11,
-        "name": "Daily Discharge (W, kWh)",
+        "name": "Daily Discharge",
+        "custom_unit": "kWh",
         "create": {
-            "TypeName": "kWh",
-            "SwitchType": 4,
+            "Type": 243,
+            "Subtype": 31,
+            "Options": { 
+                "Custom": "1;kWh",
+            }, 
             "Used": 1,
         },
     },
