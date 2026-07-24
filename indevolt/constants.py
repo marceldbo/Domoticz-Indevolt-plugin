@@ -45,6 +45,12 @@ TAG_LIGHT_ENABLE = 7171
 TAG_GRID_CHARGING_ENABLE = 2618
 
 # ==========================================================
+# USER DEFINED TAGS (OUTSIDE OF INDEVOLT)
+# ==========================================================
+
+TAG_EV_CHARGING_CURRENT = 9001
+
+# ==========================================================
 # SETDATA REGISTERS
 # ==========================================================
 
@@ -135,6 +141,8 @@ POLL_TAGS = [
     TAG_LIGHT_ENABLE,
     
     TAG_GRID_CHARGING_ENABLE,
+
+    TAG_EV_CHARGING_CURRENT,
 ]
 
 # ==========================================================
@@ -416,6 +424,16 @@ DEVICE_DEFINITIONS = {
             "Type": 244,
             "Subtype": 62,
             "Switchtype": 0,
+            "Used": 1,
+        },
+    },
+
+    TAG_EV_CHARGING_CURRENT: {
+        "unit": 30,
+        "name": "EV Charging Current",
+        "create": {
+            "Type": 243,
+            "Subtype": 23,
             "Used": 1,
         },
     },
