@@ -2,7 +2,7 @@
 INDEVOLT Domoticz Plugin
 Configuration Manager
 
-Version 2.1.0
+Version 2.2.0
 """
 
 import requests
@@ -45,6 +45,44 @@ DEFAULT_SETTINGS = {
 }
 
 # ======================================================
+# DEFAULT EV MANAGEMENT SETTINGS
+# ======================================================
+
+DEFAULT_EV_SETTINGS = {
+
+    "Indevolt_EV_Management_Enabled": {
+        "default": 0,
+        "min": 0,
+        "max": 1,
+    },
+
+    "Indevolt_EV_Current_Device_IDX": {
+        "default": 0,
+        "min": 0,
+        "max": 99999,
+    },
+
+    "Indevolt_EV_Start_Current": {
+        "default": 3,
+        "min": 1,
+        "max": 5,
+    },
+
+    "Indevolt_EV_Stop_Current": {
+        "default": 2,
+        "min": 0,
+        "max": 5,
+    },
+
+    "Indevolt_EV_Stop_Delay": {
+        "default": 10,
+        "min": 5,
+        "max": 120,
+    },
+
+}
+
+# ======================================================
 # CONFIGURATION CLASS
 # ======================================================
 
@@ -67,6 +105,14 @@ class IndevoltConfig:
 
         self.max_charge_power = 2400
         self.max_discharge_power = 2400
+
+        # Cached EV values
+
+        self.ev_management_enabled = False
+        self.ev_current_device_idx = 0
+        self.ev_start_current = 3
+        self.ev_stop_current = 2
+        self.ev_stop_delay = 10
 
     # ==================================================
     # READ USER VARIABLES
