@@ -256,83 +256,53 @@ DEVICE_DEFINITIONS = {
     TAG_TOTAL_INPUT_ENERGY: {
         "unit": 8,
         "name": "Total Input Energy",
-        "custom_unit": "kWh",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
             "Used": 0,
         },
     },
-
+    
     TAG_TOTAL_OUTPUT_ENERGY: {
         "unit": 9,
         "name": "Total Output Energy",
-        "custom_unit": "kWh",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
             "Used": 0,
         },
     },
-
+    
     TAG_DAILY_CHARGE: {
         "unit": 10,
         "name": "Daily Charge",
-        "custom_unit": "kWh",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
             "Used": 1,
         },
     },
-
+    
     TAG_DAILY_DISCHARGE: {
         "unit": 11,
         "name": "Daily Discharge",
-        "custom_unit": "kWh",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
             "Used": 1,
         },
     },
-
+    
     TAG_TOTAL_CHARGE: {
         "unit": 12,
         "name": "Total Charge",
-        "custom_unit": "kWh",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
             "Used": 0,
         },
     },
-
+    
     TAG_TOTAL_DISCHARGE: {
         "unit": 13,
         "name": "Total Discharge",
-        "custom_unit": "kWh",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
             "Used": 0,
         },
     },
