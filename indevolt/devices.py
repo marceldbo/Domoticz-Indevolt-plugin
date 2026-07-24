@@ -36,6 +36,12 @@ class DeviceManager:
         self.api = api
         self.config = config
 
+        # Current Indevolt working mode
+        self.current_working_mode = 1
+
+        # EV override state
+        self.rtc_standby_active = False
+        
     # ======================================================
     # CREATE DEVICES
     # ======================================================
@@ -150,6 +156,8 @@ class DeviceManager:
 
                     mode = safe_int(value)
 
+                    self.current_working_mode = mode
+                    
                     mode_level = WORKING_MODE_LEVELS.get(mode, 0)
                     
                     self.Devices[unit].Update(
@@ -254,6 +262,109 @@ class DeviceManager:
                 )
 
     # ======================================================
+    # PROGRAMMATIC CONTROL
+    # ======================================================
+
+    def get_working_mode(self):
+
+        return self.current_working_mode
+
+    def set_working_mode(self, mode):
+
+        try:
+
+            result = self.api.set_working_mode(
+                mode
+            )
+
+            self.current_working_mode = mode
+
+            #
+            # Update Domoticz selector immediately
+            #
+
+            if 2 in self.Devices:
+
+                level = WORKING_MODE_LEVELS.get(
+                    mode,
+                    0
+                )
+
+                self.Devices[2].Update(
+
+                    nValue=1,
+
+                    sValue=str(level)
+
+                )
+
+            log_debug(
+                f"Working Mode set to {mode}: {result}"
+            )
+
+            return result
+
+        except Exception as e:
+
+            log_error(
+                f"Set Working Mode failed: {e}"
+            )
+
+            return None
+
+    def set_rtc_standby(self, enabled):
+
+    try:
+
+        if enabled:
+
+            #
+            # Real-time Control standby
+            #
+            result = self.api.set_charging_parameters(
+
+                state=0,
+
+                power=0,
+
+                target_soc=self.config.discharge_target_soc
+
+            )
+
+            self.rtc_standby_active = True
+
+        else:
+
+            #
+            # Exit standby
+            #
+            result = self.api.set_charging_parameters(
+
+                state=0,
+
+                power=self.config.max_discharge_power,
+
+                target_soc=self.config.discharge_target_soc
+
+            )
+
+            self.rtc_standby_active = False
+
+        log_debug(
+            f"RTC Standby {enabled}: {result}"
+        )
+
+        return result
+
+    except Exception as e:
+
+        log_error(
+            f"RTC Standby failed: {e}"
+        )
+
+        return None
+    
+    # ======================================================
     # COMMAND HANDLING
     # ======================================================
 
@@ -290,7 +401,7 @@ class DeviceManager:
                 log_debug(f"Stand-by enabled: {result}"
                 )
             
-            if state == 1:
+            elif state == 1:
                 
                 result = self.api.set_charging_parameters(
                     
