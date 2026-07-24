@@ -367,7 +367,7 @@ class DeviceManager:
         definition = DEVICE_DEFINITIONS[TAG_EV_CHARGING_CURRENT]
         unit = definition["unit"]
         
-        if EV_CURRENT_UNIT not in self.Devices:
+        if unit not in self.Devices:
             return None
         
         try:
