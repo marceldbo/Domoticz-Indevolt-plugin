@@ -169,38 +169,25 @@ class BasePlugin:
             #
             # EV configuration
             #
-
-            self.ev_enabled = self.config.get(
-                "EV_MANAGEMENT_ENABLED",
-                False
+                
+            self.ev_enabled = (
+                self.config.ev_management_enabled
             )
-
-            self.ev_current_device_idx = int(
-                self.config.get(
-                    "EV_CURRENT_DEVICE_IDX",
-                    0
-                )
+                
+            self.ev_current_device_idx = (
+                self.config.ev_current_device_idx
             )
-
-            self.ev_start_current = float(
-                self.config.get(
-                    "EV_START_CURRENT",
-                    10
-                )
+                
+            self.ev_start_current = (
+                self.config.ev_start_current
             )
-
-            self.ev_stop_current = float(
-                self.config.get(
-                    "EV_STOP_CURRENT",
-                    2
-                )
+                
+            self.ev_stop_current = (
+                self.config.ev_stop_current
             )
-
-            self.ev_stop_delay = int(
-                self.config.get(
-                    "EV_STOP_DELAY",
-                    10
-                )
+                
+            self.ev_stop_delay = (
+                self.config.ev_stop_delay
             )
                 
             self.device_manager = DeviceManager(
