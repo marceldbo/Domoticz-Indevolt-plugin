@@ -56,12 +56,6 @@ DEFAULT_EV_SETTINGS = {
         "max": 1,
     },
 
-    "Indevolt_EV_Current_Device_IDX": {
-        "default": 0,
-        "min": 0,
-        "max": 99999,
-    },
-
     "Indevolt_EV_Start_Current": {
         "default": 3,
         "min": 1,
@@ -109,7 +103,6 @@ class IndevoltConfig:
         # Cached EV values
 
         self.ev_management_enabled = False
-        self.ev_current_device_idx = 0
         self.ev_start_current = 3
         self.ev_stop_current = 2
         self.ev_stop_delay = 10
@@ -276,10 +269,6 @@ class IndevoltConfig:
                     value == 1
                 )
 
-            elif name == "Indevolt_EV_Current_Device_IDX":
-
-                self.ev_current_device_idx = value
-
             elif name == "Indevolt_EV_Start_Current":
 
                 self.ev_start_current = value
@@ -299,7 +288,6 @@ class IndevoltConfig:
         log_debug(
             f"EV Management="
             f"{self.ev_management_enabled}, "
-            f"Device={self.ev_current_device_idx}, "
             f"Start={self.ev_start_current}A, "
             f"Stop={self.ev_stop_current}A, "
             f"Delay={self.ev_stop_delay}min"
