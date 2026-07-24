@@ -13,7 +13,7 @@ from .helpers import (
 )
 
 # ======================================================
-# DEFAULT SETTINGS
+# DEFAULT BATTERY SETTINGS
 # ======================================================
 
 DEFAULT_SETTINGS = {
