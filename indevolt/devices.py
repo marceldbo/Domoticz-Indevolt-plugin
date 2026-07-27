@@ -364,8 +364,7 @@ class DeviceManager:
     # ======================================================
 
     def get_ev_current_amp(self):
-        definition = DEVICE_DEFINITIONS[TAG_EV_CHARGING_CURRENT]
-        unit = definition["unit"]
+        unit = DEVICE_DEFINITIONS[TAG_EV_CHARGING_CURRENT]["unit"]
         
         if unit not in self.Devices:
             return None
