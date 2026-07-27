@@ -394,7 +394,7 @@ class DeviceManager:
     
             return float(value)
     
-         except Exception as e:
+        except Exception as e:
                     
              log_error( f"EV current read failed: {e}" )
                     
