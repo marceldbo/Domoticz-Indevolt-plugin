@@ -172,15 +172,15 @@ class BasePlugin:
                 self.config.ev_management_enabled
             )
                 
-            self.ev_start_current = (
+            self.ev_start_current_amp = (
                 self.config.ev_start_current_amp
             )
                 
-            self.ev_stop_current = (
+            self.ev_stop_current_amp = (
                 self.config.ev_stop_current_amp
             )
                 
-            self.ev_stop_delay = (
+            self.ev_stop_delay_min = (
                 self.config.ev_stop_delay_min
             )
                 
