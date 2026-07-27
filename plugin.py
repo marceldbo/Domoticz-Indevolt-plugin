@@ -5,14 +5,18 @@ Local OpenData API
 Domoticz 2026.2
 Python 3.11
 
-Version 2.3.0
+Author: Marcel de Bont
+Version: 2.3.0
+Version Date: 27/07/2026
+
+Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
 
 """
 <plugin key="Indevolt"
         name="Indevolt Home Battery"
         author="Marcel de Bont"
-        version="2.1"
+        version="2.3"
         wikilink=""
         externallink="https://github.com/marceldbo/Domoticz-Indevolt-plugin.git">
 
