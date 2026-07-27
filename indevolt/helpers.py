@@ -2,7 +2,9 @@
 INDEVOLT Domoticz Plugin
 Helper functions
 
-Version 2.1.0
+Author: Marcel de Bont
+Version: 2.3.0
+Version Date: 27/07/2026
 """
 
 import Domoticz
