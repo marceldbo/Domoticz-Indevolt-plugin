@@ -364,24 +364,36 @@ class DeviceManager:
     # ======================================================
 
     def get_ev_current_amp(self):
-
+    
         definition = DEVICE_DEFINITIONS[TAG_EV_CHARGING_CURRENT]
         unit = definition["unit"]
-        
+    
         if unit not in self.Devices:
-            return None
-        
+            return 0.0
+    
         try:
-        
-            return float(self.Devices[unit].sValue)
-
-        except Exception as e:
-
+            value = self.Devices[unit].sValue
+    
+            # Empty or missing sensor value
+            if value is None or value.strip() == "":
+                return 0.0
+    
+            # Support both decimal formats
+            value = value.replace(",", ".")
+    
+            return float(value)
+    
+        except (ValueError, TypeError) as e:
             log_error(
-                f"EV current read failed: {e}"
+                f"EV current read failed: invalid value '{value}', defaulting to 0A"
             )
-
-            return None
+            return 0.0
+    
+        except Exception as e:
+            log_error(
+                f"EV current read failed: {e}, defaulting to 0A"
+            )
+            return 0.0
     
     # ======================================================
     # COMMAND HANDLING
