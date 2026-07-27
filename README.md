@@ -40,10 +40,10 @@ If you have an EV and want to prevent your home battery from discharging while y
 
 To enable this feature, go to **User Variables** and set **EV Management** to **1** (enabled). You can also configure the following parameters:
 
-* **Start threshold (A):** The charging current at which EV Management is activated.
-* **Stop threshold (A):** The charging current below which EV Management is allowed to deactivate.
-* **Stop delay (minutes):** The amount of time the charging current must remain below the stop threshold before EV Management is disabled.
-
+* **Start threshold (A):** The charging current above which EV Management is activated (min: 1A, max: 10A).
+* **Stop threshold (A):** The charging current below which EV Management is deactivated (min: 1A, max: 5A).
+* **Stop delay (minutes):** The amount of time the charging current must remain below the stop threshold before EV Management is disabled (min: 1 min, max: 120 mins).
+ 
 The stop delay prevents rapid switching when EV charging is briefly interrupted, for example during communication between the charger and the vehicle. Another use case is when you charge your EV during a partly cloudy day. Once the configured delay has elapsed, the battery automatically returns to the operating mode it was in before EV charging started.
 
 The charging current can be measured using a Zigbee energy monitor with a current transformer (CT). Install the CT around one of the charging station's supply conductors and integrate the sensor with **Zigbee2MQTT**. Use **Node-RED** to forward the measured current (in amperes) to the Domoticz **EV Current** sensor used by the plugin.
