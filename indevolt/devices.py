@@ -372,33 +372,33 @@ class DeviceManager:
  #           try:
  #               return float(self.Devices[unit].sValue)
  #           
-     log_debug(
-        f"Checking EV current unit {unit}"
-    )
-
-    if unit not in self.Devices:
-
-        log_error(
-            f"EV current unit {unit} not found"
-        )
-
-        return None
-
-    try:
-
-        value = self.Devices[unit].sValue
-
         log_debug(
-            f"EV current raw value: {value}"
+            f"Checking EV current unit {unit}"
         )
-
-        return float(value)
-
-     except Exception as e:
-                
-         log_error( f"EV current read failed: {e}" )
-                
-         return None
+    
+        if unit not in self.Devices:
+    
+            log_error(
+                f"EV current unit {unit} not found"
+            )
+    
+            return None
+    
+        try:
+    
+            value = self.Devices[unit].sValue
+    
+            log_debug(
+                f"EV current raw value: {value}"
+            )
+    
+            return float(value)
+    
+         except Exception as e:
+                    
+             log_error( f"EV current read failed: {e}" )
+                    
+             return None
     
     # ======================================================
     # COMMAND HANDLING
