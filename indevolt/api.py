@@ -2,7 +2,11 @@
 INDEVOLT Domoticz Plugin
 Local OpenData API
 
-Version 2.1.0
+Author: Marcel de Bont
+Version: 2.3.0
+Version Date: 27/07/2026
+
+Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
 
 import json
@@ -14,6 +18,7 @@ from .constants import (
     POLL_TAGS,
     SET_WORKING_MODE,
     SET_CHARGING_STATE,
+    SET_RTC_STANDBY,
     SET_BYPASS_ENABLE,
     SET_LIGHT_ENABLE,
     SET_GRID_CHARGING_ENABLE,
@@ -45,11 +50,9 @@ class IndevoltAPI:
 
         self.session = requests.Session()
 
-
         from .helpers import set_debug
 
         set_debug(debug)
-
 
         log_debug(
             f"API initialized: {self.base_url}"
@@ -254,7 +257,7 @@ class IndevoltAPI:
 
         Supported:
 
-        1 = Self-consumed Prioritized
+        1 = Self-consumed Prioritized (aka Self-consumption)
         4 = Real-time Control
         5 = Charge/Discharge Schedule
 
@@ -318,6 +321,63 @@ class IndevoltAPI:
             ]
 
         )
+
+    # ======================================================
+    # REAL-TIME CONTROL STANDBY COMMAND
+    #
+    # Requires:
+    #   Working Mode = 4 (Real-time Control)
+    # ======================================================
+
+    def set_realtime_control_standby(
+        self,
+        enabled,
+        target_soc
+    ):
+
+        """
+        Enable or disable Real-time Control standby.
+
+        enabled=True:
+
+            Battery stops charging/discharging
+
+            state = 0
+            power = 0
+
+        enabled=False:
+
+            Exit standby.
+
+            The battery will resume RTC operation.
+
+        """
+
+        if enabled:
+
+            state=0,
+
+            power=0,
+             
+        else:
+
+            state=0,
+
+            power=0,
+             
+        return self.set_data(
+    
+            function=16,
+    
+            tag=SET_RTC_STANDBY,
+    
+            values=[
+                state,
+                power,
+                int(target_soc)
+            ]
+
+         )    
     
     # ======================================================
     # SET BYPASS ENABLE/DISABLE COMMAND

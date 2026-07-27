@@ -2,7 +2,11 @@
 INDEVOLT Domoticz Plugin
 Configuration Manager
 
-Version 2.1.0
+Author: Marcel de Bont
+Version: 2.3.0
+Version Date: 27/07/2026
+
+Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
 
 import requests
@@ -13,33 +17,65 @@ from .helpers import (
 )
 
 # ======================================================
-# DEFAULT SETTINGS
+# DEFAULT BATTERY SETTINGS
 # ======================================================
 
 DEFAULT_SETTINGS = {
 
-    "Indevolt_ChargeTargetSOC": {
+    "Indevolt_Charge_Target_SOC_%": {
         "default": 100,
         "min": 5,
         "max": 100,
     },
 
-    "Indevolt_DischargeTargetSOC": {
+    "Indevolt_Discharge_Target_SOC_%": {
         "default": 20,
         "min": 5,
         "max": 100,
     },
 
-    "Indevolt_MaxChargePower": {
+    "Indevolt_Max_Charge_Power_Watt": {
         "default": 2400,
         "min": 50,
         "max": 2400,
     },
 
-    "Indevolt_MaxDischargePower": {
+    "Indevolt_Max_Discharge_Power_Watt": {
         "default": 800,
         "min": 50,
         "max": 2400,
+    },
+
+}
+
+# ======================================================
+# DEFAULT EV MANAGEMENT SETTINGS
+# ======================================================
+
+DEFAULT_EV_SETTINGS = {
+
+    "Indevolt_EV_Management_Enabled": {
+        "default": 0,
+        "min": 0,
+        "max": 1,
+    },
+
+    "Indevolt_EV_Start_Current_Amp": {
+        "default": 3,
+        "min": 1,
+        "max": 10,
+    },
+
+    "Indevolt_EV_Stop_Current_Amp": {
+        "default": 2,
+        "min": 0,
+        "max": 5,
+    },
+
+    "Indevolt_EV_Stop_Delay_Min": {
+        "default": 5,
+        "min": 1,
+        "max": 120,
     },
 
 }
@@ -62,11 +98,18 @@ class IndevoltConfig:
 
         # Cached values
 
-        self.charge_target_soc = 100
-        self.discharge_target_soc = 20
+        self.charge_target_soc_percent = 100
+        self.discharge_target_soc_percent = 20
 
-        self.max_charge_power = 2400
-        self.max_discharge_power = 2400
+        self.max_charge_power_watt = 2400
+        self.max_discharge_power_watt = 2400
+
+        # Cached EV values
+
+        self.ev_management_enabled = False
+        self.ev_start_current_amp = 3
+        self.ev_stop_current_amp = 2
+        self.ev_stop_delay_min = 10
 
     # ==================================================
     # READ USER VARIABLES
@@ -152,7 +195,21 @@ class IndevoltConfig:
 
         variables = self.get_variables()
 
-        for name, cfg in DEFAULT_SETTINGS.items():
+        #
+        # Combine all settings
+        #
+
+        settings = {}
+
+        settings.update(
+            DEFAULT_SETTINGS
+        )
+
+        settings.update(
+            DEFAULT_EV_SETTINGS
+        )
+        
+        for name, cfg in settings.items():
 
             if name not in variables:
 
@@ -165,9 +222,15 @@ class IndevoltConfig:
 
             else:
 
-                value = int(
-                    variables[name]
+                try:
+
+                    value = int(
+                        variables[name]
                 )
+
+                except ValueError:
+
+                    value = cfg["default"]
 
             # Validate
 
@@ -181,26 +244,56 @@ class IndevoltConfig:
                 value
             )
 
-            # Store internally
+            # Store battery settings internally
 
-            if name == "Indevolt_ChargeTargetSOC":
+            if name == "Indevolt_Charge_Target_SOC_%":
 
-                self.charge_target_soc = value
+                self.charge_target_soc_percent = value
 
-            elif name == "Indevolt_DischargeTargetSOC":
+            elif name == "Indevolt_Discharge_Target_SOC_%":
 
-                self.discharge_target_soc = value
+                self.discharge_target_soc_percent = value
 
-            elif name == "Indevolt_MaxChargePower":
+            elif name == "Indevolt_Max_Charge_Power_Watt":
 
-                self.max_charge_power = value
+                self.max_charge_power_watt = value
 
-            elif name == "Indevolt_MaxDischargePower":
+            elif name == "Indevolt_Max_Discharge_Power_Watt":
 
-                self.max_discharge_power = value
+                self.max_discharge_power_watt = value
+
+            #
+            # Store EV settings internally
+            #
+
+            elif name == "Indevolt_EV_Management_Enabled":
+
+                self.ev_management_enabled = (
+                    value == 1
+                )
+
+            elif name == "Indevolt_EV_Start_Current_Amp":
+
+                self.ev_start_current_amp = value
+
+            elif name == "Indevolt_EV_Stop_Current_Amp":
+
+                self.ev_stop_current_amp = value
+
+            elif name == "Indevolt_EV_Stop_Delay_Min":
+
+                self.ev_stop_delay_min = value
 
         log_debug(
             "Indevolt configuration loaded"
+        )
+
+        log_debug(
+            f"EV Management="
+            f"{self.ev_management_enabled}, "
+            f"Start={self.ev_start_current_amp}A, "
+            f"Stop={self.ev_stop_current_amp}A, "
+            f"Delay={self.ev_stop_delay_min}min"
         )
 
     # ==================================================

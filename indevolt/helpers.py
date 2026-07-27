@@ -2,7 +2,11 @@
 INDEVOLT Domoticz Plugin
 Helper functions
 
-Version 2.1.0
+Author: Marcel de Bont
+Version: 2.3.0
+Version Date: 27/07/2026
+
+Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
 
 import Domoticz
@@ -149,7 +153,7 @@ def working_mode(value):
     """
     Convert:
 
-    1 -> Self-consumed Prioritized
+    1 -> Self-consumed Prioritized (aka Self-consumption)
     4 -> Real-time Control
     5 -> Charge/Discharge Schedule
 

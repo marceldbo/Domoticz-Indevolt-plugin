@@ -2,7 +2,11 @@
 INDEVOLT Domoticz Plugin
 Device handling
 
-Version 2.1.0
+Author: Marcel de Bont
+Version: 2.3.0
+Version Date: 27/07/2026
+
+Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
 
 import Domoticz
@@ -11,6 +15,7 @@ from .constants import (
     DEVICE_DEFINITIONS,
     CHARGING_STATE_LEVELS,
     WORKING_MODE_LEVELS,
+    TAG_EV_CHARGING_CURRENT,
 )
 
 from .helpers import (
@@ -36,6 +41,12 @@ class DeviceManager:
         self.api = api
         self.config = config
 
+        # Current Indevolt working mode
+        self.current_working_mode = 1
+
+        # EV override state
+        self.rtc_standby_active = False
+        
     # ======================================================
     # CREATE DEVICES
     # ======================================================
@@ -150,6 +161,8 @@ class DeviceManager:
 
                     mode = safe_int(value)
 
+                    self.current_working_mode = mode
+                    
                     mode_level = WORKING_MODE_LEVELS.get(mode, 0)
                     
                     self.Devices[unit].Update(
@@ -254,6 +267,122 @@ class DeviceManager:
                 )
 
     # ======================================================
+    # PROGRAMMATIC CONTROL
+    # ======================================================
+
+    def get_working_mode(self):
+
+        return self.current_working_mode
+
+    def set_working_mode(self, mode):
+
+        if self.current_working_mode == mode:
+
+            log_debug(
+                f"Working Mode already {mode}, skipping."
+            )
+
+            return True
+        
+        try:
+
+            result = self.api.set_working_mode(
+                mode
+            )
+
+            self.current_working_mode = mode
+
+            #
+            # Update Domoticz selector immediately
+            #
+
+            if 2 in self.Devices:
+
+                level = WORKING_MODE_LEVELS.get(
+                    mode,
+                    0
+                )
+
+                self.Devices[2].Update(
+
+                    nValue=1,
+
+                    sValue=str(level)
+
+                )
+
+            log_debug(
+                f"Working Mode set to {mode}: {result}"
+            )
+
+            return result
+
+        except Exception as e:
+
+            log_error(
+                f"Set Working Mode failed: {e}"
+            )
+
+            return None
+
+    def set_rtc_standby(self, enabled):
+
+        if self.rtc_standby_active == enabled:
+        
+            log_debug(
+                f"RTC Stand-by already {'enabled' if enabled else 'disabled'}, skipping."
+            )
+        
+            return True
+    
+        try:
+    
+            result = self.api.set_realtime_control_standby(
+                
+                enabled,
+                
+                self.config.discharge_target_soc_percent
+    
+            )
+    
+            self.rtc_standby_active = enabled
+    
+            log_debug(
+                    f"RTC Stand-by "
+                    f"{'enabled' if enabled else 'disabled'}: "
+                    f"{result}"
+            )
+    
+            return result
+    
+        except Exception as e:
+    
+            log_error(
+                f"RTC Standby failed: {e}"
+            )
+    
+            return None
+
+    # ======================================================
+    # GET EV CURRENT
+    # ======================================================
+
+    def get_ev_current_amp(self):
+        unit = DEVICE_DEFINITIONS[TAG_EV_CHARGING_CURRENT]["unit"]
+        
+        if unit not in self.Devices:
+            return None
+            
+        try:
+            return float(self.Devices[unit].sValue)
+            
+        except Exception as e:
+                    
+            log_error( f"EV current read failed: {e}" )
+                    
+            return None
+    
+    # ======================================================
     # COMMAND HANDLING
     # ======================================================
 
@@ -283,22 +412,22 @@ class DeviceManager:
         
                     power=0,
         
-                    target_soc=self.config.discharge_target_soc
+                    target_soc=self.config.discharge_target_soc_percent
             
                 )
             
                 log_debug(f"Stand-by enabled: {result}"
                 )
             
-            if state == 1:
+            elif state == 1:
                 
                 result = self.api.set_charging_parameters(
                     
                     state=1,
                 
-                    power=self.config.max_charge_power,
+                    power=self.config.max_charge_power_watt,
                 
-                    target_soc=self.config.charge_target_soc
+                    target_soc=self.config.charge_target_soc_percent
                 )
                 
                 log_debug(f"Charging enabled: {result}"
@@ -310,9 +439,9 @@ class DeviceManager:
     
                     state=2,
     
-                    power=self.config.max_discharge_power,
+                    power=self.config.max_discharge_power_watt,
     
-                    target_soc=self.config.discharge_target_soc
+                    target_soc=self.config.discharge_target_soc_percent
     
                 )
     
@@ -327,7 +456,7 @@ class DeviceManager:
         
                     power=0,
         
-                    target_soc=self.config.discharge_target_soc
+                    target_soc=self.config.discharge_target_soc_percent
         
                 )
         

@@ -2,7 +2,11 @@
 INDEVOLT Domoticz Plugin
 Constants and device definitions
 
-Version 2.1.0
+Author: Marcel de Bont
+Version: 2.3.0
+Version Date: 27/07/2026
+
+Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
 
 # ==========================================================
@@ -13,6 +17,7 @@ TAG_SERIAL_NUMBER = 0
 
 TAG_WORKING_MODE = 7101
 TAG_CHARGING_STATE = 6001
+TAG_RTC_STANDBY = 6001
 
 TAG_BATTERY_POWER = 6000
 TAG_BATTERY_SOC = 6002
@@ -44,11 +49,18 @@ TAG_LIGHT_ENABLE = 7171
 TAG_GRID_CHARGING_ENABLE = 2618
 
 # ==========================================================
+# USER DEFINED TAGS (OUTSIDE OF INDEVOLT)
+# ==========================================================
+
+TAG_EV_CHARGING_CURRENT = 9001
+
+# ==========================================================
 # SETDATA REGISTERS
 # ==========================================================
 
 SET_WORKING_MODE = 47005
 SET_CHARGING_STATE = 47015
+SET_RTC_STANDBY = 47015
 
 SET_BYPASS_ENABLE = 7266
 SET_LIGHT_ENABLE = 7265
@@ -132,7 +144,7 @@ POLL_TAGS = [
     TAG_BATTERY_TEMPERATURE,
     TAG_LIGHT_ENABLE,
     
-    TAG_GRID_CHARGING_ENABLE,
+    TAG_GRID_CHARGING_ENABLE,    
 ]
 
 # ==========================================================
@@ -255,46 +267,37 @@ DEVICE_DEFINITIONS = {
 
     TAG_TOTAL_INPUT_ENERGY: {
         "unit": 8,
-        "name": "Total Input Energy",
-        "custom_unit": "kWh",
+        "name": "Total Input Energy (W, kWh)",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
             "Used": 0,
         },
     },
-
+    
     TAG_TOTAL_OUTPUT_ENERGY: {
         "unit": 9,
-        "name": "Total Output Energy",
-        "custom_unit": "kWh",
+        "name": "Total Output Energy (W, kWh)",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
+            "SwitchType": 4,
             "Used": 0,
         },
     },
-
-    TAG_DAILY_CHARGE: {
+    
+    TAG_DAILY_CHARGE: { 
         "unit": 10,
         "name": "Daily Charge",
         "custom_unit": "kWh",
-        "create": {
+        "create": { 
             "Type": 243,
             "Subtype": 31,
             "Options": {
                 "Custom": "1;kWh",
-            },
+            }, 
             "Used": 1,
         },
-    },
-
+    }, 
+    
     TAG_DAILY_DISCHARGE: {
         "unit": 11,
         "name": "Daily Discharge",
@@ -302,37 +305,28 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 243,
             "Subtype": 31,
-            "Options": {
+            "Options": { 
                 "Custom": "1;kWh",
-            },
+            }, 
             "Used": 1,
         },
     },
-
+    
     TAG_TOTAL_CHARGE: {
         "unit": 12,
-        "name": "Total Charge",
-        "custom_unit": "kWh",
+        "name": "Total Charge (W, kWh)",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
             "Used": 0,
         },
     },
-
+    
     TAG_TOTAL_DISCHARGE: {
         "unit": 13,
-        "name": "Total Discharge",
-        "custom_unit": "kWh",
+        "name": "Total Discharge (W, kWh)",
         "create": {
-            "Type": 243,
-            "Subtype": 31,
-            "Options": {
-                "Custom": "1;kWh",
-            },
+            "TypeName": "kWh",
+            "SwitchType": 4,
             "Used": 0,
         },
     },
@@ -432,6 +426,16 @@ DEVICE_DEFINITIONS = {
             "Type": 244,
             "Subtype": 62,
             "Switchtype": 0,
+            "Used": 1,
+        },
+    },
+
+    TAG_EV_CHARGING_CURRENT: {
+        "unit": 30,
+        "name": "EV Charging Current",
+        "create": {
+            "Type": 243,
+            "Subtype": 23,
             "Used": 1,
         },
     },
