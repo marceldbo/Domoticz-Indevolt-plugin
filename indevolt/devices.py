@@ -366,39 +366,17 @@ class DeviceManager:
     def get_ev_current_amp(self):
         unit = DEVICE_DEFINITIONS[TAG_EV_CHARGING_CURRENT]["unit"]
         
- #       if unit not in self.Devices:
- #           return None
- #           
- #           try:
- #               return float(self.Devices[unit].sValue)
- #           
-        log_debug(
-            f"Checking EV current unit {unit}"
-        )
-    
         if unit not in self.Devices:
-    
-            log_error(
-                f"EV current unit {unit} not found"
-            )
-    
             return None
-    
+            
         try:
-    
-            value = self.Devices[unit].sValue
-    
-            log_debug(
-                f"EV current raw value: {value}"
-            )
-    
-            return float(value)
-    
+            return float(self.Devices[unit].sValue)
+            
         except Exception as e:
                     
-             log_error( f"EV current read failed: {e}" )
+            log_error( f"EV current read failed: {e}" )
                     
-             return None
+            return None
     
     # ======================================================
     # COMMAND HANDLING
