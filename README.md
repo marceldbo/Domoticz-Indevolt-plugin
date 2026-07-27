@@ -50,7 +50,7 @@ The charging current can be measured using a Zigbee energy monitor with a curren
 
 For testing purposes, you can also use Node-RED to inject a simulated current value into the EV Current sensor, allowing you to verify the EV Management functionality without connecting an actual EV charger.
 
-## ICON
+## Icon
 
 For convenience, I have generated and included an icon to be used with the newly created devices. This can be installed by uploading the `Indevolt stack.zip` file in the custom icons section in the Domoticz GUI and updating the device.
 
