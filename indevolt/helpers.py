@@ -149,7 +149,7 @@ def working_mode(value):
     """
     Convert:
 
-    1 -> Self-consumed Prioritized
+    1 -> Self-consumed Prioritized (aka Self-consumption)
     4 -> Real-time Control
     5 -> Charge/Discharge Schedule
 
