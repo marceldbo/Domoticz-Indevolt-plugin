@@ -2,7 +2,7 @@
 INDEVOLT Domoticz Plugin
 Constants and device definitions
 
-Version 2.1.0
+Version 2.3.0
 """
 
 # ==========================================================
@@ -68,7 +68,7 @@ SET_GRID_CHARGING_ENABLE = 1143
 # ==========================================================
 
 WORKING_MODE_MAP = {
-    1: "Self-consumed Prioritized",
+    1: "Self-consumption",
     4: "Real-time Control",
     5: "Charge/Discharge Schedule",
 }
@@ -176,7 +176,7 @@ DEVICE_DEFINITIONS = {
             "Switchtype": 18,
             "Options": {
                 "LevelNames":
-                    "Self-consumed Prioritized|"
+                    "Self-consumption|"
                     "Real-time Control|"
                     "Charge/Discharge Schedule",
         
