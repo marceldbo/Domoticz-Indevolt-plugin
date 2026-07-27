@@ -69,7 +69,7 @@ DEFAULT_EV_SETTINGS = {
     },
 
     "Indevolt_EV_Stop_Delay_Min": {
-        "default": 10,
+        "default": 5,
         "min": 5,
         "max": 120,
     },
@@ -257,7 +257,6 @@ class IndevoltConfig:
             elif name == "Indevolt_Max_Discharge_Power_Watt":
 
                 self.max_discharge_power_watt = value
-
 
             #
             # Store EV settings internally
