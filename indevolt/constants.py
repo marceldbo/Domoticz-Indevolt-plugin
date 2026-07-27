@@ -68,7 +68,7 @@ SET_GRID_CHARGING_ENABLE = 1143
 # ==========================================================
 
 WORKING_MODE_MAP = {
-    1: "Self-consumption",
+    1: "Self-consumed Prioritized",
     4: "Real-time Control",
     5: "Charge/Discharge Schedule",
 }
@@ -176,7 +176,7 @@ DEVICE_DEFINITIONS = {
             "Switchtype": 18,
             "Options": {
                 "LevelNames":
-                    "Self-consumption|"
+                    "Self-consumed Prioritized|"
                     "Real-time Control|"
                     "Charge/Discharge Schedule",
         
