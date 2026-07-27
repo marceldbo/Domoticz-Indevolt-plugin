@@ -140,9 +140,7 @@ POLL_TAGS = [
     TAG_BATTERY_TEMPERATURE,
     TAG_LIGHT_ENABLE,
     
-    TAG_GRID_CHARGING_ENABLE,
-    TAG_EV_CHARGING_CURRENT,
-
+    TAG_GRID_CHARGING_ENABLE,    
 ]
 
 # ==========================================================
