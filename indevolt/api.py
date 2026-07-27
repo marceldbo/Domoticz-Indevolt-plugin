@@ -2,7 +2,7 @@
 INDEVOLT Domoticz Plugin
 Local OpenData API
 
-Version 2.2.0
+Version 2.3.0
 """
 
 import json
@@ -323,7 +323,6 @@ class IndevoltAPI:
     #
     # Requires:
     #   Working Mode = 4 (Real-time Control)
-    #
     # ======================================================
 
     def set_realtime_control_standby(
