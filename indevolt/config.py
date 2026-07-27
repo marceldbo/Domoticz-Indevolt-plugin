@@ -59,7 +59,7 @@ DEFAULT_EV_SETTINGS = {
     "Indevolt_EV_Start_Current_Amp": {
         "default": 3,
         "min": 1,
-        "max": 5,
+        "max": 10,
     },
 
     "Indevolt_EV_Stop_Current_Amp": {
@@ -70,7 +70,7 @@ DEFAULT_EV_SETTINGS = {
 
     "Indevolt_EV_Stop_Delay_Min": {
         "default": 5,
-        "min": 5,
+        "min": 1,
         "max": 120,
     },
 
