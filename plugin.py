@@ -14,7 +14,7 @@ Version 2.2.0
         author="Marcel de Bont"
         version="2.1"
         wikilink=""
-        externallink="">
+        externallink="https://github.com/marceldbo/Domoticz-Indevolt-Plugin.git">
 
     <description>
         Indevolt Home Battery plugin using local OpenData API.
