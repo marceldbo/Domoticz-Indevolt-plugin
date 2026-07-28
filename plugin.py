@@ -21,7 +21,7 @@ Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
         externallink="https://github.com/marceldbo/Domoticz-Indevolt-plugin.git">
 
     <description>
-        Indevolt Home Battery plugin using local OpenData API.
+        Indevolt Home Battery plugin using the local OpenData API.
     </description>
 
     <params>
