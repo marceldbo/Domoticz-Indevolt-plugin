@@ -248,9 +248,21 @@ class DeviceManager:
                     continue
 
                 # ------------------------------------
-                # Numeric devices including correction
-                # for battery power direction
-                # ------------------------------------
+                # Numeric device
+                #
+                # The code includes correction
+                # for battery power direction.
+                #
+                # Indevolt:
+                #   positive = charging
+                #   negative = discharging
+                #
+                # Domoticz Energy Dashboard:
+                #   positive = supplying energy
+                #   negative = consuming energy
+                #
+                # Therefore invert the value.
+                # ----------------------------------
 
                 if tag == TAG_BATTERY_POWER:
 
