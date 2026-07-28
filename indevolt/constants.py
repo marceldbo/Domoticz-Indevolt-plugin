@@ -52,9 +52,9 @@ TAG_GRID_CHARGING_ENABLE = 2618
 # DOMOTICZ ENERGY DASHBOARD DEVICES (OUTSIDE OF INDEVOLT)
 #==========================================================
 
-TAG_BATTERY_ENERGY_POWER = "battery_energy_power"
-TAG_BATTERY_ENERGY_CHARGED = "battery_energy_charged"
-TAG_BATTERY_ENERGY_DISCHARGED = "battery_energy_discharged"
+TAG_ENERGY_BATTERY_POWER = 8000
+TAG_ENERGY_BATTERY_CHARGE = 8001
+TAG_ENERGY_BATTERY_DISCHARGE = 8002
 
 # ==========================================================
 # USER DEFINED TAGS (OUTSIDE OF INDEVOLT)
