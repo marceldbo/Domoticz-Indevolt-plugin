@@ -53,7 +53,7 @@ TAG_GRID_CHARGING_ENABLE = 2618
 # ==========================================================
 
 TAG_EV_CHARGING_CURRENT = 9001
-TAG_BATTERY_ROUNDTRIP_EFFICIENCY = 9002
+TAG_BATTERY_ROUNDTRIP_EFFICIENCY = 31
 
 # ==========================================================
 # SETDATA REGISTERS
