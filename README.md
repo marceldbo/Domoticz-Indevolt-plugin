@@ -6,11 +6,11 @@ This plugin for Domoticz uses the local OpenData integration for INDEVOLT home b
 
 - Battery SOC monitoring
 - Power flow (Grid / Load / Battery)
-- Voltage, current, temperature, frequency
+- Domoticz Energy Dashboard support with correct battery flow direction
 - Setting of Working mode, Charging state, Grid charging and Bypass socket
-- Automatic device creation
-- Local API (no cloud dependency)
-- Automatic EV-Current sensing device creation
+- Automatic device creation power, charging, discharging, voltage, current, temperature, frequency etc.
+- USe local Indevolt OpenData API (no cloud dependency)
+- Optional EV-management with automatic EV-Current sensing device creation
 
 ## Installation
 
