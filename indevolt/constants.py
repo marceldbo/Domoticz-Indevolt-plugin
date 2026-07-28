@@ -52,7 +52,7 @@ TAG_GRID_CHARGING_ENABLE = 2618
 # USER DEFINED TAGS (OUTSIDE OF INDEVOLT)
 # ==========================================================
 
-TAG_EV_CHARGING_CURRENT = 9001
+TAG_EV_CHARGING_CURRENT = 30
 TAG_BATTERY_ROUNDTRIP_EFFICIENCY = 31
 
 # ==========================================================
