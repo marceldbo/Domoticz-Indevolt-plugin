@@ -4,7 +4,7 @@ Constants and device definitions
 
 Author: Marcel de Bont
 Version: 2.3.0
-Version Date: 27/07/2026
+Version Date: 07/2026
 
 Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
@@ -72,7 +72,7 @@ SET_GRID_CHARGING_ENABLE = 1143
 # ==========================================================
 
 WORKING_MODE_MAP = {
-    1: "Self-consumed Prioritized",
+    1: "Self-consumption",
     4: "Real-time Control",
     5: "Charge/Discharge Schedule",
 }
@@ -144,7 +144,7 @@ POLL_TAGS = [
     TAG_BATTERY_TEMPERATURE,
     TAG_LIGHT_ENABLE,
     
-    TAG_GRID_CHARGING_ENABLE,    
+    TAG_GRID_CHARGING_ENABLE,
 ]
 
 # ==========================================================
@@ -180,7 +180,7 @@ DEVICE_DEFINITIONS = {
             "Switchtype": 18,
             "Options": {
                 "LevelNames":
-                    "Self-consumed Prioritized|"
+                    "Self-consumption|"
                     "Real-time Control|"
                     "Charge/Discharge Schedule",
         
@@ -317,7 +317,7 @@ DEVICE_DEFINITIONS = {
         "name": "Total Charge (W, kWh)",
         "create": {
             "TypeName": "kWh",
-            "Used": 0,
+            "Used": 1,
         },
     },
     
@@ -327,7 +327,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "TypeName": "kWh",
             "SwitchType": 4,
-            "Used": 0,
+            "Used": 1,
         },
     },
 

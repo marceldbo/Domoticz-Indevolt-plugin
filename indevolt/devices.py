@@ -4,7 +4,7 @@ Device handling
 
 Author: Marcel de Bont
 Version: 2.3.0
-Version Date: 27/07/2026
+Version Date: 07/2026
 
 Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
@@ -16,6 +16,7 @@ from .constants import (
     CHARGING_STATE_LEVELS,
     WORKING_MODE_LEVELS,
     TAG_EV_CHARGING_CURRENT,
+    TAG_BATTERY_POWER,
 )
 
 from .helpers import (
@@ -59,6 +60,15 @@ class DeviceManager:
 
             if unit in self.Devices:
 
+                # update existing device properties
+                try:
+                    self.Devices[unit].Used = 1
+                    self.Devices[unit].Name = definition["name"]
+                    self.Devices[unit].Update()
+            
+                except Exception:
+                    pass
+            
                 continue
 
             try:
@@ -80,7 +90,7 @@ class DeviceManager:
                     params["Options"] = {
 
                         "LevelNames":
-                            "Self-consumed Prioritized|"
+                            "Self-consumption|"
                             "Real-time Control|"
                             "Charge/Discharge Schedule",
 
@@ -135,7 +145,7 @@ class DeviceManager:
         if not isinstance(data, dict):
 
             return
-
+                              
         for tag, definition in DEVICE_DEFINITIONS.items():
 
             if str(tag) not in data:
@@ -237,13 +247,30 @@ class DeviceManager:
 
                     continue
 
-                # ----------------------------------
-                # Numeric devices
+                # ------------------------------------
+                # Numeric device
+                #
+                # The code includes correction
+                # for battery power direction.
+                #
+                # Indevolt:
+                #   positive = charging
+                #   negative = discharging
+                #
+                # Domoticz Energy Dashboard:
+                #   positive = supplying energy
+                #   negative = consuming energy
+                #
+                # Therefore invert the value.
                 # ----------------------------------
 
-                number = safe_float(
-                    value
-                )
+                if tag == TAG_BATTERY_POWER:
+
+                    number = -safe_float(value)
+
+                else:
+                
+                    number = safe_float(value)
 
                 self.Devices[unit].Update(
 
