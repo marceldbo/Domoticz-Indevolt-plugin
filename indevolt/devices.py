@@ -138,7 +138,15 @@ class DeviceManager:
         if not isinstance(data, dict):
 
             return
-
+        
+        # ------------------------------------------------------
+        # Derived Energy Dashboard battery values
+        # ------------------------------------------------------
+        
+        data["8000"] = data.get("6000", 0)
+        data["8001"] = data.get("6006", 0)
+        data["8002"] = data.get("6007", 0)
+                       
         for tag, definition in DEVICE_DEFINITIONS.items():
 
             if str(tag) not in data:
