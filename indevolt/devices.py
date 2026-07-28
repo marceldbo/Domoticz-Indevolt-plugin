@@ -16,8 +16,6 @@ from .constants import (
     CHARGING_STATE_LEVELS,
     WORKING_MODE_LEVELS,
     TAG_EV_CHARGING_CURRENT,
-    TAG_BATTERY_CHARGE_ENERGY,
-    TAG_BATTERY_DISCHARGE_ENERGY,
 )
 
 from .helpers import (
@@ -61,6 +59,15 @@ class DeviceManager:
 
             if unit in self.Devices:
 
+                # update existing device properties
+                try:
+                    self.Devices[unit].Used = 1
+                    self.Devices[unit].Name = definition["name"]
+                    self.Devices[unit].Update()
+            
+                except Exception:
+                    pass
+            
                 continue
 
             try:
@@ -137,19 +144,7 @@ class DeviceManager:
         if not isinstance(data, dict):
 
             return
-        
-        # ------------------------------------------------------
-        # Derived Energy Dashboard battery values
-        # ------------------------------------------------------
-
-        data[str(TAG_BATTERY_CHARGE_ENERGY)] = (
-            data.get(str(TAG_TOTAL_CHARGE), 0)
-        )
-
-        data[str(TAG_BATTERY_DISCHARGE_ENERGY)] = (
-            data.get(str(TAG_TOTAL_DISCHARGE), 0)
-        )
-                       
+                              
         for tag, definition in DEVICE_DEFINITIONS.items():
 
             if str(tag) not in data:
