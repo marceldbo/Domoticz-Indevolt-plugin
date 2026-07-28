@@ -48,13 +48,6 @@ TAG_LIGHT_ENABLE = 7171
 
 TAG_GRID_CHARGING_ENABLE = 2618
 
-#==========================================================
-# DOMOTICZ ENERGY DASHBOARD DEVICES (OUTSIDE OF INDEVOLT)
-#==========================================================
-
-TAG_BATTERY_CHARGE_ENERGY = 8001
-TAG_BATTERY_DISCHARGE_ENERGY = 8002
-
 # ==========================================================
 # USER DEFINED TAGS (OUTSIDE OF INDEVOLT)
 # ==========================================================
@@ -152,13 +145,6 @@ POLL_TAGS = [
     TAG_LIGHT_ENABLE,
     
     TAG_GRID_CHARGING_ENABLE,
-
-    #======================================================
-    # Duplicate poll tags for Domoticz Energy Dashboard
-    #======================================================
-    
-    6006,
-    6007,
 ]
 
 # ==========================================================
@@ -331,7 +317,7 @@ DEVICE_DEFINITIONS = {
         "name": "Total Charge (W, kWh)",
         "create": {
             "TypeName": "kWh",
-            "Used": 0,
+            "Used": 1,
         },
     },
     
@@ -341,7 +327,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "TypeName": "kWh",
             "SwitchType": 4,
-            "Used": 0,
+            "Used": 1,
         },
     },
 
@@ -451,25 +437,6 @@ DEVICE_DEFINITIONS = {
             "Type": 243,
             "Subtype": 23,
             "Used": 1,
-        },
-    },
-        
-    TAG_BATTERY_CHARGE_ENERGY: {
-        "unit": 8001,
-        "name": "Battery Charge Energy (kWh)",
-        "create": {
-            "TypeName": "kWh",
-            "Used": 0,
-        },
-    },
-    
-    TAG_BATTERY_DISCHARGE_ENERGY: {
-        "unit": 8002,
-        "name": "Battery Discharge Energy",
-        "create": {
-            "TypeName": "kWh",
-            "SwitchType": 4,
-            "Used": 0,
         },
     },
 }
