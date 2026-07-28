@@ -17,6 +17,9 @@ from .constants import (
     WORKING_MODE_LEVELS,
     TAG_EV_CHARGING_CURRENT,
     TAG_BATTERY_POWER,
+    TAG_TOTAL_CHARGE,
+    TAG_TOTAL_DISCHARGE,
+    TAG_BATTERY_ROUNDTRIP_EFFICIENCY,
 )
 
 from .helpers import (
