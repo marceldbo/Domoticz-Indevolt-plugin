@@ -16,7 +16,6 @@ from .constants import (
     CHARGING_STATE_LEVELS,
     WORKING_MODE_LEVELS,
     TAG_EV_CHARGING_CURRENT,
-    TAG_BATTERY_POWER_ENERGY,
     TAG_BATTERY_CHARGE_ENERGY,
     TAG_BATTERY_DISCHARGE_ENERGY,
 )
@@ -142,10 +141,14 @@ class DeviceManager:
         # ------------------------------------------------------
         # Derived Energy Dashboard battery values
         # ------------------------------------------------------
-        
-        data["8000"] = data.get("6000", 0)
-        data["8001"] = data.get("6006", 0)
-        data["8002"] = data.get("6007", 0)
+
+        data[str(TAG_BATTERY_CHARGE_ENERGY)] = (
+            data.get(str(TAG_TOTAL_CHARGE), 0)
+        )
+
+        data[str(TAG_BATTERY_DISCHARGE_ENERGY)] = (
+            data.get(str(TAG_TOTAL_DISCHARGE), 0)
+        )
                        
         for tag, definition in DEVICE_DEFINITIONS.items():
 
