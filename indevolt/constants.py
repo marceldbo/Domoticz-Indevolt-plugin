@@ -53,6 +53,7 @@ TAG_GRID_CHARGING_ENABLE = 2618
 # ==========================================================
 
 TAG_EV_CHARGING_CURRENT = 9001
+TAG_BATTERY_ROUNDTRIP_EFFICIENCY = 9002
 
 # ==========================================================
 # SETDATA REGISTERS
@@ -436,6 +437,15 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 243,
             "Subtype": 23,
+            "Used": 1,
+        },
+    },
+    
+    TAG_BATTERY_ROUNDTRIP_EFFICIENCY: {
+        "unit": 31,
+        "name": "Battery Round-trip Efficiency",
+        "create": {
+            "TypeName": "Percentage",
             "Used": 1,
         },
     },
