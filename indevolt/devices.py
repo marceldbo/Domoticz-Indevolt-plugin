@@ -16,6 +16,7 @@ from .constants import (
     CHARGING_STATE_LEVELS,
     WORKING_MODE_LEVELS,
     TAG_EV_CHARGING_CURRENT,
+    TAG_BATTERY_POWER,
 )
 
 from .helpers import (
@@ -246,13 +247,18 @@ class DeviceManager:
 
                     continue
 
-                # ----------------------------------
-                # Numeric devices
-                # ----------------------------------
+                # ------------------------------------
+                # Numeric devices including correction
+                # for battery power direction
+                # ------------------------------------
 
-                number = safe_float(
-                    value
-                )
+                if tag == TAG_BATTERY_POWER:
+
+                    number = -safe_float(value)
+
+                else:
+                
+                    number = safe_float(value)
 
                 self.Devices[unit].Update(
 
