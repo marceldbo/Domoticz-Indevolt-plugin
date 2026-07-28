@@ -52,9 +52,9 @@ TAG_GRID_CHARGING_ENABLE = 2618
 # DOMOTICZ ENERGY DASHBOARD DEVICES (OUTSIDE OF INDEVOLT)
 #==========================================================
 
-TAG_ENERGY_BATTERY_POWER = 8000
-TAG_ENERGY_BATTERY_CHARGE = 8001
-TAG_ENERGY_BATTERY_DISCHARGE = 8002
+TAG_BATTERY_POWER_ENERGY = 8000
+TAG_BATTERY_CHARGE_ENERGY = 8001
+TAG_BATTERY_DISCHARGE_ENERGY = 8002
 
 # ==========================================================
 # USER DEFINED TAGS (OUTSIDE OF INDEVOLT)
@@ -448,9 +448,9 @@ DEVICE_DEFINITIONS = {
         },
     },
     
-    TAG_BATTERY_ENERGY_POWER: {
+    TAG_BATTERY_POWER_ENERGY: {
         "unit": 8000,
-        "name": "Indevolt Battery Power",
+        "name": "Battery Power Energy",
         "create": {
             "Type": 243,
             "Subtype": 31,
@@ -458,9 +458,9 @@ DEVICE_DEFINITIONS = {
         }
     },
     
-    TAG_BATTERY_ENERGY_CHARGED: {
+    TAG_BATTERY_CHARGE_ENERGY: {
         "unit": 8001,
-        "name": "Indevolt Battery Energy Charged",
+        "name": "Battery Charge Energy",
         "create": {
             "Type": 243,
             "Subtype": 29,
@@ -468,9 +468,9 @@ DEVICE_DEFINITIONS = {
         }
     },
     
-    TAG_BATTERY_ENERGY_DISCHARGED: {
+    TAG_BATTERY_DISCHARGE_ENERGY: {
         "unit": 8002,
-        "name": "Indevolt Battery Energy Discharged",
+        "name": "Battery Discharge Energy",
         "create": {
             "Type": 243,
             "Subtype": 29,
