@@ -152,7 +152,15 @@ POLL_TAGS = [
     TAG_BATTERY_TEMPERATURE,
     TAG_LIGHT_ENABLE,
     
-    TAG_GRID_CHARGING_ENABLE,    
+    TAG_GRID_CHARGING_ENABLE,
+
+    #======================================================
+    # Duplicate poll tags for Domoticz Energy Dashboard
+    #======================================================
+    
+    6000,
+    6006,
+    6007,
 ]
 
 # ==========================================================
