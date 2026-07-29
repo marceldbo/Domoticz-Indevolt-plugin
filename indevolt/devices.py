@@ -203,7 +203,6 @@ class DeviceManager:
 
             unit = definition["unit"]
 
-
             if unit not in self.Devices:
 
                 continue
