@@ -20,6 +20,7 @@ from .constants import (
     TAG_TOTAL_CHARGE,
     TAG_TOTAL_DISCHARGE,
     TAG_BATTERY_ROUNDTRIP_EFFICIENCY,
+    TAG_BATTERY_THROUGHPUT,
 )
 
 from .helpers import (
@@ -188,13 +189,49 @@ class DeviceManager:
             log_debug(
                 f"Battery round-trip efficiency={efficiency:.1f}%"
             )
-        
+
         except Exception as e:
     
             log_error(
                 f"Round-trip efficiency calculation failed: {e}"
             )
         
+        # ------------------------------------------------------
+        # Battery throughput calculation
+        #
+        # Throughput =
+        # (Total Charge + Total Discharge) / 2
+        #
+        # Represents equivalent energy cycled through battery.
+        # ------------------------------------------------------
+    
+        try:
+    
+            charged = safe_float(
+                data.get(str(TAG_TOTAL_CHARGE), 0)
+            )
+    
+            discharged = safe_float(
+                data.get(str(TAG_TOTAL_DISCHARGE), 0)
+            )
+     
+            throughput = (
+                charged +
+                discharged
+            ) / 2
+      
+            data[str(TAG_BATTERY_THROUGHPUT)] = throughput
+      
+            log_debug(
+                f"Battery throughput={throughput:.2f} kWh"
+            )
+        
+        except Exception as e:
+    
+            log_error(
+                f"Battery throughput calculation failed: {e}"
+            )
+                     
         for tag, definition in DEVICE_DEFINITIONS.items():
 
             if str(tag) not in data:
