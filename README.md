@@ -56,4 +56,6 @@ For convenience, I have generated and included an icon to be used with the newly
 
 ## Ideas and TO DO's
 
-One idea is to make it more generic, e.g. external control for a Heat Exchanger, etc. The second one is support for separate language files as currently the devices are created in English.
+- More generic external controls e.g. external control for a Heat Exchanger, etc.
+- Support for separate language files as currently the devices are created in English.
+- Adding a combined text device with system serial numbers, RTE, charge/discharge cycles etc.  
