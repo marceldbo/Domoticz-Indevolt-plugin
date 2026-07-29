@@ -30,7 +30,7 @@ Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
                label="Indevolt IP"
                width="200px"
                required="true"
-               default=192.168.10.142"/>
+               default="192.168.10.142"/>
 
         <param field="Port"
                label="Port"
