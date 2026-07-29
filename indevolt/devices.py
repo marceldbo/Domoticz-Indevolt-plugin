@@ -20,11 +20,6 @@ from .constants import (
     TAG_TOTAL_CHARGE,
     TAG_TOTAL_DISCHARGE,
     TAG_BATTERY_ROUNDTRIP_EFFICIENCY,
-    TAG_MAIN_SERIAL_NUMBER,
-    TAG_BATTERY_ONE_SERIAL_NUMBER,
-    TAG_BATTERY_TWO_SERIAL_NUMBER,
-    TAG_BATTERY_THREE_SERIAL_NUMBER,
-    TAG_BATTERY_FOUR_SERIAL_NUMBER,
 )
 
 from .helpers import (
@@ -153,9 +148,7 @@ class DeviceManager:
         if not isinstance(data, dict):
 
             return
-
-        self.update_battery_information(data)
-        
+               
         # ------------------------------------------------------
         # Battery round-trip efficiency calculation
         #
@@ -291,11 +284,7 @@ class DeviceManager:
                 if definition["create"].get(
                     "Subtype"
                 ) == 19:
-
-                    if tag == TAG_SERIAL_NUMBER:
-                        
-                        continue
-                                        
+                                                                       
                     self.Devices[unit].Update(
 
                         nValue=0,
@@ -352,104 +341,6 @@ class DeviceManager:
                 log_error(
                     f"Update {tag} failed: {e}"
                 )
-
-    # ======================================================
-    # BATTERY INFORMATION
-    # ======================================================
-    
-    def update_battery_information(self, data):
-    
-        unit = DEVICE_DEFINITIONS[TAG_SERIAL_NUMBER]["unit"]
-    
-        if unit not in self.Devices:
-            return
-    
-        #
-        # Serial numbers
-        #
-    
-        main_serial = safe_string(
-            data.get(str(TAG_MAIN_SERIAL_NUMBER), "")
-        )
-    
-        battery_serials = [
-    
-            (TAG_BATTERY_ONE_SERIAL_NUMBER, "Battery 1"),
-            (TAG_BATTERY_TWO_SERIAL_NUMBER, "Battery 2"),
-            (TAG_BATTERY_THREE_SERIAL_NUMBER, "Battery 3"),
-            (TAG_BATTERY_FOUR_SERIAL_NUMBER, "Battery 4"),
-    
-        ]
-    
-        #
-        # Battery statistics
-        #
-    
-        capacity = safe_float(
-            data.get(str(TAG_RATED_CAPACITY), 0)
-        )
-    
-        charged = safe_float(
-            data.get(str(TAG_TOTAL_CHARGE), 0)
-        )
-    
-        discharged = safe_float(
-            data.get(str(TAG_TOTAL_DISCHARGE), 0)
-        )
-    
-        throughput = (charged + discharged) / 2
-    
-        rte = (
-            discharged / charged * 100
-            if charged > 10 else 0
-        )
-    
-        cycles = (
-            throughput / capacity
-            if capacity > 0 else 0
-        )
-    
-        #
-        # Build text
-        #
-    
-        lines = []
-    
-        if main_serial:
-            lines.append(f"{'Main Unit':<18}: {main_serial}")
-    
-        for tag, label in battery_serials:
-    
-            serial = safe_string(
-                data.get(str(tag), "")
-            )
-    
-            if serial:
-                lines.append(f"{label:<18}: {serial}")
-    
-        if lines:
-            lines.append("")
-    
-        lines.append(f"{'Rated Capacity':<18}: {capacity:.1f} kWh")
-        lines.append(f"{'Battery Throughput':<18}: {throughput:.1f} kWh")
-        lines.append(f"{'Equivalent Cycles':<18}: {cycles:.1f}")
-        lines.append(f"{'Round-trip Efficiency':<18}: {rte:.1f} %")
-    
-        text = "\n".join(lines)
-    
-        #
-        # Update only if changed
-        #
-    
-        if self.Devices[unit].sValue != text:
-    
-            self.Devices[unit].Update(
-    
-                nValue=0,
-    
-                sValue=text
-    
-            )
      
     # ======================================================
     # PROGRAMMATIC CONTROL
