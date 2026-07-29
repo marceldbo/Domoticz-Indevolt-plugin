@@ -452,7 +452,7 @@ DEVICE_DEFINITIONS = {
     },
     TAG_BATTERY_THROUGHPUT: {
         "unit": 32,
-        "name": "Battery Throughput",
+        "name": "Battery Throughput (W, kWh)",
         "create": {
             "TypeName": "kWh",
             "Used": 1,
