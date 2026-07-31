@@ -153,74 +153,43 @@ class DeviceManager:
             return
                
         # ------------------------------------------------------
-        # Battery statistics calculation
+        # Battery round-trip efficiency calculation
         #
-        # Throughput =
-        # (Total Charge + Total Discharge) / 2
-        #
-        # RTE =
+        # Efficiency =
         # Total Discharge / Total Charge * 100
         #
-        # Equivalent Full Cycles =
-        # Throughput / Rated Capacity
+        # Uses lifetime energy counters:
+        # TAG_TOTAL_CHARGE
+        # TAG_TOTAL_DISCHARGE
         # ------------------------------------------------------
-        
+    
         try:
-        
+    
             charged = safe_float(
                 data.get(str(TAG_TOTAL_CHARGE), 0)
             )
-        
+    
             discharged = safe_float(
                 data.get(str(TAG_TOTAL_DISCHARGE), 0)
             )
         
-            capacity = safe_float(
-                data.get(str(TAG_RATED_CAPACITY), 0)
-            )
-        
-            # Battery throughput in kWh
-            throughput = (
-                charged +
-                discharged
-            ) / 2
-        
-            # Round-trip efficiency
+            # Prevent meaningless values during startup
             if charged > 10 and discharged > 1:
+    
                 efficiency = (
                     discharged /
                     charged *
                     100
                 )
+    
             else:
+    
                 efficiency = 0
-        
-            # Equivalent full cycles
-            if capacity > 0:
-                cycles = round(
-                    throughput /
-                    capacity
-                )
-            else:
-                cycles = 0
-        
-            data[str(TAG_BATTERY_THROUGHPUT)] = throughput
         
             data[str(TAG_BATTERY_ROUNDTRIP_EFFICIENCY)] = efficiency
         
-            data[str(TAG_BATTERY_CYCLES)] = cycles
-        
             log_debug(
-                f"Battery statistics: "
-                f"Throughput={throughput:.1f} kWh, "
-                f"RTE={efficiency:.1f}%, "
-                f"Cycles={cycles}"
-            )
-        
-        except Exception as e:
-        
-            log_error(
-                f"Battery statistics calculation failed: {e}"
+                f"Battery round-trip efficiency={efficiency:.1f}%"
             )
                      
         for tag, definition in DEVICE_DEFINITIONS.items():
