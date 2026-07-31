@@ -21,6 +21,7 @@ from .constants import (
     TAG_TOTAL_DISCHARGE,
     TAG_BATTERY_ROUNDTRIP_EFFICIENCY,
     TAG_BATTERY_THROUGHPUT,
+    TAG_BATTERY_CYCLES,
 )
 
 from .helpers import (
@@ -151,85 +152,74 @@ class DeviceManager:
             return
                
         # ------------------------------------------------------
-        # Battery round-trip efficiency calculation
+        # Battery statistics calculation
         #
-        # Efficiency =
+        # Throughput =
+        # (Total Charge + Total Discharge) / 2
+        #
+        # RTE =
         # Total Discharge / Total Charge * 100
         #
-        # Uses lifetime energy counters:
-        # TAG_TOTAL_CHARGE
-        # TAG_TOTAL_DISCHARGE
+        # Equivalent Full Cycles =
+        # Throughput / Rated Capacity
         # ------------------------------------------------------
-    
+        
         try:
-    
+        
             charged = safe_float(
                 data.get(str(TAG_TOTAL_CHARGE), 0)
             )
-    
+        
             discharged = safe_float(
                 data.get(str(TAG_TOTAL_DISCHARGE), 0)
             )
         
-            # Prevent meaningless values during startup
+            capacity = safe_float(
+                data.get(str(TAG_RATED_CAPACITY), 0)
+            )
+        
+            # Battery throughput in kWh
+            throughput = (
+                charged +
+                discharged
+            ) / 2
+        
+            # Round-trip efficiency
             if charged > 10 and discharged > 1:
-    
                 efficiency = (
                     discharged /
                     charged *
                     100
                 )
-    
             else:
-    
                 efficiency = 0
+        
+            # Equivalent full cycles
+            if capacity > 0:
+                cycles = round(
+                    throughput /
+                    capacity
+                )
+            else:
+                cycles = 0
+        
+            data[str(TAG_BATTERY_THROUGHPUT)] = throughput
         
             data[str(TAG_BATTERY_ROUNDTRIP_EFFICIENCY)] = efficiency
         
-            log_debug(
-                f"Battery round-trip efficiency={efficiency:.1f}%"
-            )
-
-        except Exception as e:
-    
-            log_error(
-                f"Round-trip efficiency calculation failed: {e}"
-            )
+            data[str(TAG_BATTERY_CYCLES)] = cycles
         
-        # ------------------------------------------------------
-        # Battery throughput calculation
-        #
-        # Throughput =
-        # (Total Charge + Total Discharge) / 2
-        #
-        # Represents equivalent energy cycled through battery.
-        # ------------------------------------------------------
-    
-        try:
-    
-            charged = safe_float(
-                data.get(str(TAG_TOTAL_CHARGE), 0)
-            )
-    
-            discharged = safe_float(
-                data.get(str(TAG_TOTAL_DISCHARGE), 0)
-            )
-     
-            throughput = (
-                charged +
-                discharged
-            ) / 2
-      
-            data[str(TAG_BATTERY_THROUGHPUT)] = throughput
-      
             log_debug(
-                f"Battery throughput={throughput:.2f} kWh"
+                f"Battery statistics: "
+                f"Throughput={throughput:.1f} kWh, "
+                f"RTE={efficiency:.1f}%, "
+                f"Cycles={cycles}"
             )
         
         except Exception as e:
-    
+        
             log_error(
-                f"Battery throughput calculation failed: {e}"
+                f"Battery statistics calculation failed: {e}"
             )
                      
         for tag, definition in DEVICE_DEFINITIONS.items():
