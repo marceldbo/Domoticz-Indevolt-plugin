@@ -191,6 +191,12 @@ class DeviceManager:
             log_debug(
                 f"Battery round-trip efficiency={efficiency:.1f}%"
             )
+
+        except Exception as e:
+    
+            log_error(
+                f"Round-trip efficiency calculation failed: {e}"
+            )
                      
         for tag, definition in DEVICE_DEFINITIONS.items():
 
