@@ -21,8 +21,6 @@ from .constants import (
     TAG_TOTAL_DISCHARGE,
     TAG_RATED_CAPACITY,
     TAG_BATTERY_ROUNDTRIP_EFFICIENCY,
-    TAG_BATTERY_THROUGHPUT,
-    TAG_BATTERY_CYCLES,
 )
 
 from .helpers import (
