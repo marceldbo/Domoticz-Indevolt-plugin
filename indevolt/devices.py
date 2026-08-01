@@ -416,7 +416,7 @@ class DeviceManager:
                 
                 enabled,
                 
-                self.config.discharge_target_soc_percent
+                self.config.charge_target_soc_percent
     
             )
     
@@ -487,7 +487,7 @@ class DeviceManager:
         
                     power=0,
         
-                    target_soc=self.config.discharge_target_soc_percent
+                    target_soc=self.config.charge_target_soc_percent
             
                 )
             
@@ -531,7 +531,7 @@ class DeviceManager:
         
                     power=0,
         
-                    target_soc=self.config.discharge_target_soc_percent
+                    target_soc=self.config.charge_target_soc_percent
         
                 )
         
