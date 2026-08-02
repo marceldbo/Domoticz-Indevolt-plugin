@@ -446,16 +446,33 @@ class DeviceManager:
         unit = DEVICE_DEFINITIONS[TAG_EV_CHARGING_CURRENT]["unit"]
         
         if unit not in self.Devices:
-            return None
+            return 0.0
             
         try:
-            return float(self.Devices[unit].sValue)
+            value = self.Devices[unit].sValue
+
+            # No value available -> assume EV is not charging
+            if value is None or value.strip() == "":
+                return 0.0
+
+            # Support decimal comma notation
+            value = value.replace(",", ".")
+
+            return float(value)
             
+            #return float(self.Devices[unit].sValue)
+            
+        except (ValueError, TypeError):
+            log_error(
+                f"EV current read failed: invalid value '{value}', defaulting to 0.0A"
+            )
+            return 0.0
+        
         except Exception as e:
                     
-            log_error( f"EV current read failed: {e}" )
+            log_error( f"EV current read failed: {e}", defaulting to 0.0A" )
                     
-            return None
+            return 0.0
     
     # ======================================================
     # COMMAND HANDLING
