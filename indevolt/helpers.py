@@ -62,7 +62,7 @@ def safe_int(value, default=0):
         if value is None:
             return default
 
-        return int(value)
+        return int(float(value))
 
     except Exception:
 
@@ -124,7 +124,7 @@ def format_value(value, decimals=2):
 
     except Exception:
 
-        return str(value)
+        return str(value) if value is not None else "0"
 
 # ==========================================================
 # INDEVOLT STATE DECODING
@@ -201,7 +201,8 @@ def level_to_charging_state(level):
     """
 
     return LEVEL_TO_CHARGING_STATE.get(
-        safe_int(level)
+        safe_int(level),
+        0
     )
 
 # ==========================================================
@@ -230,7 +231,8 @@ def level_to_working_mode(level):
     """
 
     return LEVEL_TO_WORKING_MODE.get(
-        safe_int(level)
+        safe_int(level),
+        1   # Self-consumed Prioritized
     )
 
 # ==========================================================

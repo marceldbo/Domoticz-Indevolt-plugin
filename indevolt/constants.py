@@ -17,7 +17,6 @@ TAG_SERIAL_NUMBER = 0
 
 TAG_WORKING_MODE = 7101
 TAG_CHARGING_STATE = 6001
-TAG_RTC_STANDBY = 6001
 
 TAG_BATTERY_POWER = 6000
 TAG_BATTERY_SOC = 6002
@@ -54,6 +53,8 @@ TAG_GRID_CHARGING_ENABLE = 2618
 
 TAG_EV_CHARGING_CURRENT = 30
 TAG_BATTERY_ROUNDTRIP_EFFICIENCY = 31
+TAG_BATTERY_THROUGHPUT = 32
+TAG_BATTERY_CYCLES = 33
 
 # ==========================================================
 # SETDATA REGISTERS
@@ -61,7 +62,6 @@ TAG_BATTERY_ROUNDTRIP_EFFICIENCY = 31
 
 SET_WORKING_MODE = 47005
 SET_CHARGING_STATE = 47015
-SET_RTC_STANDBY = 47015
 
 SET_BYPASS_ENABLE = 7266
 SET_LIGHT_ENABLE = 7265
@@ -114,7 +114,7 @@ LEVEL_TO_CHARGING_STATE = {
 
 POLL_TAGS = [
     TAG_SERIAL_NUMBER,
-
+    
     TAG_WORKING_MODE,
     TAG_CHARGING_STATE,
 
@@ -446,6 +446,32 @@ DEVICE_DEFINITIONS = {
         "name": "Battery Round-trip Efficiency",
         "create": {
             "TypeName": "Percentage",
+            "Used": 1,
+        },
+    },
+
+    TAG_BATTERY_THROUGHPUT: {
+        "unit": 32,
+        "name": "Battery Throughput",
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
+            "Used": 1,
+        },
+    },
+
+    TAG_BATTERY_CYCLES: {
+        "unit": 33,
+        "name": "Battery Cycles",
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;cycles",
+            },
             "Used": 1,
         },
     },

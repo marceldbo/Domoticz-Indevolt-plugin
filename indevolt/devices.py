@@ -16,10 +16,13 @@ from .constants import (
     CHARGING_STATE_LEVELS,
     WORKING_MODE_LEVELS,
     TAG_EV_CHARGING_CURRENT,
+    TAG_RATED_CAPACITY,
     TAG_BATTERY_POWER,
     TAG_TOTAL_CHARGE,
     TAG_TOTAL_DISCHARGE,
     TAG_BATTERY_ROUNDTRIP_EFFICIENCY,
+    TAG_BATTERY_THROUGHPUT,
+    TAG_BATTERY_CYCLES,
 )
 
 from .helpers import (
@@ -67,10 +70,13 @@ class DeviceManager:
                 try:
                     self.Devices[unit].Used = 1
                     self.Devices[unit].Name = definition["name"]
-                    self.Devices[unit].Update()
+                    self.Devices[unit].Update(
+                        nValue=device.nValue,
+                        sValue=device.sValue,
+                    )
             
-                except Exception:
-                    pass
+                except Exception as e:
+                    log_error(f"Failed updating existing device: {e}")
             
                 continue
 
@@ -148,53 +154,82 @@ class DeviceManager:
         if not isinstance(data, dict):
 
             return
+               
+        # ------------------------------------------------------
+        # Battery statistics calculation
+        #
+        # Round-trip Efficiency (RTE)
+        # Throughput
+        # Equivalent Full Cycles
+        #
+        # RTE         = Total Discharge / Total Charge * 100
+        # Throughput  = (Total Charge + Total Discharge) / 2
+        # Cycles      = Throughput / Rated Capacity
+        # ------------------------------------------------------
 
-        # ------------------------------------------------------
-        # Battery round-trip efficiency calculation
-        #
-        # Efficiency =
-        # Total Discharge / Total Charge * 100
-        #
-        # Uses lifetime energy counters:
-        # TAG_TOTAL_CHARGE
-        # TAG_TOTAL_DISCHARGE
-        # ------------------------------------------------------
-    
         try:
-    
+
             charged = safe_float(
                 data.get(str(TAG_TOTAL_CHARGE), 0)
             )
-    
+
             discharged = safe_float(
                 data.get(str(TAG_TOTAL_DISCHARGE), 0)
             )
-        
-            # Prevent meaningless values during startup
+
+            capacity = safe_float(
+                data.get(str(TAG_RATED_CAPACITY), 0)
+            )
+
+            # Battery Throughput (kWh)
+            throughput = (
+                charged +
+                discharged
+            ) / 2
+
+            # Round-trip Efficiency (%)
             if charged > 10 and discharged > 1:
-    
+
                 efficiency = (
                     discharged /
                     charged *
                     100
                 )
-    
+
             else:
-    
+
                 efficiency = 0
-        
+
+            # Equivalent Full Cycles
+            if capacity > 0:
+
+                cycles = round(
+                    throughput /
+                    capacity
+                )
+
+            else:
+
+                cycles = 0
+
+            # Store calculated values
             data[str(TAG_BATTERY_ROUNDTRIP_EFFICIENCY)] = efficiency
-        
+            data[str(TAG_BATTERY_THROUGHPUT)] = throughput
+            data[str(TAG_BATTERY_CYCLES)] = cycles
+
             log_debug(
-                f"Battery round-trip efficiency={efficiency:.1f}%"
+                f"Battery statistics: "
+                f"RTE={efficiency:.1f}% | "
+                f"Throughput={throughput:.1f} kWh | "
+                f"Cycles={cycles}"
             )
-        
+
         except Exception as e:
-    
+
             log_error(
-                f"Round-trip efficiency calculation failed: {e}"
+                f"Battery statistics calculation failed: {e}"
             )
-        
+                     
         for tag, definition in DEVICE_DEFINITIONS.items():
 
             if str(tag) not in data:
@@ -202,7 +237,6 @@ class DeviceManager:
                 continue
 
             unit = definition["unit"]
-
 
             if unit not in self.Devices:
 
@@ -284,7 +318,7 @@ class DeviceManager:
                 if definition["create"].get(
                     "Subtype"
                 ) == 19:
-
+                                                                       
                     self.Devices[unit].Update(
 
                         nValue=0,
@@ -341,7 +375,7 @@ class DeviceManager:
                 log_error(
                     f"Update {tag} failed: {e}"
                 )
-
+     
     # ======================================================
     # PROGRAMMATIC CONTROL
     # ======================================================
@@ -417,7 +451,7 @@ class DeviceManager:
                 
                 enabled,
                 
-                self.config.discharge_target_soc_percent
+                self.config.charge_target_soc_percent
     
             )
     
@@ -447,16 +481,33 @@ class DeviceManager:
         unit = DEVICE_DEFINITIONS[TAG_EV_CHARGING_CURRENT]["unit"]
         
         if unit not in self.Devices:
-            return None
+            return 0.0
             
         try:
-            return float(self.Devices[unit].sValue)
+            value = self.Devices[unit].sValue
+
+            # No value available -> assume EV is not charging
+            if value is None or value.strip() == "":
+                return 0.0
+
+            # Support decimal comma notation
+            value = value.replace(",", ".")
+
+            return float(value)
             
+            #return float(self.Devices[unit].sValue)
+            
+        except (ValueError, TypeError):
+            log_error(
+                f"EV current read failed: invalid value '{value}', defaulting to 0.0A"
+            )
+            return 0.0
+        
         except Exception as e:
                     
-            log_error( f"EV current read failed: {e}" )
+            log_error( f"EV current read failed: {e}, defaulting to 0.0A" )
                     
-            return None
+            return 0.0
     
     # ======================================================
     # COMMAND HANDLING
@@ -488,7 +539,7 @@ class DeviceManager:
         
                     power=0,
         
-                    target_soc=self.config.discharge_target_soc_percent
+                    target_soc=self.config.charge_target_soc_percent
             
                 )
             
@@ -532,7 +583,7 @@ class DeviceManager:
         
                     power=0,
         
-                    target_soc=self.config.discharge_target_soc_percent
+                    target_soc=self.config.charge_target_soc_percent
         
                 )
         
