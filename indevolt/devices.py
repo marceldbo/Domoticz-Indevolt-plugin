@@ -69,7 +69,7 @@ class DeviceManager:
                     self.Devices[unit].Name = definition["name"]
                     self.Devices[unit].Update(
                         nvalue=device.nValue,
-                        svalue=device.sValue
+                        svalue=device.sValue,
                     )
             
                 except Exception:
