@@ -72,8 +72,8 @@ class DeviceManager:
                         sValue=device.sValue,
                     )
             
-                except Exception:
-                    pass
+                except Exception as e:
+                    log_error(f"Failed updating existing device: {e}")
             
                 continue
 
