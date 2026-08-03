@@ -1,6 +1,6 @@
 # Domoticz INDEVOLT Plugin
 
-This plugin for Domoticz uses the local OpenData integration for INDEVOLT home battery systems.
+This plugin for Domoticz uses the local OpenData API for INDEVOLT home battery systems.
 
 ## Implemented features summary
 
@@ -8,7 +8,8 @@ This plugin for Domoticz uses the local OpenData integration for INDEVOLT home b
 - Power flow (Grid / Load / Battery)
 - Domoticz Energy Dashboard support with correct battery flow direction
 - Setting of Working mode, Charging state, Grid charging and Bypass socket
-- Automatic device creation: power, SOC, RTE, charging, discharging, voltage, current, temperature, frequency etc.
+- Automatic device creation: power, SOC, charging, discharging, voltage, current, temperature, frequency etc.
+- Automatic device creation for battery statistics e.g. Round-trip Efficiency (RTE), Throughput and Cycles
 - Uses local Indevolt OpenData API (no cloud dependency)
 - Optional EV-management with automatic EV-Current sensing device creation
 
@@ -18,13 +19,13 @@ To install:
 
 - Go into the Domoticz plugins directory using a command line.
 - Run: `git clone https://github.com/marceldbo/Domoticz-Indevolt-plugin.git`
-- Restart Domoticz.
+- Restart Domoticz
 
 To update:
 
 - From the Domoticz plugins directory, using a command line, go into the Domoticz-Indevolt-plugin directory.
 - Run: `git pull`
-- Restart Domoticz.
+- Restart Domoticz
 
 ## Configuration
 
