@@ -18,7 +18,6 @@ from .constants import (
     POLL_TAGS,
     SET_WORKING_MODE,
     SET_CHARGING_STATE,
-    SET_RTC_STANDBY,
     SET_BYPASS_ENABLE,
     SET_LIGHT_ENABLE,
     SET_GRID_CHARGING_ENABLE,
@@ -369,7 +368,7 @@ class IndevoltAPI:
     
             function=16,
     
-            tag=SET_RTC_STANDBY,
+            tag=SET_CHARGING_STATE,
     
             values=[
                 state,
