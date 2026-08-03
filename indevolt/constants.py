@@ -146,7 +146,6 @@ POLL_TAGS = [
     TAG_LIGHT_ENABLE,
     
     TAG_GRID_CHARGING_ENABLE,
-
 ]
 
 # ==========================================================
