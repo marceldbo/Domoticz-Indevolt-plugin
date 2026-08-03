@@ -65,19 +65,7 @@ class DeviceManager:
             unit = definition["unit"]
 
             if unit in self.Devices:
-
-                # update existing device properties
-                try:
-                    self.Devices[unit].Used = 1
-                    self.Devices[unit].Name = definition["name"]
-                    self.Devices[unit].Update(
-                        nValue=device.nValue,
-                        sValue=device.sValue,
-                    )
-            
-                except Exception as e:
-                    log_error(f"Failed updating existing device: {e}")
-            
+                           
                 continue
 
             try:
