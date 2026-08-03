@@ -67,10 +67,10 @@ class DeviceManager:
                 try:
                     self.Devices[unit].Used = 1
                     self.Devices[unit].Name = definition["name"]
-                    #self.Devices[unit].Update(
-                    #    nvalue=device.nValue,
-                    #   svalue=device.sValue
-                    #)
+                    self.Devices[unit].Update(
+                        nvalue=device.nValue,
+                        svalue=device.sValue
+                    )
             
                 except Exception:
                     pass
