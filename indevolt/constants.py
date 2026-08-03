@@ -46,29 +46,7 @@ TAG_BATTERY_TEMPERATURE = 9012
 TAG_LIGHT_ENABLE = 7171
 
 TAG_GRID_CHARGING_ENABLE = 2618
-"""
-# ==========================================================
-# INDEVOLT TAGS FOR SYSTEMS WITH PV INPUTS
-# ==========================================================
 
-TAG_PV_OUTPUT_POWER = 1501
-
-TAG_PV_INPUT_CURRENT_ONE = 1632
-TAG_PV_INPUT_VOLTAGE_ONE = 1600
-TAG_PV_INPUT_POWER_ONE = 1664
-
-TAG_PV_INPUT_CURRENT_TWO = 1633
-TAG_PV_INPUT_VOLTAGE_TWO = 1601
-TAG_PV_INPUT_POWER_TWO = 1665
-
-TAG_PV_INPUT_CURRENT_THREE = 1634
-TAG_PV_INPUT_VOLTAGE_THREE = 1602
-TAG_PV_INPUT_POWER_THREE = 1666
-
-TAG_PV_INPUT_CURRENT_FOUR = 1635
-TAG_PV_INPUT_VOLTAGE_FOUR = 1603
-TAG_PV_INPUT_POWER_FOUR = 1667
-"""
 # ==========================================================
 # USER DEFINED TAGS (OUTSIDE OF INDEVOLT)
 # ==========================================================
@@ -168,29 +146,7 @@ POLL_TAGS = [
     TAG_LIGHT_ENABLE,
     
     TAG_GRID_CHARGING_ENABLE,
-"""
-    # =====================================================
-    # PV POLL TAGS
-    # =====================================================
 
-    TAG_PV_OUTPUT_POWER,
-
-    TAG_PV_INPUT_CURRENT_ONE,
-    TAG_PV_INPUT_VOLTAGE_ONE,
-    TAG_PV_INPUT_POWER_ONE,
-
-    TAG_PV_INPUT_CURRENT_TWO,
-    TAG_PV_INPUT_VOLTAGE_TWO,
-    TAG_PV_INPUT_POWER_TWO,
-
-    TAG_PV_INPUT_CURRENT_THREE,
-    TAG_PV_INPUT_VOLTAGE_THREE,
-    TAG_PV_INPUT_POWER_THREE,
-
-    TAG_PV_INPUT_CURRENT_FOUR,
-    TAG_PV_INPUT_VOLTAGE_FOUR,
-    TAG_PV_INPUT_POWER_FOUR,
-"""
 ]
 
 # ==========================================================
@@ -520,139 +476,4 @@ DEVICE_DEFINITIONS = {
             "Used": 1,
         },
     },
-"""
-    # ==========================================================
-    # PV OUTPUT AND INPUT DEVICES
-    # ==========================================================
-
-    TAG_PV_OUTPUT_POWER: {
-        "unit": 40,
-        "name": "PV Total Output Power",
-        "create": {
-            "Type": 248,
-            "Subtype": 1,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_CURRENT_ONE: {
-        "unit": 41,
-        "name": "PV1 Input Current",
-        "create": {
-            "Type": 243,
-            "Subtype": 23,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_VOLTAGE_ONE: {
-        "unit": 42,
-        "name": "PV1 Input Voltage",
-        "create": {
-            "Type": 243,
-            "Subtype": 8,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_POWER_ONE: {
-        "unit": 43,
-        "name": "PV1 Input Power",
-        "create": {
-            "Type": 248,
-            "Subtype": 1,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_CURRENT_TWO: {
-        "unit": 44,
-        "name": "PV2 Input Current",
-        "create": {
-            "Type": 243,
-            "Subtype": 23,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_VOLTAGE_TWO: {
-        "unit": 45,
-        "name": "PV2 Input Voltage",
-        "create": {
-            "Type": 243,
-            "Subtype": 8,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_POWER_TWO: {
-        "unit": 46,
-        "name": "PV2 Input Power",
-        "create": {
-            "Type": 248,
-            "Subtype": 1,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_CURRENT_THREE: {
-        "unit": 47,
-        "name": "PV3 Input Current",
-        "create": {
-            "Type": 243,
-            "Subtype": 23,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_VOLTAGE_THREE: {
-        "unit": 48,
-        "name": "PV3 Input Voltage",
-        "create": {
-            "Type": 243,
-            "Subtype": 8,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_POWER_THREE: {
-        "unit": 49,
-        "name": "PV3 Input Power",
-        "create": {
-            "Type": 248,
-            "Subtype": 1,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_CURRENT_FOUR: {
-        "unit": 50,
-        "name": "PV4 Input Current",
-        "create": {
-            "Type": 243,
-            "Subtype": 23,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_VOLTAGE_FOUR: {
-        "unit": 51,
-        "name": "PV4 Input Voltage",
-        "create": {
-            "Type": 243,
-            "Subtype": 8,
-            "Used": 0,
-        },
-    },
-
-    TAG_PV_INPUT_POWER_FOUR: {
-        "unit": 52,
-        "name": "PV4 Input Power",
-        "create": {
-            "Type": 248,
-            "Subtype": 1,
-            "Used": 0,
-        },
-    },
-"""
 }
