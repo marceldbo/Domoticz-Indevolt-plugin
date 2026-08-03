@@ -53,6 +53,8 @@ TAG_GRID_CHARGING_ENABLE = 2618
 
 TAG_EV_CHARGING_CURRENT = 30
 TAG_BATTERY_ROUNDTRIP_EFFICIENCY = 31
+TAG_BATTERY_THROUGHPUT = 32
+TAG_BATTERY_CYCLES = 33
 
 # ==========================================================
 # SETDATA REGISTERS
@@ -444,6 +446,32 @@ DEVICE_DEFINITIONS = {
         "name": "Battery Round-trip Efficiency",
         "create": {
             "TypeName": "Percentage",
+            "Used": 1,
+        },
+    },
+
+    TAG_BATTERY_THROUGHPUT: {
+        "unit": 32,
+        "name": "Battery Throughput",
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;kWh",
+            },
+            "Used": 1,
+        },
+    },
+
+    TAG_BATTERY_CYCLES: {
+        "unit": 33,
+        "name": "Battery Cycles",
+        "create": {
+            "Type": 243,
+            "Subtype": 31,
+            "Options": {
+                "Custom": "1;cycles",
+            },
             "Used": 1,
         },
     },
