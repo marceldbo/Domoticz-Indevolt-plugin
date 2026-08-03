@@ -470,7 +470,7 @@ class DeviceManager:
         
         except Exception as e:
                     
-            log_error( f"EV current read failed: {e}", defaulting to 0.0A" )
+            log_error( f"EV current read failed: {e}, defaulting to 0.0A" )
                     
             return 0.0
     
