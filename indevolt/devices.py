@@ -68,8 +68,8 @@ class DeviceManager:
                     self.Devices[unit].Used = 1
                     self.Devices[unit].Name = definition["name"]
                     self.Devices[unit].Update(
-                        nvalue=device.nValue,
-                        svalue=device.sValue,
+                        nValue=device.nValue,
+                        sValue=device.sValue,
                     )
             
                 except Exception:
