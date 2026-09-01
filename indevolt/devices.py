@@ -3,8 +3,8 @@ INDEVOLT Domoticz Plugin
 Device handling
 
 Author: Marcel de Bont
-Version: 2.3.0
-Version Date: 07/2026
+Version: 2.3.1
+Version Date: 09/2026
 
 Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
