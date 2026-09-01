@@ -309,7 +309,7 @@ class DeviceManager:
                     )
     
                     log_debug(
-                        f"Total AC Input: "
+                        f"Total AC Output: "
                         f"{output_power} W, "
                         f"{output_energy} kWh"
                     )
