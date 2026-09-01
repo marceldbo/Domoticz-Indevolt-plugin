@@ -271,7 +271,7 @@ DEVICE_DEFINITIONS = {
         "name": "Total Input Energy (W, kWh)",
         "create": {
             "Type": 243,
-            "SubType": 29,
+            "Subtype": 29,
             "Used": 0,
         },
     },
@@ -281,7 +281,7 @@ DEVICE_DEFINITIONS = {
         "name": "Total Output Energy (W, kWh)",
         "create": {
             "Type": 243,
-            "SubType": 29,
+            "Subtype": 29,
             "Used": 0,
         },
     },
