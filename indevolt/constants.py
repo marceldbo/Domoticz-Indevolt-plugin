@@ -254,8 +254,8 @@ DEVICE_DEFINITIONS = {
             "Subtype": 1,
             "Used": 0,
         },
-    },
-
+    },    
+    
     TAG_TOTAL_AC_OUTPUT_POWER: {
         "unit": 7,
         "name": "Total AC Output Power",
@@ -270,7 +270,8 @@ DEVICE_DEFINITIONS = {
         "unit": 8,
         "name": "Total Input Energy (W, kWh)",
         "create": {
-            "TypeName": "kWh",
+            "Type": 243,
+            "SubType": 29,
             "Used": 0,
         },
     },
@@ -279,8 +280,8 @@ DEVICE_DEFINITIONS = {
         "unit": 9,
         "name": "Total Output Energy (W, kWh)",
         "create": {
-            "TypeName": "kWh",
-            "SwitchType": 4,
+            "Type": 243,
+            "SubType": 29,
             "Used": 0,
         },
     },
