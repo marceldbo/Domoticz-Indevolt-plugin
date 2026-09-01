@@ -280,8 +280,8 @@ class DeviceManager:
                 # ----------------------------------
                 # Total AC Output
                 #
-                # 2101 = instantaneous power W
-                # 2107 = accumulated energy kWh
+                # 2108 = instantaneous power W
+                # 2104 = accumulated energy kWh
                 # ----------------------------------
     
                 if tag == TAG_TOTAL_OUTPUT_ENERGY:
