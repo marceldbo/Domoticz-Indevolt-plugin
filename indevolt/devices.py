@@ -249,7 +249,7 @@ class DeviceManager:
     
                     input_power = safe_float(
                         data.get(
-                            str(TAG_TOTAL_INPUT_POWER),
+                            str(TAG_TOTAL_AC_INPUT_POWER),
                             0
                         )
                     )
@@ -288,7 +288,7 @@ class DeviceManager:
     
                     output_power = safe_float(
                         data.get(
-                            str(TAG_TOTAL_OUTPUT_POWER),
+                            str(TAG_TOTAL_AC_OUTPUT_POWER),
                             0
                         )
                     )
