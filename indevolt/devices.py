@@ -20,6 +20,10 @@ from .constants import (
     TAG_BATTERY_POWER,
     TAG_TOTAL_CHARGE,
     TAG_TOTAL_DISCHARGE,
+    TAG_TOTAL_INPUT_POWER,
+    TAG_TOTAL_OUTPUT_POWER,
+    TAG_TOTAL_INPUT_ENERGY,
+    TAG_TOTAL_OUTPUT_ENERGY,
     TAG_BATTERY_ROUNDTRIP_EFFICIENCY,
     TAG_BATTERY_THROUGHPUT,
     TAG_BATTERY_CYCLES,
@@ -234,6 +238,84 @@ class DeviceManager:
 
                 value = data[str(tag)]
 
+                # ----------------------------------
+                # Total AC Input
+                #
+                # 2101 = instantaneous power W
+                # 2107 = accumulated energy kWh
+                # ----------------------------------
+    
+                if tag == TAG_TOTAL_INPUT_ENERGY:
+    
+                    input_power = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_INPUT_POWER),
+                            0
+                        )
+                    )
+    
+                    input_energy = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_INPUT_ENERGY),
+                            0
+                        )
+                    )
+    
+                    self.Devices[unit].Update(
+    
+                        nValue=int(input_power),
+    
+                        sValue=str(input_energy)
+    
+                    )
+    
+                    log_debug(
+                        f"Total AC Input: "
+                        f"{input_power} W, "
+                        f"{input_energy} kWh"
+                    )
+    
+                    continue
+
+                # ----------------------------------
+                # Total AC Output
+                #
+                # 2101 = instantaneous power W
+                # 2107 = accumulated energy kWh
+                # ----------------------------------
+    
+                if tag == TAG_TOTAL_OUTPUT_ENERGY:
+    
+                    output_power = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_OUTPUT_POWER),
+                            0
+                        )
+                    )
+    
+                    output_energy = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_OUTPUT_ENERGY),
+                            0
+                        )
+                    )
+    
+                    self.Devices[unit].Update(
+    
+                        nValue=int(output_power),
+    
+                        sValue=str(output_energy)
+    
+                    )
+    
+                    log_debug(
+                        f"Total AC Input: "
+                        f"{output_power} W, "
+                        f"{output_energy} kWh"
+                    )
+    
+                    continue
+                
                 # ----------------------------------
                 # Working Mode
                 # ----------------------------------
