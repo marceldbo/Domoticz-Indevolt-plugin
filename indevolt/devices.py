@@ -269,15 +269,17 @@ class DeviceManager:
                     
                     )
                     
+                    svalue = (
+                        f"{input_power:.0f};"
+                        f"{total_input_energy_wh:.0f}"
+                    )
+                    
                     self.Devices[unit].Update(
     
                         nValue=0,
     
-                        sValue=(
-                            f"{input_power:.0f};"
-                            f"{total_input_energy_wh:.0f}"
+                        sValue=svalue
     
-                        )
                     )
     
                     log_debug(
@@ -319,15 +321,18 @@ class DeviceManager:
                     
                     )
                     
+                    svalue = (
+                            f"{output_power:.0f};"
+                            f"{total_output_energy_wh:.0f}"
+
+                    )
+
                     self.Devices[unit].Update(
     
                         nValue=0,
     
-                        sValue=(
-                            f"{output_power:.0f};"
-                            f"{total_output_energy_wh:.0f}"
-                        
-                        )
+                        sValue=svalue
+                    
                     )
     
                     log_debug(
