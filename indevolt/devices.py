@@ -265,8 +265,7 @@ class DeviceManager:
     
                         nValue=0,
     
-                        #sValue=f"{input_power};{total_input_energy}"
-                        sValue = str(input_power) + ";" + str(total_input_energy)
+                        sValue=f"{input_power};{total_input_energy}"
     
                     )
     
