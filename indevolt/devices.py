@@ -245,41 +245,48 @@ class DeviceManager:
                 # 2107 = accumulated energy kWh
                 # ----------------------------------
     
-                # if tag == TAG_TOTAL_INPUT_ENERGY:
+                if tag == TAG_TOTAL_INPUT_ENERGY:
     
-                #     input_power = safe_float(
-                #         data.get(
-                #             str(TAG_TOTAL_AC_INPUT_POWER),
-                #             0
-                #         )
-                #     )
+                    input_power = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_AC_INPUT_POWER),
+                            0
+                        )
+                    )
     
-                #     total_input_energy = safe_float(
-                #         data.get(
-                #             str(TAG_TOTAL_INPUT_ENERGY),
-                #             0
-                #         )
-                #     )
+                    total_input_energy = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_INPUT_ENERGY),
+                            0
+                        )
+                    )
 
-                #     # Domoticz Type 243 / Subtype 29 expects energy in Wh
+                    # Domoticz Type 243 / Subtype 29 expects energy in Wh
                     
-                #     total_input_energy_wh = total_input_energy * 1000                    
+                    total_input_energy_wh = (
+                        
+                        total_input_energy * 1000                    
                     
-                #     self.Devices[unit].Update(
+                    )
+                    
+                    self.Devices[unit].Update(
     
-                #         nValue=0,
+                        nValue=0,
     
-                #         sValue=f"{input_power:.0f};{total_input_energy_wh:.0f}"
+                        sValue=(
+                            f"{input_power:.0f};"
+                            f"{total_input_energy_wh:.0f}"
     
-                #     )
+                        )
+                    )
     
-                #     log_debug(
-                #         f"Total AC Input: "
-                #         f"{input_power} W, "
-                #         f"{total_input_energy:.2f} kWh"
-                #     )
+                    log_debug(
+                        f"Total AC Input: "
+                        f"{input_power} W, "
+                        f"{total_input_energy:.2f} kWh"
+                    )
     
-                #     continue
+                    continue
 
                 # # ----------------------------------
                 # # Total AC Output
@@ -288,41 +295,48 @@ class DeviceManager:
                 # # 2104 = accumulated energy kWh
                 # # ----------------------------------
     
-                # if tag == TAG_TOTAL_OUTPUT_ENERGY:
+                if tag == TAG_TOTAL_OUTPUT_ENERGY:
     
-                #     output_power = safe_float(
-                #         data.get(
-                #             str(TAG_TOTAL_AC_OUTPUT_POWER),
-                #             0
-                #         )
-                #     )
+                    output_power = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_AC_OUTPUT_POWER),
+                            0
+                        )
+                    )
     
-                #     total_output_energy = safe_float(
-                #         data.get(
-                #             str(TAG_TOTAL_OUTPUT_ENERGY),
-                #             0
-                #         )
-                #     )
+                    total_output_energy = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_OUTPUT_ENERGY),
+                            0
+                        )
+                    )
 
-                #     # Domoticz Type 243 / Subtype 29 expects energy in Wh
+                    # Domoticz Type 243 / Subtype 29 expects energy in Wh
                     
-                #     total_output_energy_wh = total_output_energy * 1000
+                    total_output_energy_wh = (
                     
-                #     self.Devices[unit].Update(
+                        total_output_energy * 1000
+                    
+                    )
+                    
+                    self.Devices[unit].Update(
     
-                #         nValue=0,
+                        nValue=0,
     
-                #         sValue=f"{output_power:.0f};{total_output_energy_wh:.0f}"
+                        sValue=(
+                            f"{output_power:.0f};"
+                            f"{total_output_energy_wh:.0f}"
+                        
+                        )
+                    )
     
-                #     )
+                    log_debug(
+                        f"Total AC Output: "
+                        f"{output_power} W, "
+                        f"{total_output_energy:.2f} kWh"
+                    )
     
-                #     log_debug(
-                #         f"Total AC Output: "
-                #         f"{output_power} W, "
-                #         f"{total_output_energy:.2f} kWh"
-                #     )
-    
-                #    continue
+                   continue
                
                 # ----------------------------------
                 # Working Mode
