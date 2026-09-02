@@ -260,12 +260,16 @@ class DeviceManager:
                             0
                         )
                     )
-    
+
+                    # Domoticz Type 243 / Subtype 29 expects energy in Wh
+                    
+                    total_input_energy_wh = total_input_energy * 1000.0                    
+                    
                     self.Devices[unit].Update(
     
                         nValue=0,
     
-                        sValue=f"{input_power};{total_input_energy:.2f}"
+                        sValue=f"{input_power};{total_input_energy_wh:.2f}"
     
                     )
     
@@ -299,12 +303,16 @@ class DeviceManager:
                             0
                         )
                     )
-    
+
+                    # Domoticz Type 243 / Subtype 29 expects energy in Wh
+                    
+                    total_output_energy_wh = total_input_energy * 1000.0
+                    
                     self.Devices[unit].Update(
     
                         nValue=0,
     
-                        sValue=f"{output_power};{total_output_energy:.2f}"
+                        sValue=f"{output_power};{total_output_energy_wh:.2f}"
     
                     )
     
