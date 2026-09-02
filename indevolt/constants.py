@@ -318,8 +318,9 @@ DEVICE_DEFINITIONS = {
         "unit": 12,
         "name": "Total Charge (W, kWh)",
         "create": {
-            "TypeName": "kWh",
-            "Used": 1,
+            "Type": 243,
+            "Subtype": 29,
+            "Used": 0,
         },
     },
     
@@ -327,9 +328,9 @@ DEVICE_DEFINITIONS = {
         "unit": 13,
         "name": "Total Discharge (W, kWh)",
         "create": {
-            "TypeName": "kWh",
-            "SwitchType": 4,
-            "Used": 1,
+            "Type": 243,
+            "Subtype": 29,
+            "Used": 0,
         },
     },
 
