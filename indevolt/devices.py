@@ -321,9 +321,11 @@ class DeviceManager:
                         f"{output_power} W, "
                         f"{total_output_energy:.2f} kWh"
                     )
+
+"""
     
                     continue
-"""               
+               
                 # ----------------------------------
                 # Working Mode
                 # ----------------------------------
