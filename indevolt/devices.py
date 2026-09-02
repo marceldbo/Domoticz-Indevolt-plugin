@@ -260,7 +260,7 @@ class DeviceManager:
                                 str(TAG_TOTAL_INPUT_ENERGY),
                                 0
                             )
-                        )
+                        ),
                         2
                     )
 
@@ -316,7 +316,7 @@ class DeviceManager:
                                 str(TAG_TOTAL_OUTPUT_ENERGY),
                                 0
                             )   
-                        )
+                        ),
                         2
                     )
 
