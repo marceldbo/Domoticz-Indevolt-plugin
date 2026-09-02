@@ -254,7 +254,7 @@ class DeviceManager:
                         )
                     )
     
-                    input_energy = safe_float(
+                    total_input_energy = safe_float(
                         data.get(
                             str(TAG_TOTAL_INPUT_ENERGY),
                             0
@@ -263,16 +263,16 @@ class DeviceManager:
     
                     self.Devices[unit].Update(
     
-                        nValue=int(input_power),
+                        nValue=0,
     
-                        sValue=str(input_energy)
+                        sValue=f"{input_power:.0f};{total_input_energy:.3f}"
     
                     )
     
                     log_debug(
                         f"Total AC Input: "
-                        f"{input_power} W, "
-                        f"{input_energy} kWh"
+                        f"{input_power:.0f} W, "
+                        f"{total_input_energy:.3f} kWh"
                     )
     
                     continue
@@ -293,7 +293,7 @@ class DeviceManager:
                         )
                     )
     
-                    output_energy = safe_float(
+                    total_output_energy = safe_float(
                         data.get(
                             str(TAG_TOTAL_OUTPUT_ENERGY),
                             0
@@ -302,16 +302,16 @@ class DeviceManager:
     
                     self.Devices[unit].Update(
     
-                        nValue=int(output_power),
+                        nValue=0,
     
-                        sValue=str(output_energy)
+                        sValue=f"{output_power:.0f};{total_output_energy:.3f}"
     
                     )
     
                     log_debug(
                         f"Total AC Output: "
-                        f"{output_power} W, "
-                        f"{output_energy} kWh"
+                        f"{output_power:.0f} W, "
+                        f"{total_output_energy:.3f} kWh"
                     )
     
                     continue
