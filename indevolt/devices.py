@@ -350,22 +350,6 @@ class DeviceManager:
                     )
     
                     continue
-               
-                # ----------------------------------
-                # IMPORTANT:
-                #   
-                # The power tags are already handled
-                # by the corresponding kWh device.
-                #
-                # Do NOT update them separately.
-                # ----------------------------------
-
-                if tag in {
-                    TAG_TOTAL_AC_INPUT_POWER,
-                    TAG_TOTAL_AC_OUTPUT_POWER,
-                }:
-
-                    continue
 
                 # ----------------------------------
                 # Working Mode
