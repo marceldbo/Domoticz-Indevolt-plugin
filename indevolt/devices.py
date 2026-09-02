@@ -284,7 +284,7 @@ class DeviceManager:
                     log_debug(
                         f"Total AC Input: "
                         f"{input_power} W, "
-                        f"{total_input_energy:.2f} kWh"
+                        f"{total_input_energy:.2f} kWh, "
                         f"sValue={svalue}"
                     )
     
@@ -337,7 +337,7 @@ class DeviceManager:
                     log_debug(
                         f"Total AC Output: "
                         f"{output_power} W, "
-                        f"{total_output_energy:.2f} kWh"
+                        f"{total_output_energy:.2f} kWh, "
                         f"sValue={svalue}"
                     )
     
