@@ -269,14 +269,14 @@ class DeviceManager:
     
                         nValue=0,
     
-                        sValue=f"{input_power};{total_input_energy_wh:.2f}"
+                        sValue=f"{input_power:.0f};{total_input_energy_wh:.0f}"
     
                     )
     
                     log_debug(
                         f"Total AC Input: "
                         f"{input_power} W, "
-                        f"{total_input_energy:.2f} kWh"
+                        f"{total_input_energy:.3f} kWh"
                     )
     
                     continue
@@ -312,14 +312,14 @@ class DeviceManager:
     
                         nValue=0,
     
-                        sValue=f"{output_power};{total_output_energy_wh:.2f}"
+                        sValue=f"{output_power:.0f};{total_output_energy_wh:.3f}"
     
                     )
     
                     log_debug(
                         f"Total AC Output: "
                         f"{output_power} W, "
-                        f"{total_output_energy:.2f} kWh"
+                        f"{total_output_energy:.3f} kWh"
                     )
     
                     continue
