@@ -359,6 +359,8 @@ class DeviceManager:
                     TAG_TOTAL_AC_OUTPUT_POWER,
                 }:
 
+                    continue
+
                 # ----------------------------------
                 # Working Mode
                 # ----------------------------------
