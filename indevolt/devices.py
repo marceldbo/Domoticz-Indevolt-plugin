@@ -254,19 +254,22 @@ class DeviceManager:
                         )
                     )
     
-                    total_input_energy = safe_float(
-                        data.get(
-                            str(TAG_TOTAL_INPUT_ENERGY),
-                            0
+                    total_input_energy = round(
+                        safe_float(
+                            data.get(
+                                str(TAG_TOTAL_INPUT_ENERGY),
+                                0
+                            )
                         )
+                        2
                     )
 
                     # Domoticz Type 243 / Subtype 29 expects energy in Wh
                     
-                    total_input_energy_wh = (
-                        
-                        total_input_energy * 1000                    
-                    
+                    total_input_energy_wh = int(
+                        round(
+                            total_input_energy * 1000
+                        )                    
                     )
                     
                     svalue = (
@@ -307,19 +310,22 @@ class DeviceManager:
                         )
                     )
     
-                    total_output_energy = safe_float(
-                        data.get(
-                            str(TAG_TOTAL_OUTPUT_ENERGY),
-                            0
+                    total_output_energy = round(
+                        safe_float(
+                            data.get(
+                                str(TAG_TOTAL_OUTPUT_ENERGY),
+                                0
+                            )   
                         )
+                        2
                     )
 
                     # Domoticz Type 243 / Subtype 29 expects energy in Wh
                     
-                    total_output_energy_wh = (
-                    
-                        total_output_energy * 1000
-                    
+                    total_output_energy_wh = int(
+                        round(
+                            total_output_energy * 1000
+                        )
                     )
                     
                     svalue = (
