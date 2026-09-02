@@ -286,6 +286,7 @@ class DeviceManager:
                         f"Total AC Input: "
                         f"{input_power} W, "
                         f"{total_input_energy:.2f} kWh"
+                        f"sValue={svalue}"
                     )
     
                     continue
@@ -339,10 +340,25 @@ class DeviceManager:
                         f"Total AC Output: "
                         f"{output_power} W, "
                         f"{total_output_energy:.2f} kWh"
+                        f"sValue={svalue}"
                     )
     
                     continue
                
+                # ----------------------------------
+                # IMPORTANT:
+                #   
+                # The power tags are already handled
+                # by the corresponding kWh device.
+                #
+                # Do NOT update them separately.
+                # ----------------------------------
+
+                if tag in {
+                    TAG_TOTAL_AC_INPUT_POWER,
+                    TAG_TOTAL_AC_OUTPUT_POWER,
+                }:
+
                 # ----------------------------------
                 # Working Mode
                 # ----------------------------------
