@@ -237,7 +237,7 @@ class DeviceManager:
             try:
 
                 value = data[str(tag)]
-
+"""
                 # ----------------------------------
                 # Total AC Input
                 #
@@ -323,7 +323,7 @@ class DeviceManager:
                     )
     
                     continue
-                
+"""               
                 # ----------------------------------
                 # Working Mode
                 # ----------------------------------
