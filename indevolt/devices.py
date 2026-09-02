@@ -312,7 +312,7 @@ class DeviceManager:
     
                         nValue=0,
     
-                        sValue=f"{output_power:.0f};{total_output_energy_wh:.3f}"
+                        sValue=f"{output_power:.0f};{total_output_energy_wh:.0f}"
     
                     )
     
