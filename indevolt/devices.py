@@ -306,7 +306,7 @@ class DeviceManager:
 
                     # Domoticz Type 243 / Subtype 29 expects energy in Wh
                     
-                    total_output_energy_wh = total_input_energy * 1000.0
+                    total_output_energy_wh = total_output_energy * 1000.0
                     
                     self.Devices[unit].Update(
     
