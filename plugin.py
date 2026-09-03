@@ -6,8 +6,8 @@ Domoticz 2026.2
 Python 3.11
 
 Author: Marcel de Bont
-Version: 2.3.0
-Version Date: 07/2026
+Version: 2.3.1
+Version Date: 09/2026
 
 Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
@@ -29,8 +29,7 @@ Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
         <param field="Address"
                label="Indevolt IP"
                width="200px"
-               required="true"
-               default="192.168.10.142"/>
+               required="true"/>
 
         <param field="Port"
                label="Port"
