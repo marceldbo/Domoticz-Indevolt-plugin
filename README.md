@@ -32,7 +32,7 @@ To update:
 
 - The plugin should be selectable under the `Hardware tab`. Look for `Indevolt Home Battery`.
 - Before configuring, make sure that Domoticz accepts new devices.
-- Configure the plugin with a name and ip-address.
+- Configure the plugin with a name an ip-address, and optionally enable logging.
 - New devices should be visible under Switches, Temperature and Utility and in the `Devices tab`. I have selected the most used devices to be visible immediately as real devices in the dashboard. Under the 'Devices tab', there are more selectable devices e.g. Grid Voltage, Grid Frequency etc.
 - Under the 'User variables' tab as part of 'More options', the desired values for Charging, Discharging and Desired State-of-Charge, can be changed in case you don't like the default values. Check the regulations for your country regarding allowable (and safe) values! In the Netherlands, the maximum charging power is 2400 W. The maximum discharge power depends on the electrical installation: 800 W when using a standard wall socket, and 2400 W when connected to a dedicated and protected circuit in the electrical distribution unit. After updating the values, stop and start the plugin from the Domoticz Hardware tab.
 
