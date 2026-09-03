@@ -3,8 +3,8 @@ INDEVOLT Domoticz Plugin
 Constants and device definitions
 
 Author: Marcel de Bont
-Version: 2.3.0
-Version Date: 07/2026
+Version: 2.3.1
+Version Date: 09/2026
 
 Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
@@ -254,8 +254,8 @@ DEVICE_DEFINITIONS = {
             "Subtype": 1,
             "Used": 0,
         },
-    },
-
+    },    
+    
     TAG_TOTAL_AC_OUTPUT_POWER: {
         "unit": 7,
         "name": "Total AC Output Power",
@@ -268,21 +268,21 @@ DEVICE_DEFINITIONS = {
 
     TAG_TOTAL_INPUT_ENERGY: {
         "unit": 8,
-        "name": "Total Input Energy (W, kWh)",
+        "name": "Total Input Power/Energy",
         "create": {
             "Type": 243,
             "Subtype": 29,
-            "Used": 0,
+            "Used": 1,
         },
     },
     
     TAG_TOTAL_OUTPUT_ENERGY: {
         "unit": 9,
-        "name": "Total Output Energy (W, kWh)",
+        "name": "Total Output Power/Energy",
         "create": {
             "Type": 243,
             "Subtype": 29,
-            "Used": 0,
+            "Used": 1,
         },
     },
     
@@ -316,20 +316,29 @@ DEVICE_DEFINITIONS = {
     
     TAG_TOTAL_CHARGE: {
         "unit": 12,
-        "name": "Total Charge (W, kWh)",
+        "name": "Total Charge",
+        "custom_unit": "kWh",
         "create": {
-            "TypeName": "kWh",
-            "Used": 1,
+            "Type": 243,
+            "Subtype": 31,
+            "Options": { 
+                "Custom": "1;kWh",
+            },
+            "Used": 0,
         },
     },
     
     TAG_TOTAL_DISCHARGE: {
         "unit": 13,
-        "name": "Total Discharge (W, kWh)",
+        "name": "Total Discharge",
+        "custom_unit": "kWh",
         "create": {
-            "TypeName": "kWh",
-            "SwitchType": 4,
-            "Used": 1,
+            "Type": 243,
+            "Subtype": 31,
+            "Options": { 
+                "Custom": "1;kWh",
+            },
+            "Used": 0,
         },
     },
 

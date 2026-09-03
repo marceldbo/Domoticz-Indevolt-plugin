@@ -3,8 +3,8 @@ INDEVOLT Domoticz Plugin
 Device handling
 
 Author: Marcel de Bont
-Version: 2.3.0
-Version Date: 07/2026
+Version: 2.3.1
+Version Date: 09/2026
 
 Git repo: https://github.com/marceldbo/Domoticz-Indevolt-plugin.git
 """
@@ -20,6 +20,10 @@ from .constants import (
     TAG_BATTERY_POWER,
     TAG_TOTAL_CHARGE,
     TAG_TOTAL_DISCHARGE,
+    TAG_TOTAL_AC_INPUT_POWER,
+    TAG_TOTAL_AC_OUTPUT_POWER,
+    TAG_TOTAL_INPUT_ENERGY,
+    TAG_TOTAL_OUTPUT_ENERGY,
     TAG_BATTERY_ROUNDTRIP_EFFICIENCY,
     TAG_BATTERY_THROUGHPUT,
     TAG_BATTERY_CYCLES,
@@ -233,6 +237,111 @@ class DeviceManager:
             try:
 
                 value = data[str(tag)]
+
+                # ----------------------------------
+                # Total AC Input
+                #
+                # 2101 = instantaneous power W
+                # 2107 = accumulated energy kWh
+                # ----------------------------------
+    
+                if tag == TAG_TOTAL_INPUT_ENERGY:
+    
+                    input_power = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_AC_INPUT_POWER),
+                            0
+                        )
+                    )
+    
+                    total_input_energy = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_INPUT_ENERGY),
+                            0
+                        )
+                    )
+
+                    # Domoticz Type 243 / Subtype 29 expects energy in Wh
+                    
+                    total_input_energy_wh = (
+                        
+                        total_input_energy * 1000                    
+                    )
+                    
+                    svalue = (
+                        f"{input_power:.0f};"
+                        f"{total_input_energy_wh:.0f}"
+                    )
+                    
+                    self.Devices[unit].Update(
+    
+                        nValue=0,
+    
+                        sValue=svalue
+    
+                    )
+    
+                    log_debug(
+                        f"Total AC Input: "
+                        f"{input_power} W | "
+                        f"{total_input_energy:.2f} kWh | "
+                        f"sValue={svalue}"
+                    )
+    
+                    continue
+
+                # ----------------------------------
+                # Total AC Output
+                #
+                # 2108 = instantaneous power W
+                # 2104 = accumulated energy kWh
+                # ----------------------------------
+    
+                if tag == TAG_TOTAL_OUTPUT_ENERGY:
+    
+                    output_power = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_AC_OUTPUT_POWER),
+                            0
+                        )
+                    )
+    
+                    total_output_energy = safe_float(
+                        data.get(
+                            str(TAG_TOTAL_OUTPUT_ENERGY),
+                            0
+                        )   
+                    )
+
+                    # Domoticz Type 243 / Subtype 29 expects energy in Wh
+                    
+                    total_output_energy_wh = (
+                        
+                        total_output_energy * 1000
+                    )
+                
+                    svalue = (
+                            f"{output_power:.0f};"
+                            f"{total_output_energy_wh:.0f}"
+
+                    )
+
+                    self.Devices[unit].Update(
+    
+                        nValue=0,
+    
+                        sValue=svalue
+                    
+                    )
+    
+                    log_debug(
+                        f"Total AC Output: "
+                        f"{output_power} W | "
+                        f"{total_output_energy:.2f} kWh | "
+                        f"sValue={svalue}"
+                    )
+    
+                    continue
 
                 # ----------------------------------
                 # Working Mode
