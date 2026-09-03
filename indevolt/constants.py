@@ -316,20 +316,28 @@ DEVICE_DEFINITIONS = {
     
     TAG_TOTAL_CHARGE: {
         "unit": 12,
-        "name": "Total Charge (W, kWh)",
+        "name": "Total Charge",
+        "custom_unit": "kWh",
         "create": {
             "Type": 243,
-            "Subtype": 29,
+            "Subtype": 31,
+            "Options": { 
+                "Custom": "1;kWh",
+            },
             "Used": 0,
         },
     },
     
     TAG_TOTAL_DISCHARGE: {
         "unit": 13,
-        "name": "Total Discharge (W, kWh)",
+        "name": "Total Discharge",
+        "custom_unit": "kWh",
         "create": {
             "Type": 243,
-            "Subtype": 29,
+            "Subtype": 31,
+            "Options": { 
+                "Custom": "1;kWh",
+            },
             "Used": 0,
         },
     },
