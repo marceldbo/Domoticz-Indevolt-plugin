@@ -19,6 +19,7 @@ To install:
 
 - Go into the Domoticz plugins directory using a command line.
 - Run: `git clone https://github.com/marceldbo/Domoticz-Indevolt-plugin.git`
+- Run: `python3 -m pip install -r requirements.txt` or if running a python virtual environment, copy the requirements.txt file into the venv and run `pip install -r requirements.txt`
 - Restart Domoticz
 
 To update:
