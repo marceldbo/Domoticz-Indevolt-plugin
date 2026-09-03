@@ -272,7 +272,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 243,
             "Subtype": 29,
-            "Used": 0,
+            "Used": 1,
         },
     },
     
@@ -282,7 +282,7 @@ DEVICE_DEFINITIONS = {
         "create": {
             "Type": 243,
             "Subtype": 29,
-            "Used": 0,
+            "Used": 1,
         },
     },
     
