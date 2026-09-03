@@ -268,7 +268,7 @@ DEVICE_DEFINITIONS = {
 
     TAG_TOTAL_INPUT_ENERGY: {
         "unit": 8,
-        "name": "Total Input Energy",
+        "name": "Total Input Power/Energy",
         "create": {
             "Type": 243,
             "Subtype": 29,
@@ -278,7 +278,7 @@ DEVICE_DEFINITIONS = {
     
     TAG_TOTAL_OUTPUT_ENERGY: {
         "unit": 9,
-        "name": "Total Output Energy",
+        "name": "Total Output Power/Energy",
         "create": {
             "Type": 243,
             "Subtype": 29,
