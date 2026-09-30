@@ -48,7 +48,7 @@ To enable this feature, go to **User Variables** and set **EV Management** to **
 
 The stop delay prevents rapid switching when EV charging is briefly interrupted, for example during communication between the charger and the vehicle. Another use case is when you charge your EV during a partly cloudy day. Once the configured delay has elapsed, the battery automatically returns to the operating mode it was in before EV charging started. After updating the values, stop and start the plugin from the Domoticz Hardware tab.
 
-The charging current can be measured using a Zigbee energy monitor with a current transformer (CT). Install the CT around one of the charging station's supply conductors and integrate the sensor with **Zigbee2MQTT**. Use **Node-RED** to forward the measured current (in amperes) to the Domoticz **EV Current** sensor used by the plugin.
+The charging current can be measured using a Zigbee energy monitor with a current transformer (CT). Install the CT around phase 1 of the charging station's supply conductors and integrate the sensor with **Zigbee2MQTT**. Use **Node-RED** to forward the measured current (in amperes) to the Domoticz **EV Current** sensor used by the plugin. I noticed phase 1 is always used by the charging station during a charging session, while on a cloudy day, the other two phases are not always active when there isn't enough solar power generated. 
 
 For testing purposes, you can also use Node-RED to inject a simulated current value into the EV Current sensor, allowing you to verify the EV Management functionality without connecting an actual EV charger.
 
